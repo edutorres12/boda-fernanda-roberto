@@ -4430,10 +4430,6 @@ figcaption {
     width: 100%;
   }
 
-  .div-block-8 {
-    padding-top: 38px;
-  }
-
   .sugerencia.section {
     padding-top: 60px;
     padding-bottom: 60px;
@@ -4859,7 +4855,15 @@ figcaption {
     flex-flow: column;
   }
 
-  .asistencia__container, .form__input-wrapper.select {
+  .asistencia__container {
+    width: 100%;
+  }
+
+  .div-block-8 {
+    padding-top: 14px;
+  }
+
+  .form__input-wrapper.select {
     width: 100%;
   }
 
