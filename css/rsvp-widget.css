@@ -5,10 +5,10 @@
 
 /* ===== CSS Variables (with fallbacks) ===== */
 :root {
-    --color-scheme-1--text: #2c3e50;
-    --color-scheme-1--accent: #8b7355;
+    --color-scheme-1--text: #836b52;
+    --color-scheme-1--accent: #836b52;
     --_primitives---colors--light: #f5f7fa;
-    --_primitives---colors--brown: #8b7355;
+    --_primitives---colors--brown: #836b52;
     --_primitives---colors--white: #ffffff;
 }
 
