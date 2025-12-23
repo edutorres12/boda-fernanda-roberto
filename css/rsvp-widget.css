@@ -202,9 +202,9 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 1.2;
-    color: var(--color-scheme-1--text, #2c3e50);
-    background: #fff;
-    border: 1.5px solid var(--_primitives---colors--light, #f5f7fa);
+    color: var(--color-scheme-1--text);
+    background: var(--_primitives---opacity--transparent);
+    border: 1.5px solid var(--color-scheme-1--border);
     cursor: pointer;
     user-select: none;
     margin: 0;
@@ -213,19 +213,15 @@
 
 #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]):first-of-type {
     border-right: 0;
-    border-top-left-radius: 999px;
-    border-bottom-left-radius: 999px;
 }
 
 #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]) + label:has(> input[type="radio"]) {
-    border-top-right-radius: 999px;
-    border-bottom-right-radius: 999px;
     margin-left: 0;
 }
 
 #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]:checked) {
-    background: var(--_primitives---colors--light, #f5f7fa);
-    color: var(--_primitives---colors--brown, #8b7355);
+    background: var(--color-scheme-1--accent);
+    color: var(--_primitives---colors--white);
 }
 
 #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]:focus-visible) {
@@ -360,27 +356,24 @@
 /* ===== Submit button ===== */
 #weddeb-rsvp-form button[type="submit"],
 #weddeb-rsvp-form #rsvp-submit {
-    background-color: var(--_primitives---colors--light, #f5f7fa);
-    color: var(--_primitives---colors--brown, #8b7355);
-    border: 1.5px solid #fff;
-    border-radius: 100px;
-    padding-left: 65px;
-    padding-right: 65px;
-    height: 48px;
+    background-color: var(--_primitives---colors--white);
+    color: var(--color-scheme-1--text);
+    border: 1.5px solid var(--color-scheme-1--border);
+    padding: 12px 45px;
+    font-family: var(--_typography---font-styles--buttons);
     font-size: 18px;
-    font-weight: 500;
-    line-height: 18px;
+    line-height: 24px;
     box-shadow: none;
     cursor: pointer;
-    font-family: Inter, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     display: block;
     margin: 0 auto;
+    transition: all .4s;
 }
 
 #weddeb-rsvp-form button[type="submit"]:hover,
 #weddeb-rsvp-form #rsvp-submit:hover {
-    background: var(--_primitives---colors--brown, #8b7355);
-    color: var(--_primitives---colors--white, #ffffff);
+    background: var(--color-scheme-1--accent);
+    color: var(--_primitives---colors--white);
 }
 
 /* ===== Disabled/read-only states ===== */
@@ -544,8 +537,8 @@
 #weddeb-rsvp-form p:last-of-type {
     text-align: center;
     padding-top: 24px;
-    border-top: 1.5px solid var(--_primitives---colors--light, #f5f7fa);
-    margin-top: 14px;
+    border-top: 1px solid var(--color-scheme-1--border-light);
+    margin-top: 8px;
 }
 
 /* Submit loader visibility */
@@ -711,28 +704,9 @@
 /* ===== Fix para imagen del RSVP (plantilla clasico) ===== */
 /* Evita que la imagen crezca cuando el formulario se expande */
 
-/* El contenedor principal no debe estirar los hijos */
-.asistencia-form {
-    align-items: center !important;
-}
-
-/* El contenedor de la imagen debe tener tamaño fijo */
-.asistencia__container:first-child:has(.form-img-container),
-.asistencia__container:has(.form-img-container) {
-    flex-shrink: 0 !important;
-    flex-grow: 0 !important;
-    align-self: center !important;
-    max-height: 500px !important;
-    height: 500px !important;
-    overflow: hidden !important;
-}
-
 /* El contenedor de la imagen */
 .form-img-container {
     width: 100% !important;
-    height: 500px !important;
-    max-height: 500px !important;
-    min-height: unset !important;
     overflow: hidden !important;
     display: flex !important;
     align-items: center !important;
@@ -743,9 +717,15 @@
 .form-img {
     width: 100% !important;
     height: 100% !important;
-    max-height: 500px !important;
     object-fit: cover !important;
     object-position: center center !important;
+}
+
+.asistencia__container:first-of-type {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: stretch;
 }
 
 /* El contenedor del formulario puede crecer libremente */

@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Tue Dec 23 2025 00:51:40 GMT+0000 (Coordinated Universal Time)  -->
+<!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Tue Dec 23 2025 18:19:29 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="6945d4cded5731c717596ad3" data-wf-site="6945d4cded5731c717596ad4">
 
 <head>
   <meta charset="utf-8">
-  <title>Paola y Alan</title>
+  <title>Paola &amp; Alan ♡</title>
+  <meta content="Save the Date 26 | Abril | 2026" name="description">
+  <meta content="Paola &amp; Alan ♡" property="og:title">
+  <meta content="Save the Date 26 | Abril | 2026" property="og:description">
+  <meta content="https://cdn.prod.website-files.com/6945d4cded5731c717596ad4/694ac0d407caca79ab42067d_og-image.jpg"
+    property="og:image">
+  <meta content="Paola &amp; Alan ♡" property="twitter:title">
+  <meta content="Save the Date 26 | Abril | 2026" property="twitter:description">
+  <meta property="og:type" content="website">
+  <meta content="summary_large_image" name="twitter:card">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
@@ -80,6 +89,13 @@
       -o-font-smoothing: antialiased;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://unpkg.com/splitting/dist/splitting.js"></script>
+  <script src="https://unpkg.com/scroll-out/dist/scroll-out.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+  <script
+    src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
   <!-- Loader Styles -->
   <style>
     /* Loader overlay controls */
@@ -208,6 +224,110 @@
         font-size: 16px;
         padding: 10px 30px;
       }
+    }
+  </style>
+  <style>
+    /* Animations */
+    .word-animation {
+      display: inline-block;
+      overflow: visible !important;
+    }
+
+    .word {
+      display: inline-block;
+    }
+
+    .text-fading[data-scroll="out"] .char {
+      animation-delay: unset;
+      opacity: 0 !important;
+      transition: all 100ms;
+    }
+
+    .text-opacity .char {
+      opacity: 0 !important;
+      color: inherit !important;
+      transition: opacity 0.3s ease;
+    }
+
+    .text-opacity .text .char.char.visible,
+    .text-opacity .word .char.visible {
+      opacity: 1 !important;
+      color: var(--color-scheme-1--text);
+      animation-delay: unset;
+    }
+
+    .char {
+      box-shadow: 0 0 0 1px transparent !important;
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+      backface-visibility: hidden;
+      overflow: visible;
+      will-change: transform;
+      transform: translateZ(0) !important;
+      /* fuerza renderizado GPU */
+    }
+
+    .text .char,
+    .word .char {
+      opacity: 1;
+      display: inline-block;
+      transition: all 0.27s ease-in-out;
+      transition-delay: calc(0.06s + var(--char-index) * 0.04s);
+    }
+
+    /* Fix para línea en iOS slider */
+    .splide,
+    .splide *,
+    .splide *::before,
+    .splide *::after {
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+      outline: none !important;
+      border: none !important;
+    }
+
+    .splide__slide img {
+      pointer-events: none !important;
+      -webkit-user-drag: none !important;
+      -webkit-touch-callout: none !important;
+    }
+
+    /* Remover específicamente la línea de arrastre */
+    .splide__track::after,
+    .splide__list::after {
+      content: none !important;
+      display: none !important;
+    }
+
+    /* Si es un borde de las imágenes */
+    .nos-casamos__image {
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Remover cualquier clipping */
+    .nos-casamos__heading,
+    .nos-casamos__heading *,
+    .stylized-text,
+    .stylized-text * {
+      clip-path: none !important;
+      -webkit-clip-path: none !important;
+      mask: none !important;
+      -webkit-mask: none !important;
+    }
+
+    .curved-text {
+      clip-path: none !important;
+      -webkit-clip-path: none !important;
+    }
+
+    /* Fix rendering iOS */
+    .char {
+      -webkit-font-smoothing: subpixel-antialiased !important;
+      text-rendering: optimizeLegibility !important;
+      transform: translate3d(0, 0, 0) !important;
     }
   </style>
 </head>
@@ -442,7 +562,8 @@
                 <p class="itinerario-paragraph-adress">Pueblo Serena, Carretera Nacional 500, Sin Nombre de Col 50,
                   67350 Monterrey, N.L.</p>
               </div>
-              <a href="#" class="button is-secondary boda w-button">Ver mapa</a>
+              <a href="https://maps.app.goo.gl/CgjYFrkTRXmDrnzE7" target="_blank"
+                class="button is-secondary boda w-button">Ver mapa</a>
             </div>
           </div>
           <div
@@ -458,7 +579,8 @@
                 <p class="itinerario_paragraph-address">Hacienda Los Olivos</p>
                 <p class="itinerario-paragraph-adress">Calle Huajuquito 877, Los Cavazos, 67300 Santiago, N.L.</p>
               </div>
-              <a href="#" class="button is-secondary boda w-button">Ver mapa</a>
+              <a href="https://maps.app.goo.gl/dsUTLo557XCdbWNy8" target="_blank"
+                class="button is-secondary boda w-button">Ver mapa</a>
             </div>
           </div>
           <div
@@ -474,7 +596,8 @@
                 <p class="itinerario_paragraph-address">Hacienda Los Olivos</p>
                 <p class="itinerario-paragraph-adress">Calle Huajuquito 877, Los Cavazos, 67300 Santiago, N.L.</p>
               </div>
-              <a href="#" class="button is-secondary boda w-button">Ver mapa</a>
+              <a href="https://maps.app.goo.gl/dsUTLo557XCdbWNy8" target="_blank"
+                class="button is-secondary boda w-button">Ver mapa</a>
             </div>
           </div>
         </div>
@@ -633,8 +756,6 @@
                 loading="lazy" alt=""></a>
           </div>
           <div class="right">
-            <a href="https://api.whatsapp.com/send/?phone=528124234626&amp;text=%C2%A1Hola!%20Quiero%20contratar%20mi%20invitaci%C3%B3n%20de%20boda.%20%F0%9F%92%8D"
-              target="_blank" class="w-inline-block"><img src="images/whatsapp-logo.svg" loading="lazy" alt=""></a>
             <a href="https://www.instagram.com/weddeb.mx/" target="_blank" class="w-inline-block"><img
                 src="images/ig-logo.svg" loading="lazy" alt=""></a>
           </div>
@@ -686,7 +807,7 @@
           const speed = parseFloat(el.dataset.parallaxSpeed || SPEED_DEFAULT);
           const rect = el.getBoundingClientRect();
           // rect.top: distancia desde el top del viewport
-          // mover en sentido opuesto al scroll para efecto “fixed”
+          // mover en sentido opuesto al scroll para efecto "fixed"
           const offset = -rect.top * speed;
           el.style.transform = `translate3d(0, ${offset}px, 0)`;
         });
@@ -706,7 +827,7 @@
         }
       };
       // Observer: enciende al primer píxel visible
-      // rootMargin te permite “pre-activar” un poquito antes si quieres.
+      // rootMargin te permite "pre-activar" un poquito antes si quieres.
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting || entry.intersectionRatio > 0) {
@@ -723,7 +844,7 @@
         if (visible.size) maybeStart(); else stopIfEmpty();
       }, {
         root: null,
-        threshold: 0,             // “mínimamente visible”
+        threshold: 0,             // "mínimamente visible"
         // rootMargin: "0px 0px -1px 0px", // (opcional) pre-activa apenas antes de entrar
       });
       parallaxEls.forEach(el => observer.observe(el));
@@ -732,6 +853,104 @@
       window.addEventListener("resize", () => { if (visible.size) maybeStart(); }, { passive: true });
       window.addEventListener("orientationchange", () => { if (visible.size) maybeStart(); }, { passive: true });
     })();
+  </script>
+  <!-- Splitting Animation -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      var Splitting = window.Splitting;
+      var ScrollOut = window.ScrollOut;
+      Splitting();
+      ScrollOut({
+        targets: ".char",
+      });
+      const wordContainers = document.querySelectorAll(".word-animation");
+      const animationStates = new WeakMap();
+      const animationTimeouts = new WeakMap();
+      function updateLetterVisibility(wordContainer) {
+        const chars = wordContainer.querySelectorAll(".char");
+        const rect = wordContainer.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        // Para elementos con "animate-once"
+        if (wordContainer.classList.contains("animate-once")) {
+          const isInViewport = rect.top < windowHeight * 0.8 && rect.bottom > 0;
+          const currentState = animationStates.get(wordContainer);
+          if (isInViewport && currentState !== 'animating' && currentState !== 'visible') {
+            // Limpiar timeouts previos si existen
+            const oldTimeouts = animationTimeouts.get(wordContainer);
+            if (oldTimeouts) {
+              oldTimeouts.forEach(t => clearTimeout(t));
+            }
+            // Marcar como animando
+            animationStates.set(wordContainer, 'animating');
+            const timeouts = [];
+            chars.forEach((char, index) => {
+              const timeout = setTimeout(() => {
+                char.classList.add("visible");
+                // Si es la última letra, marcar como visible
+                if (index === chars.length - 1) {
+                  animationStates.set(wordContainer, 'visible');
+                }
+              }, index * 30);
+              timeouts.push(timeout);
+            });
+            animationTimeouts.set(wordContainer, timeouts);
+          } else if (!isInViewport && currentState !== 'hidden') {
+            // Limpiar timeouts si está animando
+            const oldTimeouts = animationTimeouts.get(wordContainer);
+            if (oldTimeouts) {
+              oldTimeouts.forEach(t => clearTimeout(t));
+            }
+            // Marcar como hidden y resetear
+            animationStates.set(wordContainer, 'hidden');
+            chars.forEach(char => {
+              char.classList.remove("visible");
+            });
+          }
+          return;
+        }
+        // Efecto progresivo normal para los demás
+        const containerTop = Math.floor(wordContainer.offsetTop);
+        const scrollPosition = Math.floor(window.scrollY + window.innerHeight);
+        const triggerPoint = Math.floor(scrollPosition - 100);
+        const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+        let maxScrollEffect = !isLandscape ? 600 : 250;
+        if (containerTop < triggerPoint) {
+          const progress = Math.floor(triggerPoint - containerTop);
+          chars.forEach((char, index) => {
+            const threshold = Math.floor(
+              (index + 1) * (maxScrollEffect / chars.length)
+            );
+            if (progress >= threshold + 1) {
+              char.classList.add("visible");
+            } else {
+              char.classList.remove("visible");
+            }
+          });
+        } else {
+          chars.forEach(char => {
+            char.classList.remove("visible");
+          });
+        }
+      }
+      function handleScroll() {
+        wordContainers.forEach((wordContainer) => {
+          const rect = wordContainer.getBoundingClientRect();
+          const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+          if (!isVisible) {
+            wordContainer.setAttribute("data-scroll", "out");
+            wordContainer.classList.add("hidden");
+          } else {
+            wordContainer.setAttribute("data-scroll", "in");
+            wordContainer.classList.remove("hidden");
+          }
+          if (wordContainer.classList.contains("text-opacity")) {
+            updateLetterVisibility(wordContainer);
+          }
+        });
+      }
+      window.addEventListener("scroll", handleScroll);
+      handleScroll();
+    });
   </script>
 </body>
 

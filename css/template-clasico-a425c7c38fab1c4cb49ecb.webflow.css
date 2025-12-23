@@ -2542,7 +2542,8 @@ figcaption {
 }
 
 .asistencia__container.form {
-  padding: 24px 60px 40px;
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
 
 .asistencia_form_title {
@@ -2553,7 +2554,7 @@ figcaption {
 
 .div-block-8 {
   border-top: 1px solid var(--color-scheme-1--border-light);
-  padding-top: 72px;
+  padding-top: 24px;
   padding-bottom: 0;
 }
 
