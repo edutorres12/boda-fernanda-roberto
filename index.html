@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Mon Dec 22 2025 23:33:04 GMT+0000 (Coordinated Universal Time)  -->
+<!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Tue Dec 23 2025 00:51:40 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="6945d4cded5731c717596ad3" data-wf-site="6945d4cded5731c717596ad4">
 
 <head>
@@ -80,6 +80,136 @@
       -o-font-smoothing: antialiased;
     }
   </style>
+  <!-- Loader Styles -->
+  <style>
+    /* Loader overlay controls */
+    html.weddeb-loader-active,
+    body.weddeb-loader-active {
+      overflow: hidden !important;
+      overscroll-behavior: contain;
+    }
+
+    #section-loader.weddeb-loader--overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      width: 100%;
+      height: 100%;
+    }
+
+    .section-loader {
+      background-color: var(--color-scheme-1--dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      padding: 20px;
+    }
+
+    .logo-loader {
+      max-height: 140px;
+      height: auto;
+    }
+
+    .btn-hover.loader-button {
+      border: 1px solid white;
+      background-color: transparent;
+      border-radius: 45px;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 36px;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      z-index: 3;
+      width: fit-content;
+      margin: 0 auto;
+      cursor: pointer;
+    }
+
+    .btn-text.loader-text {
+      z-index: 4;
+      font-family: var(--_typography---font-styles--buttons);
+      color: white;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 24px;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .btn-cover.loader-cover {
+      z-index: 3;
+      background-color: white;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -100%;
+      transition: left 0.3s ease;
+    }
+
+    .btn-hover.loader-button:hover .btn-cover.loader-cover {
+      left: 0;
+    }
+
+    .btn-hover.loader-button:hover .btn-text.loader-text {
+      color: var(--color-scheme-1--dark);
+    }
+
+    /* Music player styles */
+    #music-play {
+      position: fixed !important;
+      bottom: 10px;
+      right: 10px;
+      z-index: 100;
+      background-color: white;
+      width: fit-content;
+      padding: 3px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #music-play .icon-embed-xsmall {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #music-play svg {
+      width: 100%;
+      height: 100%;
+      fill: #292929;
+    }
+
+    #music-play .playing {
+      display: none !important;
+    }
+
+    #music-play.is-playing .playing {
+      display: inline !important;
+    }
+
+    #music-play.is-playing .paused {
+      display: none !important;
+    }
+
+    @media (max-width: 768px) {
+      .logo-loader {
+        max-height: 140px;
+      }
+
+      .button.loader-button {
+        font-size: 16px;
+        padding: 10px 30px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -113,9 +243,27 @@
     </div>
   </div>
   <div class="page-wrapper">
+    <section id="section-loader" data-w-id="e9a3fde5-2e1d-63c2-959e-d5d147023081" style="opacity:1"
+      class="section-3 section-loader weddeb-loader--overlay">
+      <div class="div-block-18"><img loading="lazy" src="images/loader-logo.svg" alt=""
+          class="regalo-logo principal logo-loader"></div>
+      <div class="w-layout-blockcontainer container-6 w-container">
+        <a id="play-button" href="#" data-w-id="e9a3fde5-2e1d-63c2-959e-d5d147023085"
+          class="button-2 is-secondary boda loader-button w-button">Ver invitación</a>
+        <a data-button-style="solid" data-btn="wrap" data-w-id="e9a3fde5-2e1d-63c2-959e-d5d147023087" href="#"
+          class="btn_main_wrap itinerario__button loader-button w-inline-block">
+          <div class="btn_main_inner button-2 loader-button">
+            <div class="btn_main_text loader-text">Ver invitación</div>
+          </div>
+          <div data-btn="clip" class="btn_main_inner hover button-2 loader">
+            <div class="btn_main_text">Ver invitación</div>
+          </div>
+        </a>
+      </div>
+    </section>
     <section class="section-hero section">
       <div class="div-block"><img src="images/hero-banner.jpg" loading="eager" width="Auto" alt="" class="hero-bg"><img
-          src="images/hero-banner-mobile.jpg" loading="lazy" sizes="100vw"
+          src="images/hero-banner-mobile.jpg" loading="lazy" sizes="(max-width: 1124px) 100vw, 1124px"
           srcset="images/hero-banner-mobile-p-500.jpg 500w, images/hero-banner-mobile-p-800.jpg 800w, images/hero-banner-mobile-p-1080.jpg 1080w, images/hero-banner-mobile.jpg 1124w"
           alt="" class="hero-bg-mobile"></div>
       <div class="hero__image-wrapper"><img src="images/logo-hero-mobile.svg" loading="lazy" alt=""
@@ -302,7 +450,7 @@
             class="itinerario__text first">
             <div class="itinerario__icon-wrapper"><img src="images/cup-icon.svg" loading="lazy" alt=""
                 class="icon-boda">
-              <p class="itinerario__subheading">4:30 pm</p>
+              <p class="itinerario__subheading">5:00 pm</p>
             </div>
             <div class="div-block-6">
               <div data-scroll="out" data-splitting="" class="word-animation text-opacity">
@@ -351,10 +499,10 @@
       <h2 class="hospedaje__heading">Sugerencia <em class="italic-text">de Hospedaje</em></h2>
       <p class="paragraph-5">Código 0DSE - BODA PAOLA BLANCO Y ALAN LEON</p>
       <div class="hospedaje__image-wrapper">
-        <div data-w-id="3a057866-b07e-6793-888a-c28a4a0489db" class="hospedaje__card">
-          <div
-            style="opacity:0;-webkit-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-            class="hospedaje-text-wrapper">
+        <div data-w-id="3a057866-b07e-6793-888a-c28a4a0489db"
+          style="opacity:0;-webkit-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
+          class="hospedaje__card">
+          <div class="hospedaje-text-wrapper">
             <h3 class="hospedaje__card-heading">SAFI Valle</h3>
             <p class="hospedaje__paragraph">Av. Diego Rivera 555, Valle Oriente, 66260 San Pedro Garza García, N.L.</p>
             <a href="https://reservations.travelclick.com/11908?groupID=5074224" target="_blank"
@@ -363,13 +511,13 @@
             srcset="images/hospedaje-1-p-500.jpg 500w, images/hospedaje-1-p-800.jpg 800w, images/hospedaje-1-p-1080.jpg 1080w, images/hospedaje-1.jpg 1212w"
             alt="" class="hospedaje__image">
         </div>
-        <div data-w-id="eb809a5a-b010-8ac4-e459-6bf698cd0123" class="hospedaje__card"><img src="images/hospedaje-2.jpg"
-            loading="lazy" sizes="(max-width: 1212px) 100vw, 1212px"
+        <div data-w-id="eb809a5a-b010-8ac4-e459-6bf698cd0123"
+          style="opacity:0;-webkit-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
+          class="hospedaje__card"><img src="images/hospedaje-2.jpg" loading="lazy"
+            sizes="(max-width: 1212px) 100vw, 1212px"
             srcset="images/hospedaje-2-p-500.jpg 500w, images/hospedaje-2-p-800.jpg 800w, images/hospedaje-2-p-1080.jpg 1080w, images/hospedaje-2.jpg 1212w"
             alt="" class="hospedaje__image">
-          <div
-            style="opacity:0;-webkit-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-            class="hospedaje-text-wrapper">
+          <div class="hospedaje-text-wrapper">
             <h3 class="hospedaje__card-heading">SAFI Metropolitan</h3>
             <p class="hospedaje__paragraph">Av Lázaro Cárdenas 2400, Valle Oriente, 66260 San Pedro Garza García, N.L.
             </p>
@@ -381,10 +529,10 @@
     </section>
     <section class="fecha section">
       <div class="background-image"><img src="images/save-date-desktop.jpg" loading="lazy"
-          data-w-id="8f9860fb-0535-2ff2-ee87-84484ccd40b9" sizes="100vw" alt=""
+          data-w-id="8f9860fb-0535-2ff2-ee87-84484ccd40b9" sizes="(max-width: 1920px) 100vw, 1920px" alt=""
           srcset="images/save-date-desktop-p-500.jpg 500w, images/save-date-desktop-p-800.jpg 800w, images/save-date-desktop-p-1080.jpg 1080w, images/save-date-desktop-p-1600.jpg 1600w, images/save-date-desktop.jpg 1920w"
           class="image-7"><img src="images/save-date-mobile.jpg" loading="lazy"
-          data-w-id="583dbc86-7271-a31a-fede-db984fe844b7" sizes="100vw" alt=""
+          data-w-id="583dbc86-7271-a31a-fede-db984fe844b7" sizes="(max-width: 1125px) 100vw, 1125px" alt=""
           srcset="images/save-date-mobile-p-500.jpg 500w, images/save-date-mobile-p-800.jpg 800w, images/save-date-mobile-p-1080.jpg 1080w, images/save-date-mobile.jpg 1125w"
           class="image-7-copy"></div>
       <div id="fecha" class="fecha_container">
@@ -425,7 +573,7 @@
       <div data-w-id="a42e46fb-ba18-6ce0-7fdb-1faae947b153" style="opacity:0" class="asistencia-form">
         <div class="asistencia__container">
           <div class="form-img-container"><img src="images/rsvp-image.jpg" loading="lazy"
-              data-w-id="d141b00a-b9ab-bc81-c67e-60cb82b64fd8" sizes="100vw" alt=""
+              data-w-id="d141b00a-b9ab-bc81-c67e-60cb82b64fd8" sizes="(max-width: 1112px) 100vw, 1112px" alt=""
               srcset="images/rsvp-image-p-500.jpg 500w, images/rsvp-image-p-800.jpg 800w, images/rsvp-image-p-1080.jpg 1080w, images/rsvp-image.jpg 1112w"
               class="form-img"></div>
         </div>
@@ -481,68 +629,47 @@
         </div>
         <div class="footer__logos">
           <div class="left">
-            <a href="https://www.weddeb.com/" target="_blank" rel="noopener noreferrer" class="w-inline-block"><img
-                src="images/weddeb-logo.svg" loading="lazy" alt=""></a>
+            <a href="https://www.weddeb.com/" target="_blank" class="w-inline-block"><img src="images/weddeb-logo.svg"
+                loading="lazy" alt=""></a>
           </div>
           <div class="right">
-            <a href="https://api.whatsapp.com/send/?phone=528124234626&text=%C2%A1Hola!%20Quiero%20contratar%20mi%20invitaci%C3%B3n%20de%20boda.%20%F0%9F%92%8D"
-              target="_blank" rel="noopener noreferrer" class="w-inline-block"><img src="images/whatsapp-logo.svg"
-                loading="lazy" alt=""></a>
-            <a href="https://www.instagram.com/weddeb.mx/" target="_blank" rel="noopener noreferrer"
-              class="w-inline-block"><img src="images/ig-logo.svg" loading="lazy" alt=""></a>
+            <a href="https://api.whatsapp.com/send/?phone=528124234626&amp;text=%C2%A1Hola!%20Quiero%20contratar%20mi%20invitaci%C3%B3n%20de%20boda.%20%F0%9F%92%8D"
+              target="_blank" class="w-inline-block"><img src="images/whatsapp-logo.svg" loading="lazy" alt=""></a>
+            <a href="https://www.instagram.com/weddeb.mx/" target="_blank" class="w-inline-block"><img
+                src="images/ig-logo.svg" loading="lazy" alt=""></a>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Audio Element -->
+  <audio id="my-audio" preload="none" loop>
+    <source src="audio/Until-I-Found-You.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <!-- Music Player Button -->
+  <a id="music-play" href="#" aria-label="Play or pause background music">
+    <div class="icon-embed-xsmall">
+      <svg class="playing" xmlns="http://www.w3.org/2000/svg" style="display:none" viewBox="0 0 640 512">
+        <path
+          d="M533.6 32.5C598.5 85.3 640 165.8 640 256s-41.5 170.8-106.4 223.5c-10.3 8.4-25.4 6.8-33.8-3.5s-6.8-25.4 3.5-33.8C557.5 398.2 592 331.2 592 256s-34.5-142.2-88.7-186.3c-10.3-8.4-11.8-23.5-3.5-33.8s23.5-11.8 33.8-3.5zM473.1 107c43.2 35.2 70.9 88.9 70.9 149s-27.7 113.8-70.9 149c-10.3 8.4-25.4 6.8-33.8-3.5s-6.8-25.4 3.5-33.8C475.3 341.3 496 301.1 496 256s-20.7-85.3-53.2-111.8c-10.3-8.4-11.8-23.5-3.5-33.8s23.5-11.8 33.8-3.5zm-60.5 74.5C434.1 199.1 448 225.9 448 256s-13.9 56.9-35.4 74.5c-10.3 8.4-25.4 6.8-33.8-3.5s-6.8-25.4 3.5-33.8C393.1 284.4 400 271 400 256s-6.9-28.4-17.7-37.3c-10.3-8.4-11.8-23.5-3.5-33.8s23.5-11.8 33.8-3.5zM301.1 34.8C312.6 40 320 51.4 320 64l0 384c0 12.6-7.4 24-18.9 29.2s-25 3.1-34.4-5.3L131.8 352 64 352c-35.3 0-64-28.7-64-64l0-64c0-35.3 28.7-64 64-64l67.8 0L266.7 40.1c9.4-8.4 22.9-10.4 34.4-5.3z" />
+      </svg>
+      <svg class="paused" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+        <path
+          d="M301.1 34.8C312.6 40 320 51.4 320 64l0 384c0 12.6-7.4 24-18.9 29.2s-25 3.1-34.4-5.3L131.8 352 64 352c-35.3 0-64-28.7-64-64l0-64c0-35.3 28.7-64 64-64l67.8 0L266.7 40.1c9.4-8.4 22.9-10.4 34.4-5.3zM425 167l55 55 55-55c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-55 55 55 55c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-55-55-55 55c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l55-55-55-55c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0z" />
+      </svg>
+    </div>
+  </a>
+
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6945d4cded5731c717596ad4"
     type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
     crossorigin="anonymous"></script>
   <script src="js/webflow.js" type="text/javascript"></script>
+  <script src="js/site-scripts.js" type="text/javascript"></script>
   <script>
-    console.log("clock");
-    document.addEventListener("DOMContentLoaded", () => {
-      (function () {
-        var deadline = '2026/04/26 15:00';
-        function pad(num, size) {
-          var s = "0" + num;
-          return s.substr(s.length - size);
-        }
-        function parseDate(date) {
-          const parsed = Date.parse(date);
-          if (!isNaN(parsed)) return parsed
-          return Date.parse(date.replace(/-/g, '/').replace(/[a-z]+/gi, ' '));
-        }
-        function getTimeRemaining(endtime) {
-          let total = parseDate(endtime) - Date.parse(new Date())
-          let seconds = Math.floor((total / 1000) % 60)
-          let minutes = Math.floor((total / 1000 / 60) % 60)
-          let hours = Math.floor((total / (1000 * 60 * 60)) % 24)
-          let days = Math.floor(total / (1000 * 60 * 60 * 24))
-          return { total, days, hours, minutes, seconds };
-        }
-        function clock(id, endtime) {
-          let days = document.getElementById(id + '-days')
-          let hours = document.getElementById(id + '-hours')
-          let minutes = document.getElementById(id + '-minutes')
-          let seconds = document.getElementById(id + '-seconds')
-          if (!days || !hours || !minutes || !seconds) return;
-          var timeinterval = setInterval(function () {
-            var time = getTimeRemaining(endtime);
-            if (time.total <= 0) {
-              clearInterval(timeinterval);
-            } else {
-              days.innerHTML = time.days;
-              hours.innerHTML = pad(time.hours, 2);
-              minutes.innerHTML = pad(time.minutes, 2);
-              seconds.innerHTML = pad(time.seconds, 2);
-            }
-          }, 1000);
-        }
-        clock('js-clock', deadline);
-      })();
-    });
-    /*-----------------------*/
+    // Parallax Effect
     (() => {
       const SPEED_DEFAULT = 0.4; // 0.3–0.6
       const parallaxEls = Array.from(document.querySelectorAll(".image-parallax"));

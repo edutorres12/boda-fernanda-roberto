@@ -3121,6 +3121,190 @@ figcaption {
   display: none;
 }
 
+.container-6 {
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1512px;
+  padding-left: 110px;
+  padding-right: 110px;
+  display: block;
+}
+
+.btn_main_wrap {
+  border-radius: 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn_main_wrap.itinerario__button {
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  border-radius: 90px;
+  flex-flow: row;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-columns: 1fr;
+  justify-content: center;
+  max-width: 100%;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.btn_main_wrap.itinerario__button.loader-button {
+  margin-top: 0;
+  display: none;
+}
+
+.button-2 {
+  color: #fff;
+  text-align: center;
+  background-color: #776451;
+  border: 1.5px solid #776451;
+  padding: 12px 35px;
+  font-family: Satoshi, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  text-decoration: none;
+  transition: all .4s;
+}
+
+.button-2:hover {
+  color: #776451;
+  background-color: #0000;
+}
+
+.button-2.is-secondary {
+  color: #776451;
+  background-color: #fff;
+  border-color: #776451;
+  width: 152px;
+  font-weight: 400;
+  transition: all .4s;
+  display: block;
+}
+
+.button-2.is-secondary:hover {
+  color: #fff;
+  background-color: #776451;
+}
+
+.button-2.is-secondary.boda:hover {
+  border-color: #776451;
+}
+
+.button-2.is-secondary.boda.loader-button {
+  width: auto;
+}
+
+.button-2.is-secondary.boda.loader-button:hover {
+  border: 1px solid #fff;
+}
+
+.div-block-18 {
+  grid-column-gap: 50px;
+  grid-row-gap: 50px;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.section-3 {
+  padding: 50px 160px 120px;
+}
+
+.section-3.section-loader {
+  grid-column-gap: 50px;
+  grid-row-gap: 50px;
+  background-color: #e0e5eb;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  display: flex;
+}
+
+.section-3.section-loader.weddeb-loader--overlay {
+  background-color: var(--color-scheme-1--background);
+  padding-top: 120px;
+}
+
+.regalo-logo {
+  width: 100%;
+  max-width: 100px;
+  line-height: 1.5;
+}
+
+.regalo-logo.principal {
+  max-width: 195px;
+}
+
+.regalo-logo.principal.logo-loader {
+  width: 281px;
+  max-width: 100%;
+}
+
+.btn_main_text {
+  color: #4b6a86;
+  width: auto;
+  max-width: none;
+  text-decoration: none;
+  display: flex;
+}
+
+.btn_main_text.loader-text {
+  color: #e0e5eb;
+  text-decoration: none;
+}
+
+.btn_main_inner {
+  grid-column-gap: .5rem;
+  grid-row-gap: .5rem;
+  color: #fff;
+  background-color: #1c1c1c;
+  border: 1.5px solid #fff;
+  border-radius: 100vw;
+  display: flex;
+}
+
+.btn_main_inner.button-2 {
+  border-width: 1px;
+}
+
+.btn_main_inner.button-2.loader-button {
+  color: #fff;
+  background-color: #4b6a86;
+  border-color: #4b6a86;
+  display: block;
+}
+
+.btn_main_inner.hover {
+  color: #1c1c1c;
+  background-color: #fff;
+  border-color: #fff;
+  display: block;
+  position: absolute;
+  inset: 0% auto auto 0%;
+}
+
+.btn_main_inner.hover.button-2 {
+  background-color: #d6e0e9;
+  display: none;
+}
+
+.btn_main_inner.hover.button-2.loader {
+  color: #fff;
+  background-color: #e0e5eb;
+  border-color: #4b6a86;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
 @media screen and (min-width: 1440px) {
   .nos-casamos__image-wrapper {
     margin-left: auto;
@@ -3664,6 +3848,19 @@ figcaption {
   .logo-wrapper.desktop {
     display: flex;
     bottom: -20.1vh;
+  }
+
+  .container-6 {
+    text-align: center;
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .button-2.is-secondary.boda.loader-button {
+    width: 180px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -4430,6 +4627,43 @@ figcaption {
     display: flex;
     overflow: visible;
   }
+
+  .container-6 {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .btn_main_wrap {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+  }
+
+  .btn_main_wrap.itinerario__button {
+    width: 137px;
+    margin-top: 13px;
+    margin-left: 0;
+  }
+
+  .btn_main_wrap.itinerario__button.loader-button {
+    width: auto;
+    min-width: 137px;
+    margin-right: 0;
+  }
+
+  .button-2.is-secondary.boda {
+    margin-top: 16px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .regalo-logo {
+    max-width: 104px;
+  }
+
+  .regalo-logo.principal {
+    max-width: 102px;
+  }
 }
 
 @media screen and (max-width: 479px) {
@@ -4541,8 +4775,18 @@ figcaption {
     padding-right: 0;
   }
 
+  .subtite {
+    margin-bottom: 16px;
+    line-height: 18px;
+  }
+
   .nos-casamos__heading {
     padding-top: 4px;
+  }
+
+  .nos-casamos__heading.word-animation.text-fading {
+    padding-top: 0;
+    font-size: 80px;
   }
 
   .nos-casamos__text-wrapper {
@@ -4684,6 +4928,7 @@ figcaption {
   }
 
   .itinerario-paragraph-adress {
+    padding-bottom: 0;
     font-size: 18px;
     line-height: 26px;
   }
@@ -4750,6 +4995,32 @@ figcaption {
     flex-flow: column;
     margin-bottom: 6px;
     display: flex;
+  }
+
+  .container-6 {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn_main_wrap.itinerario__button {
+    width: auto;
+    min-width: 137px;
+  }
+
+  .btn_main_wrap.itinerario__button.loader-button {
+    margin-right: 0;
+  }
+
+  .section-3 {
+    padding: 44px 16px 66px;
+  }
+
+  .regalo-logo.principal {
+    max-width: 140px;
+  }
+
+  .regalo-logo.principal.logo-loader {
+    min-width: 200px;
   }
 }
 
