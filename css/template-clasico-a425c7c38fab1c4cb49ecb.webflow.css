@@ -4822,6 +4822,10 @@ figcaption {
     padding-right: 10px;
   }
 
+  .itinetario__text-wrapper {
+    margin-bottom: 75px;
+  }
+
   .itinerario_paragraph-address {
     font-size: 22px;
     line-height: 26px;
