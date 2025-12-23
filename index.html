@@ -198,6 +198,10 @@
       display: none !important;
     }
 
+    .mobile-only {
+      display: none;
+    }
+
     @media (max-width: 768px) {
       .logo-loader {
         max-height: 140px;
@@ -206,6 +210,10 @@
       .button.loader-button {
         font-size: 16px;
         padding: 10px 30px;
+      }
+
+      .mobile-only {
+        display: block;
       }
     }
   </style>
@@ -550,7 +558,8 @@
               <div data-scroll="out" data-splitting="" class="word-animation text-opacity">
                 <h3 class="itinerario__heading">Civil</h3>
                 <p class="itinerario_paragraph-address">Hacienda Los Olivos</p>
-                <p class="itinerario-paragraph-adress">Calle Huajuquito 877, Los Cavazos, 67300 Santiago, N.L.</p>
+                <p class="itinerario-paragraph-adress">Calle Huajuquito 877, Los Cavazos, 67300 <br class="mobile-only">
+                  Santiago, N.L.</p>
               </div>
               <a href="https://maps.app.goo.gl/dsUTLo557XCdbWNy8" target="_blank"
                 class="button is-secondary boda w-button">Ver mapa</a>
@@ -567,7 +576,8 @@
               <div data-scroll="out" data-splitting="" class="word-animation text-opacity">
                 <h3 class="itinerario__heading">Recepción</h3>
                 <p class="itinerario_paragraph-address">Hacienda Los Olivos</p>
-                <p class="itinerario-paragraph-adress">Calle Huajuquito 877, Los Cavazos, 67300 Santiago, N.L.</p>
+                <p class="itinerario-paragraph-adress">Calle Huajuquito 877, Los Cavazos, 67300 <br class="mobile-only">
+                  Santiago, N.L.</p>
               </div>
               <a href="https://maps.app.goo.gl/dsUTLo557XCdbWNy8" target="_blank"
                 class="button is-secondary boda w-button">Ver mapa</a>
