@@ -114,7 +114,7 @@
     }
 
     .section-loader {
-      background-color: var(--color-scheme-1--dark);
+      background-color: var(--color-scheme-1--background);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -128,50 +128,33 @@
       height: auto;
     }
 
-    .btn-hover.loader-button {
-      border: 1px solid white;
-      background-color: transparent;
-      border-radius: 45px;
-      justify-content: center;
-      align-items: center;
-      padding: 10px 36px;
-      display: flex;
-      position: relative;
-      overflow: hidden;
-      z-index: 3;
-      width: fit-content;
-      margin: 0 auto;
-      cursor: pointer;
-    }
-
-    .btn-text.loader-text {
-      z-index: 4;
-      font-family: var(--_typography---font-styles--buttons);
-      color: white;
+    .loader-button {
+      color: var(--color-scheme-1--accent);
+      text-align: center;
+      background-color: var(--color-scheme-1--foreground);
+      border: 1.5px solid var(--color-scheme-1--border);
+      padding: 12px 35px;
+      font-family: Satoshi, Arial, sans-serif;
       font-size: 18px;
-      font-weight: 500;
+      font-weight: 400;
       line-height: 24px;
+      text-decoration: none;
+      transition: all .4s;
+      display: block;
       position: relative;
-      transition: color 0.3s ease;
+      cursor: pointer;
+      margin: 0 auto;
     }
 
-    .btn-cover.loader-cover {
-      z-index: 3;
-      background-color: white;
-      width: 100%;
+    .loader-button:hover {
+      color: var(--color-scheme-1--foreground);
+      background-color: var(--color-scheme-1--accent);
+    }
+
+    .btn-link {
+      z-index: 5;
       position: absolute;
-      top: 0;
-      bottom: 0;
-      left: -100%;
-      transition: left 0.3s ease;
-    }
-
-    .btn-hover.loader-button:hover .btn-cover.loader-cover {
-      left: 0;
-    }
-
-    .btn-hover.loader-button:hover .btn-text.loader-text {
-      color: var(--color-scheme-1--dark);
+      inset: 0;
     }
 
     /* Music player styles */
@@ -362,25 +345,15 @@
       </div>
     </div>
   </div>
+  <!-- Loader Section -->
+  <section id="section-loader" style="opacity: 1" class="section-loader weddeb-loader--overlay">
+    <div>
+      <img data-loader-logo loading="lazy" src="images/loader-logo.svg" alt="Logo" class="logo-loader" />
+    </div>
+    <a href="#" id="play-button" class="loader-button">Ver invitación</a>
+  </section>
+
   <div class="page-wrapper">
-    <section id="section-loader" data-w-id="e9a3fde5-2e1d-63c2-959e-d5d147023081" style="opacity:1"
-      class="section-3 section-loader weddeb-loader--overlay">
-      <div class="div-block-18"><img loading="lazy" src="images/loader-logo.svg" alt=""
-          class="regalo-logo principal logo-loader"></div>
-      <div class="w-layout-blockcontainer container-6 w-container">
-        <a id="play-button" href="#" data-w-id="e9a3fde5-2e1d-63c2-959e-d5d147023085"
-          class="button-2 is-secondary boda loader-button w-button">Ver invitación</a>
-        <a data-button-style="solid" data-btn="wrap" data-w-id="e9a3fde5-2e1d-63c2-959e-d5d147023087" href="#"
-          class="btn_main_wrap itinerario__button loader-button w-inline-block">
-          <div class="btn_main_inner button-2 loader-button">
-            <div class="btn_main_text loader-text">Ver invitación</div>
-          </div>
-          <div data-btn="clip" class="btn_main_inner hover button-2 loader">
-            <div class="btn_main_text">Ver invitación</div>
-          </div>
-        </a>
-      </div>
-    </section>
     <section class="section-hero section">
       <div class="div-block"><img src="images/hero-banner.jpg" loading="eager" width="Auto" alt="" class="hero-bg"><img
           src="images/hero-banner-mobile.jpg" loading="lazy" sizes="(max-width: 1124px) 100vw, 1124px"
