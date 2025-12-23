@@ -307,8 +307,6 @@
       -webkit-clip-path: none !important;
       mask: none !important;
       -webkit-mask: none !important;
-      overflow: visible !important;
-      line-height: 1 !important;
     }
 
     .curved-text {
@@ -321,6 +319,21 @@
       -webkit-font-smoothing: subpixel-antialiased !important;
       text-rendering: optimizeLegibility !important;
       transform: translate3d(0, 0, 0) !important;
+    }
+
+    @media screen and (max-width: 767px) {
+      .nos-casamos__heading .curved-text .char[data-char="y"] {
+        padding-left: 3px !important;
+      }
+
+      .stylized-text.itinetario .char[data-char="J"] {
+        padding-left: 24px !important;
+      }
+
+      .stylized-text.itinetario .char[data-char="f"] {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+      }
     }
   </style>
 </head>
