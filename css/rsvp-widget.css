@@ -734,3 +734,20 @@
     flex-grow: 1 !important;
     align-self: stretch !important;
 }
+
+
+/* ===== Civil section visibility ===== */
+/* By default, civil section is hidden */
+.civil-section {
+    display: none !important;
+}
+
+/* Show civil section when body has show-civil class */
+body.show-civil .civil-section {
+    display: flex !important;
+}
+
+/* Alternative: show-civil on any parent container */
+.show-civil .civil-section {
+    display: flex !important;
+}
