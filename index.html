@@ -373,8 +373,21 @@
             display: block;
         }        
     }
-    
-
+    #weddeb-rsvp-form textarea {
+        line-height: 20px!important;
+    }
+    #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]) + label:has(> input[type="radio"]) {
+    border-top-right-radius: 0px!important;
+    border-bottom-right-radius: 0px!important;
+}
+#weddeb-rsvp-form #rows-wrap .rsvp-row label[for] + input[readonly] + label:has(> input[type="radio"]){
+    border-top-left-radius: 0px!important;
+    border-bottom-left-radius: 0px!important;
+}
+#weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:checked) {
+    background: var(--_primitives---colors--brown, #8b7355);
+    color: white;
+}
   </style>
 </head>
 
