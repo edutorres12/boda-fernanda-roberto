@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Tue Dec 23 2025 18:19:29 GMT+0000 (Coordinated Universal Time)  -->
-<html data-wf-page="6945d4cded5731c717596ad3" data-wf-site="6945d4cded5731c717596ad4">
+<html lang="es-MX" data-wf-page="6945d4cded5731c717596ad3" data-wf-site="6945d4cded5731c717596ad4">
 
 <head>
   <meta charset="utf-8">
-  <title>Paola &amp; Alan ♡</title>
-  <meta content="Save the Date 26 | Abril | 2026" name="description">
-  <meta content="Paola &amp; Alan ♡" property="og:title">
-  <meta content="Save the Date 26 | Abril | 2026" property="og:description">
-  <meta content="https://cdn.prod.website-files.com/6945d4cded5731c717596ad4/694ac0d407caca79ab42067d_og-image.jpg"
-    property="og:image">
-  <meta content="Paola &amp; Alan ♡" property="twitter:title">
-  <meta content="Save the Date 26 | Abril | 2026" property="twitter:description">
-  <meta property="og:type" content="website">
-  <meta content="summary_large_image" name="twitter:card">
+  <title>Juan &amp; Nancy ♡ | 10 de Octubre 2026</title>
+  <meta content="Nos casamos el sábado 10 de octubre de 2026 en Fábrica El Porvenir, Santiago, N.L. Aquí encontrarás el itinerario, el código de vestimenta y podrás confirmar tu asistencia." name="description">
   <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="#3f4720" name="theme-color">
   <meta content="Webflow" name="generator">
+
+  <!-- Open Graph / redes sociales -->
+  <meta content="website" property="og:type">
+  <meta content="es_MX" property="og:locale">
+  <meta content="Juan &amp; Nancy" property="og:site_name">
+  <meta content="Juan &amp; Nancy ♡" property="og:title">
+  <meta content="Sábado 10 de octubre de 2026 · Fábrica El Porvenir, Santiago, N.L." property="og:description">
+  <!-- TODO: reemplazar por una foto de Juan y Nancy y usar la URL absoluta del dominio
+       final (ej. https://juanynancy.com/images/og-image.jpg). Las rutas relativas no
+       las resuelven de forma fiable WhatsApp ni Facebook. -->
+  <meta content="images/og-image.jpg" property="og:image">
+  <meta content="Monograma de Juan y Nancy" property="og:image:alt">
+  <meta content="summary_large_image" name="twitter:card">
+  <meta content="Juan &amp; Nancy ♡" property="twitter:title">
+  <meta content="Sábado 10 de octubre de 2026 · Fábrica El Porvenir, Santiago, N.L." property="twitter:description">
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
   <link href="css/webflow.css" rel="stylesheet" type="text/css">
   <link href="css/template-clasico-a425c7c38fab1c4cb49ecb.webflow.css" rel="stylesheet" type="text/css">
   <link href="css/rsvp-widget.css" rel="stylesheet" type="text/css">
+  <link href="css/recomendaciones.css" rel="stylesheet" type="text/css">
   <style>
     @media (min-width:992px) {
       html.w-mod-js:not(.w-mod-ix) [data-w-id="d401b194-2d65-d807-2a0e-71c0114f75ec"] {
@@ -388,6 +397,296 @@
     background: var(--_primitives---colors--brown, #8b7355);
     color: white;
 }
+
+    /* Dress code: ilustración al centro con Caballeros / Damas a los lados.
+       Sin bordes ni mayúsculas: solo la serif del sitio y aire entre bloques. */
+    .dess-code.section {
+      padding-left: 80px;
+      padding-right: 80px;
+    }
+
+    .dress-code__grid {
+      grid-column-gap: 32px;
+      align-items: center;
+      max-width: 1040px;
+      margin: 46px auto 0;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+    }
+
+    .dress-code__col {
+      min-width: 0;
+      text-align: center;
+    }
+
+    .dress-code__col-title {
+      margin-bottom: 30px;
+    }
+
+    .dress-code__items {
+      grid-row-gap: 24px;
+      flex-flow: column;
+      align-items: center;
+      display: flex;
+    }
+
+    /* Sin font-size propio: hereda los 26px/32px de <p> del template */
+    .dress-code__item {
+      max-width: 330px;
+      margin-bottom: 0;
+    }
+
+    .dress-code__note {
+      font-style: italic;
+      font-size: .8em;
+      line-height: 1.35;
+      opacity: .7;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .dress-code__illustration img {
+      width: 300px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 991px) {
+      .dess-code.section {
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+
+      .dress-code__grid {
+        grid-column-gap: 20px;
+        max-width: 740px;
+      }
+
+      .dress-code__col-title {
+        margin-bottom: 22px;
+      }
+
+      .dress-code__items {
+        grid-row-gap: 18px;
+      }
+
+      .dress-code__item {
+        max-width: 260px;
+        font-size: 19px;
+        line-height: 26px;
+      }
+
+      .dress-code__illustration img {
+        width: 205px;
+      }
+    }
+
+    /* En móvil se mantienen las 3 columnas (texto a los lados de la ilustración),
+       solo se reduce la escala. No se apila. */
+    @media (max-width: 767px) {
+      .dess-code.section {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .dress-code__grid {
+        grid-column-gap: 8px;
+        margin-top: 30px;
+      }
+
+      .dress-code__col-title {
+        margin-bottom: 14px;
+        font-size: 26px;
+        line-height: 32px;
+      }
+
+      .dress-code__items {
+        grid-row-gap: 12px;
+      }
+
+      .dress-code__item {
+        font-size: 12px;
+        line-height: 17px;
+      }
+
+      .dress-code__illustration img {
+        width: 104px;
+      }
+    }
+
+    /* Hospedaje: el overlay original de recomendaciones.css tapaba demasiado la foto
+       (0.88 abajo). Se aligera manteniendo suficiente densidad bajo el texto para que
+       el blanco siga legible sobre cualquier imagen. */
+    .recm__image-wrapper--overlay .recm__overlay {
+      background: linear-gradient(to top,
+          rgba(0, 0, 0, .68) 0%,
+          rgba(0, 0, 0, .34) 38%,
+          rgba(0, 0, 0, .08) 70%,
+          transparent 100%);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .recm__image-wrapper--overlay:hover .recm__overlay {
+        background: linear-gradient(to top,
+            rgba(0, 0, 0, .58) 0%,
+            rgba(0, 0, 0, .26) 38%,
+            rgba(0, 0, 0, .04) 70%,
+            transparent 100%);
+      }
+    }
+
+    /* Beige del brief (blanco > verde y beige) como superficie secundaria, no como
+       color de texto. Va en los dos bloques que eran blanco puro y se fundían con
+       el fondo #fcfcfa. Regla dirigida: no se toca --colors--white, que además
+       pinta el texto sobre el footer verde. */
+    .itinerario__image-wrapper,
+    .asistencia-form {
+      background-color: #efe8dc;
+    }
+
+    /* Dress code: el template pone .paragraph-8 en mayúsculas; aquí va en caja normal */
+    #dress-code .paragraph-8 {
+      text-transform: none;
+    }
+
+    /* Hospedaje: recomendaciones.css fija 3 columnas de 320px. Como aquí solo hay
+       2 opciones, la tercera queda vacía y descentra las tarjetas. Con grid-auto-flow
+       se crean tantas columnas como tarjetas haya y quedan centradas. */
+    @media (min-width: 992px) {
+      #hospedaje .hospedaje__cards {
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(0, 320px);
+        grid-template-columns: none;
+      }
+    }
+
+    /* Sugerencia de regalo: el botón "Ver mesa" separado del texto de su tarjeta */
+    #regalo .sugerencia-card .button {
+      margin-top: 20px;
+    }
+
+    /* Hero: el monograma es cuadrado (470x470). El template fijaba .image a 330x200
+       para el logo apaisado anterior, lo que lo deformaba. Se fija solo el alto y el
+       ancho se calcula solo, conservando la proporción. */
+    /* Se cubren las dos variantes: el template muestra .image en desktop y
+       .logo-hero-sm en móvil. */
+    .hero__image-wrapper .image,
+    .hero__image-wrapper .logo-hero-sm {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 767px) {
+
+      .hero__image-wrapper .image,
+      .hero__image-wrapper .logo-hero-sm {
+        width: 150px;
+        height: 150px;
+      }
+    }
+
+    /* ===== Unificación de espaciados verticales en desktop =====
+       Ritmo base de 120px entre secciones. Las secciones que abren con título
+       (hospedaje y regalo) llevan padding-top 0 porque la anterior ya aporta
+       su separación. Solo desktop: móvil conserva sus valores del template. */
+    @media (min-width: 992px) {
+      .nos-casamos__text-wrapper {
+        padding-top: 0;
+      }
+
+      .nos-casamos.section {
+        padding-bottom: 120px;
+      }
+
+      .section-gallery {
+        margin-bottom: 70px;
+      }
+
+      .itinerario__titulo {
+        margin-bottom: 80px;
+      }
+
+      .dess-code.section {
+        padding-top: 120px;
+        padding-bottom: 120px;
+      }
+
+      #hospedaje.recm.section {
+        padding-top: 0;
+        padding-bottom: 120px;
+      }
+
+      .asistencia.section {
+        padding-top: 120px;
+        padding-bottom: 120px;
+      }
+
+      #regalo.sugerencia.section {
+        padding-top: 0;
+        padding-bottom: 120px;
+      }
+
+      .footer {
+        padding-top: 120px;
+      }
+    }
+
+    /* ===== Mismo ritmo en móvil y tablet, con base de 80px =====
+       Cubre todo por debajo del breakpoint desktop (992px) para que no quede
+       ningún ancho sin regla. Los dos márgenes internos se escalan en proporción
+       (120→80 en secciones equivale a 70→50 y 80→50 en los márgenes). */
+    @media (max-width: 991px) {
+      .nos-casamos.section {
+        padding-bottom: 80px;
+      }
+
+      /* La galería no aporta espacio propio: el de arriba lo pone el padding-bottom
+         de "nos casamos" y el de abajo el padding-top del itinerario. Así cada hueco
+         lo define una sola sección y nunca se suman. */
+      .section-gallery {
+        padding-top: 0;
+        margin-bottom: 0;
+      }
+
+      #itinerario.itinerario.section {
+        padding-top: 80px;
+      }
+
+      .itinerario__titulo {
+        margin-bottom: 50px;
+      }
+
+      .dess-code.section {
+        padding-top: 80px;
+        padding-bottom: 80px;
+      }
+
+      #hospedaje.recm.section {
+        padding-top: 0;
+        padding-bottom: 80px;
+      }
+
+      .asistencia.section {
+        padding-top: 80px;
+        padding-bottom: 80px;
+      }
+
+      /* El footer aporta sus propios 80px ya sobre el verde. Si "regalo" también
+         los pusiera, el hueco antes del footer sería de 160px. */
+      #regalo.sugerencia.section {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      .footer {
+        padding-top: 80px;
+      }
+    }
+
   </style>
 </head>
 
@@ -424,7 +723,8 @@
   <!-- Loader Section -->
   <section id="section-loader" style="opacity: 1" class="section-loader weddeb-loader--overlay">
     <div>
-      <img data-loader-logo loading="lazy" src="images/loader-logo.svg" alt="Logo" class="logo-loader" />
+      <img data-loader-logo loading="lazy" src="images/monograma-j-n-verde.png" alt="Juan y Nancy"
+        class="logo-loader" />
     </div>
     <a href="#" id="play-button" class="loader-button">Ver invitación</a>
   </section>
@@ -435,35 +735,26 @@
           src="images/hero-banner-mobile.jpg" loading="lazy" sizes="(max-width: 1124px) 100vw, 1124px"
           srcset="images/hero-banner-mobile-p-500.jpg 500w, images/hero-banner-mobile-p-800.jpg 800w, images/hero-banner-mobile-p-1080.jpg 1080w, images/hero-banner-mobile.jpg 1124w"
           alt="" class="hero-bg-mobile"></div>
-      <div class="hero__image-wrapper"><img src="images/logo-hero-mobile.svg" loading="lazy" alt=""
-          class="logo-hero-sm"><img src="images/logo-hero.svg" loading="lazy" alt="" class="image"></div>
+      <div class="hero__image-wrapper"><img src="images/monograma-j-n-blanco.png" loading="lazy" alt="Juan y Nancy"
+          class="logo-hero-sm"><img src="images/monograma-j-n-blanco.png" loading="lazy" alt="Juan y Nancy"
+          class="image"></div>
     </section>
     <section class="nos-casamos section">
       <div class="w-layout-blockcontainer container w-container">
         <div class="nos-casamos__text-wrapper">
           <h2 class="subtite">Un amor tan grande merece celebración</h2>
-          <h1 data-splitting="" data-scroll="out" class="nos-casamos__heading word-animation text-fading">Paola <em
-              class="curved-text">y </em>Alan</h1>
-          <p class="nos-casamos__text">Con la guía de Dios, el profundo amor que nos une y la bendición de nuestros
-            padres:</p>
-          <div class="div-block-14">
-            <p>Laura Nohemí Ruiz Osuna<br>Enrique Blanco Guzmán</p>
-            <p>Verónica Esther Bojorquez<br>Baltazar León Cervantes</p>
-          </div>
-          <div class="div-block-16">
-            <p>Laura Nohemí Ruiz Osuna<br>Enrique Blanco Guzmán</p>
-            <p>&amp;</p>
-            <p>Verónica Esther Bojorquez<br>Baltazar León Cervantes</p>
-          </div>
-          <p class="nos-casamos__text _2">Tenemos el honor de invitarlos a celebrar nuestra unión en sagrado matrimonio,
+          <h1 data-splitting="" data-scroll="out" class="nos-casamos__heading word-animation text-fading">Juan <em
+              class="curved-text">y </em>Nancy</h1>
+          <p class="nos-casamos__text">Con la guía de Dios y el profundo amor que nos une:</p>
+          <p class="nos-casamos__text _2">Tenemos el honor de invitarlos a celebrar nuestra unión,
             que se llevará a cabo el día</p>
           <div class="nos-casamos__fecha desktop">
-            <div class="nos-casamos__fecha-text">Domingo 26</div>
-            <div class="nos-casamos__fecha-text bordered">Abril</div>
+            <div class="nos-casamos__fecha-text">10</div>
+            <div class="nos-casamos__fecha-text bordered">Octubre</div>
             <div class="nos-casamos__fecha-text">2026</div>
           </div>
           <div class="nos-casamos__fecha mobile">
-            <div class="nos-casamos__fecha-text mobile">domingo 26 de abril 2026</div>
+            <div class="nos-casamos__fecha-text mobile">10 de octubre 2026</div>
           </div>
         </div>
       </div>
@@ -599,38 +890,21 @@
         <div data-w-id="39b6e666-2fa3-b944-ffbb-a9f417500037" class="itinetario__text-wrapper">
           <div
             style="opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-            class="itinerario__text second">
+            class="itinerario__text first">
             <div class="itinerario__icon-wrapper"><img src="images/rings-icon.svg" loading="lazy" alt=""
                 class="icon-boda">
-              <p class="itinerario__subheading">3:00 pm</p>
+              <p class="itinerario__subheading">7:00 pm</p>
             </div>
             <div class="div-block-6">
               <div data-scroll="out" data-splitting="" class="word-animation text-opacity">
-                <h3 class="itinerario__heading">Ceremonia religiosa</h3>
-                <p class="itinerario_paragraph-address">Parroquia El Señor del la Misericordia</p>
-                <p class="itinerario-paragraph-adress">Pueblo Serena, Carretera Nacional 500, Sin Nombre de Col 50,
-                  67350 Monterrey, N.L.</p>
+                <h3 class="itinerario__heading">Ceremonia civil</h3>
+                <p class="itinerario_paragraph-address">Fábrica El Porvenir</p>
+                <p class="itinerario-paragraph-adress">C. Segunda de Morelos Sur 104, El Terrero, <br
+                    class="mobile-only">El Cercado, 67320 Santiago, N.L.</p>
               </div>
-              <a href="https://maps.app.goo.gl/CgjYFrkTRXmDrnzE7" target="_blank"
-                class="button is-secondary boda w-button">Ver mapa</a>
-            </div>
-          </div>
-          <div
-            style="opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-            class="itinerario__text first civil-section">
-            <div class="itinerario__icon-wrapper"><img src="images/cup-icon.svg" loading="lazy" alt=""
-                class="icon-boda">
-              <p class="itinerario__subheading">5:00 pm</p>
-            </div>
-            <div class="div-block-6">
-              <div data-scroll="out" data-splitting="" class="word-animation text-opacity">
-                <h3 class="itinerario__heading">Civil</h3>
-                <p class="itinerario_paragraph-address">Hacienda Los Olivos</p>
-                <p class="itinerario-paragraph-adress">Calle Huajuquito 877, Los Cavazos, 67300 <br class="mobile-only">
-                  Santiago, N.L.</p>
-              </div>
-              <a href="https://maps.app.goo.gl/dsUTLo557XCdbWNy8" target="_blank"
-                class="button is-secondary boda w-button">Ver mapa</a>
+              <!-- TODO: reemplazar por el link corto de Google Maps con el pin exacto del lugar -->
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=F%C3%A1brica+El+Porvenir+El+Cercado+Santiago+Nuevo+Le%C3%B3n"
+                target="_blank" class="button is-secondary boda w-button">Ver mapa</a>
             </div>
           </div>
           <div
@@ -638,17 +912,18 @@
             class="itinerario__text last">
             <div class="itinerario__icon-wrapper"><img src="images/reception-icon.svg" loading="lazy" alt=""
                 class="icon-boda">
-              <p class="itinerario__subheading">5:30 pm</p>
+              <p class="itinerario__subheading">8:00 pm</p>
             </div>
             <div class="div-block-6">
               <div data-scroll="out" data-splitting="" class="word-animation text-opacity">
                 <h3 class="itinerario__heading">Recepción</h3>
-                <p class="itinerario_paragraph-address">Hacienda Los Olivos</p>
-                <p class="itinerario-paragraph-adress">Calle Huajuquito 877, Los Cavazos, 67300 <br class="mobile-only">
-                  Santiago, N.L.</p>
+                <p class="itinerario_paragraph-address">Fábrica El Porvenir</p>
+                <p class="itinerario-paragraph-adress">C. Segunda de Morelos Sur 104, El Terrero, <br
+                    class="mobile-only">El Cercado, 67320 Santiago, N.L.</p>
               </div>
-              <a href="https://maps.app.goo.gl/dsUTLo557XCdbWNy8" target="_blank"
-                class="button is-secondary boda w-button">Ver mapa</a>
+              <!-- TODO: reemplazar por el link corto de Google Maps con el pin exacto del lugar -->
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=F%C3%A1brica+El+Porvenir+El+Cercado+Santiago+Nuevo+Le%C3%B3n"
+                target="_blank" class="button is-secondary boda w-button">Ver mapa</a>
             </div>
           </div>
         </div>
@@ -656,47 +931,74 @@
     </section>
     <div id="dress-code" class="w-layout-blockcontainer dess-code section w-container">
       <h2 class="hospedaje__heading">Dress <em class="italic-text">Code</em></h2>
-      <p class="paragraph-8">Formal</p>
-      <div class="div-block-15">
-        <p>Hombres:<br>Traje negro</p>
-        <p>Mujeres:<br>Vestido largo</p>
+      <p class="paragraph-8">Black Tie · Etiqueta</p>
+      <div class="dress-code__grid">
+        <div class="dress-code__col">
+          <h3 class="dress-code__col-title"><em class="italic-text">Caballeros</em></h3>
+          <div class="dress-code__items">
+            <p class="dress-code__item">Esmoquin o traje en tonos oscuros</p>
+            <p class="dress-code__item">Moño o corbata</p>
+            <p class="dress-code__item">Zapatos formales <span class="dress-code__note">charol o piel</span></p>
+          </div>
+        </div>
+        <div class="dress-code__illustration"><img src="images/dress-code-illustration.svg" loading="lazy"
+            alt="Ilustración de esmoquin y vestido de noche largo"></div>
+        <div class="dress-code__col">
+          <h3 class="dress-code__col-title"><em class="italic-text">Damas</em></h3>
+          <div class="dress-code__items">
+            <p class="dress-code__item">Vestido de noche largo <span class="dress-code__note">evitar blanco y tonos
+                crema</span></p>
+            <p class="dress-code__item">Bolso tipo clutch o cartera</p>
+            <p class="dress-code__item">Zapatos de tacón</p>
+          </div>
+        </div>
       </div>
-      <div class="div-block-17">
-        <p>Hombres: Traje negro</p>
-        <p>Mujeres: Vestido largo</p>
-      </div><img src="images/dress-code-icon-1.svg" loading="lazy" alt="" class="image-8">
+      <!-- TODO: paleta de colores sugerida para las invitadas. El formulario no incluyó estos datos;
+           al definirlos, regenerar dress-code-colores.svg / dress-code-colores-mobile.svg y descomentar:
       <p class="paragraph-7">Para las invitadas, se sugieren tonos similares a la siguiente paleta de colores:</p><img
         src="images/dress-code-colores.svg" loading="lazy" alt="" class="image-9"><img
         src="images/dress-code-colores-mobile.svg" loading="lazy" alt="" class="image-10">
+      -->
     </div>
-    <section id="hospedaje" data-w-id="d6f43cc5-b1d6-187b-a757-2902ce893da0" class="hospedaje section">
-      <h2 class="hospedaje__heading">Sugerencia <em class="italic-text">de Hospedaje</em></h2>
-      <p class="paragraph-5">Código 0DSE - BODA PAOLA BLANCO Y ALAN LEON</p>
-      <div class="hospedaje__image-wrapper">
-        <div data-w-id="3a057866-b07e-6793-888a-c28a4a0489db"
-          style="opacity:0;-webkit-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-          class="hospedaje__card">
-          <div class="hospedaje-text-wrapper">
-            <h3 class="hospedaje__card-heading">SAFI Valle</h3>
-            <p class="hospedaje__paragraph">Av. Diego Rivera 555, Valle Oriente, 66260 San Pedro Garza García, N.L.</p>
-            <a href="https://reservations.travelclick.com/11908?groupID=5074224" target="_blank"
-              class="button is-secondary is-small is-alternate hospedaje__buton w-button">Reservar</a>
-          </div><img src="images/hospedaje-1.jpg" loading="lazy" sizes="(max-width: 1212px) 100vw, 1212px"
-            srcset="images/hospedaje-1-p-500.jpg 500w, images/hospedaje-1-p-800.jpg 800w, images/hospedaje-1-p-1080.jpg 1080w, images/hospedaje-1.jpg 1212w"
-            alt="" class="hospedaje__image">
+    <section id="hospedaje" class="recm recm--hospedaje section">
+      <div class="recm__header">
+        <h2 class="recm__heading">Sugerencia <em class="italic-text">de Hospedaje</em></h2>
+      </div>
+      <!-- TODO: los links de Maps son búsquedas genéricas; sustituir por el pin exacto. -->
+      <div class="hospedaje__cards">
+        <div class="hospedaje__card reveal-up">
+          <div class="recm__image-wrapper recm__image-wrapper--overlay">
+            <img src="images/las-palomas-santiago.webp" loading="lazy" alt="Las Palomas de Santiago"
+              class="recm__image">
+            <div class="recm__overlay">
+              <h3 class="recm__overlay-title">Las Palomas de Santiago</h3>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=Las+Palomas+de+Santiago+Santiago+Nuevo+Le%C3%B3n"
+                target="_blank" rel="noopener" class="recm__overlay-location"><svg viewBox="0 0 24 24" fill="none"
+                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"></path>
+                  <circle cx="12" cy="9" r="2.5"></circle>
+                </svg><span>Santiago, N.L.</span></a>
+              <a href="https://www.laspalomasdesantiago.com/" target="_blank" rel="noopener"
+                class="button is-secondary is-small is-alternate hospedaje__buton w-button">Reservar</a>
+            </div>
+          </div>
         </div>
-        <div data-w-id="eb809a5a-b010-8ac4-e459-6bf698cd0123"
-          style="opacity:0;-webkit-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-          class="hospedaje__card"><img src="images/hospedaje-2.jpg" loading="lazy"
-            sizes="(max-width: 1212px) 100vw, 1212px"
-            srcset="images/hospedaje-2-p-500.jpg 500w, images/hospedaje-2-p-800.jpg 800w, images/hospedaje-2-p-1080.jpg 1080w, images/hospedaje-2.jpg 1212w"
-            alt="" class="hospedaje__image">
-          <div class="hospedaje-text-wrapper">
-            <h3 class="hospedaje__card-heading">SAFI Metropolitan</h3>
-            <p class="hospedaje__paragraph">Av Lázaro Cárdenas 2400, Valle Oriente, 66260 San Pedro Garza García, N.L.
-            </p>
-            <a href="https://reservations.travelclick.com/114670?groupID=5074221" target="_blank"
-              class="button is-secondary is-small is-alternate hospedaje__buton w-button">Reservar</a>
+        <div class="hospedaje__card reveal-up">
+          <div class="recm__image-wrapper recm__image-wrapper--overlay">
+            <img src="images/gamma-rincon-santiago.jpg" loading="lazy" alt="Gamma Monterrey Rincón de Santiago"
+              class="recm__image">
+            <div class="recm__overlay">
+              <h3 class="recm__overlay-title">Gamma Monterrey Rincón de Santiago</h3>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=Gamma+Monterrey+Rinc%C3%B3n+de+Santiago"
+                target="_blank" rel="noopener" class="recm__overlay-location"><svg viewBox="0 0 24 24" fill="none"
+                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"></path>
+                  <circle cx="12" cy="9" r="2.5"></circle>
+                </svg><span>Santiago, N.L.</span></a>
+              <a href="https://www.fiestamericanatravelty.com/gamma-hoteles/hoteles/gamma-monterrey-rincon-de-santiago"
+                target="_blank" rel="noopener"
+                class="button is-secondary is-small is-alternate hospedaje__buton w-button">Reservar</a>
+            </div>
           </div>
         </div>
       </div>
@@ -743,7 +1045,7 @@
     </section>
     <section id="asistencia" class="asistencia section">
       <h2 class="asistencia__title">Confirma <em class="italic-text">tu Asistencia</em></h2>
-      <p class="asistencia__paragraph mayus"> - No niños - </p>
+      <p class="asistencia__paragraph mayus"> - Solo adultos - </p>
       <div data-w-id="a42e46fb-ba18-6ce0-7fdb-1faae947b153" style="opacity:0" class="asistencia-form">
         <div class="asistencia__container">
           <div class="form-img-container"><img src="images/rsvp-image.jpg" loading="lazy"
@@ -755,7 +1057,7 @@
           <h3 class="asistencia_form_title">RSVP</h3>
           <div class="div-block-8">
             <!-- Widget RSVP Universal de Weddeb -->
-            <div id="rsvp-container" data-event-slug="boda-paola-alan"></div>
+            <div id="rsvp-container" data-event-slug="boda-nancy-juan"></div>
             <script src="https://panel.weddeb.com/js/rsvp-widget.js"></script>
           </div>
         </div>
@@ -763,34 +1065,32 @@
     </section>
     <section id="regalo" data-w-id="f5846816-e4de-9aec-10e3-a06a9fdc0076" class="sugerencia section">
       <h2 class="sugerencia-title">Sugerencia <em class="italic-text">de Regalo</em></h2>
+      <p class="asistencia__paragraph">Nuestro mejor regalo es su presencia y buenos deseos.<br>En caso de que deseen
+        hacernos un obsequio, dejamos las siguientes opciones</p>
       <div class="sugerencia-container">
         <div
-          style="opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-          class="sugerencia-card _3"><img src="images/email-icon.svg" loading="lazy" alt="" class="sugerencia-logo _3">
+          style="justify-content:flex-start;opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
+          class="sugerencia-card _3"><img src="images/email-icon.svg" loading="lazy" alt=""
+            style="width: 84px; height: 51px; margin-bottom: 24px;" class="sugerencia-logo _3">
+          <p class="sugerencia-card-text">Efectivo en sobre el día del evento</p>
         </div>
         <div
-          style="opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-          class="sugerencia-card _1"><img src="images/bbva-logo.svg" loading="lazy" alt="" class="sugerencia-logo _1">
-          <p class="sugerencia-card-text">Paola Blanco</p>
-          <p class="sugerencia-card-text">Clabe 012580015467911125</p>
-        </div>
-        <div
-          style="opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-          class="sugerencia-card _2"><img src="images/liverpool-logo.svg" loading="lazy" alt=""
-            class="sugerencia-logo _2">
-          <p class="sugerencia-card-text">Evento 51886275</p>
-          <a href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51886275" target="_blank"
+          style="justify-content:flex-start;opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
+          class="sugerencia-card _2"><img src="images/gift-icon.svg" loading="lazy" alt=""
+            style="width: 84px; height: 51px; margin-bottom: 24px;" class="sugerencia-logo _3">
+          <p class="sugerencia-card-text">Mesa de regalos Sin Envolturas</p>
+          <a href="https://sinenvolturas.com/nancyvillarrealjuanguerrero" target="_blank"
             class="button is-secondary form__button w-button">Ver mesa</a>
         </div>
       </div>
     </section>
   </div>
   <section class="footer">
-    <div class="w-layout-blockcontainer container-4 w-container"><img src="images/logo-footer.svg" loading="lazy" alt=""
+    <div class="w-layout-blockcontainer container-4 w-container"><img src="images/monograma-j-n-blanco.png" loading="lazy" alt="Juan y Nancy"
         class="footer__logo">
       <p class="footer_paragraph">Nos encantará atesorar cada instante de esta celebración.<br>Si así lo desean, pueden
         compartir sus fotografías utilizando nuestro hashtag.</p>
-      <p class="footer_hash heading-3">#thewhitelion</p>
+      <p class="footer_hash heading-3">#juanynancy</p>
       <div>
         <div class="div-block-7">
           <div class="footer_image-wrapper"><img src="images/footer-image.jpg" loading="lazy" width="777" alt=""
@@ -817,7 +1117,7 @@
 
   <!-- Audio Element -->
   <audio id="my-audio" preload="none" loop>
-    <source src="audio/Until-I-Found-You.mp3" type="audio/mpeg">
+    <source src="audio/A-Thousand-Years.mp3" type="audio/mpeg">
     Tu navegador no soporta audio HTML5.
   </audio>
 

@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ===== COUNTDOWN TIMER FUNCTIONALITY =====
   (function () {
-    var deadline = '2026/04/26 15:00';
+    var deadline = '2026/10/10 19:00';
 
     function pad(num, size) {
       var s = "0" + num;
@@ -159,5 +159,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     initCountdown('js-clock', deadline);
+  })();
+
+  // ===== REC SECTIONS REVEAL ON SCROLL =====
+  (function () {
+    var grids = document.querySelectorAll('.recm__scroller-wrap, .reveal-up');
+    if (!grids.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      grids.forEach(function (g) { g.classList.add('is-visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    grids.forEach(function (g) { observer.observe(g); });
   })();
 });

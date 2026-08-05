@@ -31,15 +31,15 @@
 }
 
 :root {
-  --color-scheme-1--background: #f9f6f0;
+  --color-scheme-1--background: #fcfcfa;
   --_typography---font-styles--body: "Libre Caslon Display", sans-serif;
-  --color-scheme-1--text: #836b52;
+  --color-scheme-1--text: #3f4720;
   --_typography---font-styles--heading: "Libre Caslon Display", sans-serif;
   --_primitives---colors--white: #fff;
   --_primitives---colors--neutral-darkest: black;
   --text-color--text-alternate\<deleted\|relume-variable-text-color-3\>: var(--base-color-neutral--white\<deleted\|relume-variable-color-neutral-2\>);
-  --color-scheme-1--border: #776451;
-  --color-scheme-1--accent: #776451;
+  --color-scheme-1--border: #939168;
+  --color-scheme-1--accent: #3f4720;
   --_typography---font-styles--buttons: Satoshi, Arial, sans-serif;
   --_primitives---opacity--transparent: transparent;
   --_primitives---opacity--neutral-darkest-60\<deleted\|relume-variable-neutral-shade-7-60\>: #0009;
@@ -2416,7 +2416,7 @@ figcaption {
 }
 
 .footer {
-  background-color: var(--color-scheme-1--text);
+  background-color: #3f4720;
   padding-top: 60px;
   padding-bottom: 60px;
 }
