@@ -98,13 +98,11 @@
       -o-font-smoothing: antialiased;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- GSAP y Splide se cargaban pero ninguna página los inicializa; fuera de la
+       cola de descarga la página arranca y desplaza más fluida. Splitting y
+       ScrollOut sí se usan (animaciones de texto por letra). -->
   <script src="https://unpkg.com/splitting/dist/splitting.js"></script>
   <script src="https://unpkg.com/scroll-out/dist/scroll-out.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
-  <script
-    src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
   <!-- Loader Styles -->
   <style>
     /* Loader overlay controls */
@@ -146,13 +144,119 @@
     .logo-loader {
       max-height: 140px;
       height: auto;
+      /* El template pone width:100% a todo <img>. Antes daba igual porque el padre era
+         un div a ancho completo, pero .loader__intro se ajusta a su contenido y un
+         100% contra un padre que mide lo que su contenido colapsa la imagen a 0.
+         Con width:auto manda el alto y el ancho sale de la proporción (470x470). */
+      width: auto;
+    }
+
+    /* El loader era monograma + botón sueltos sobre el beige, sin nada que los
+       relacionara. La fecha da la información que falta (el monograma solo dice
+       quiénes) y el filete la ata al logo como en la papelería impresa. Los caracteres
+       espaciados en mayúscula son el mismo recurso que usan las etiquetas de la
+       cuenta atrás, así que el loader ya no queda fuera del lenguaje del sitio. */
+    .loader__intro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .loader__rule {
+      width: 56px;
+      height: 1px;
+      background-color: var(--color-scheme-1--border);
+      opacity: .55;
+    }
+
+    .loader__fecha {
+      margin: 0;
+      color: var(--color-scheme-1--accent);
+      font-family: Montserrat, Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      /* El letter-spacing añade el hueco también tras la última letra y descentra
+         el bloque; el margen negativo lo compensa, igual que hace .clock-label. */
+      margin-right: -4px;
+    }
+
+    /* Entrada escalonada: los tres elementos aparecen en el orden en que se leen en
+       vez de aparecer el bloque entero de golpe. Son keyframes y no transiciones a
+       propósito: esto corre mientras la página todavía está cargando, y una animación
+       CSS no depende del hilo principal como sí lo haría un requestAnimationFrame. */
+    @keyframes loader-entra {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-loader,
+    .loader__rule,
+    .loader__fecha,
+    .loader-button {
+      opacity: 0;
+      animation: loader-entra 620ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+
+    .logo-loader {
+      animation-delay: 60ms;
+    }
+
+    .loader__rule {
+      animation-delay: 200ms;
+    }
+
+    .loader__fecha {
+      animation-delay: 260ms;
     }
 
     .loader-button {
-      color: var(--color-scheme-1--accent);
+      animation-delay: 380ms;
+    }
+
+    /* Va fuera del media query a propósito. Estos elementos arrancan en opacity 0 y
+       es la animación la que los hace visibles, así que un nombre de keyframes que
+       algún navegador no llegara a resolver dejaría el botón invisible y la invitación
+       sin puerta de entrada. Declarado en la raíz, el nombre siempre existe. */
+    @keyframes loader-entra-sin-movimiento {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Con movimiento reducido se mantiene el fundido, que ayuda a entender que la
+       pantalla acaba de aparecer, y se quita solo el desplazamiento. */
+    @media (prefers-reduced-motion: reduce) {
+
+      .logo-loader,
+      .loader__rule,
+      .loader__fecha,
+      .loader-button {
+        animation-name: loader-entra-sin-movimiento;
+      }
+    }
+
+    /* Botón relleno en el verde de la marca: es lo único accionable de la pantalla y
+       en contorno sobre el beige pesaba lo mismo que el filete decorativo. El hover
+       invierte a fondo claro, que era el estado anterior. */
+    .loader-button {
+      color: var(--color-scheme-1--foreground);
       text-align: center;
-      background-color: var(--color-scheme-1--foreground);
-      border: 1.5px solid var(--color-scheme-1--border);
+      background-color: var(--color-scheme-1--accent);
+      border: 1.5px solid var(--color-scheme-1--accent);
       padding: 12px 35px;
       font-family: Satoshi, Arial, sans-serif;
       font-size: 18px;
@@ -167,8 +271,8 @@
     }
 
     .loader-button:hover {
-      color: var(--color-scheme-1--foreground);
-      background-color: var(--color-scheme-1--accent);
+      color: var(--color-scheme-1--accent);
+      background-color: var(--color-scheme-1--foreground);
     }
 
     .btn-link {
@@ -183,7 +287,7 @@
       bottom: 10px;
       right: 10px;
       z-index: 100;
-      background-color: white;
+      background-color: var(--blanco-roto);
       width: fit-content;
       padding: 3px 20px;
       border: none;
@@ -222,8 +326,9 @@
       display: none;
     }
 
-    /* Fix parallax gap en imágenes con parallax */
-    .image-3,
+    /* Fix parallax gap en imágenes con parallax. Solo el formulario: la imagen
+       del itinerario (.image-3) ya no lleva parallax y se encuadra con
+       object-position, así que el sobredimensionado le cortaba la cara. */
     .form-img {
       min-height: 115% !important;
     }
@@ -242,16 +347,79 @@
         display: block;
       }
 
-      /* Ajuste de imagen itinerario en mobile - mostrar más de la cara */
+      /* Marco más alto para la imagen del itinerario en mobile; el encuadre de la
+         cara lo resuelve ahora el object-position de .image-3 (bloque de abajo). */
       .div-block-13 {
         aspect-ratio: 3 / 3.8 !important;
-      }
-      .image-3 {
-        min-height: 120% !important;
       }
     }
   </style>
   <style>
+    /* ===== Fondo y blanco de la paleta =====
+       El blanco puro del template resultaba frío, pero la dirección no es cálida
+       sino gris: el fondo baja de #fcfcfa a un gris claro y el blanco se queda
+       neutro, no crudo.
+
+       Los dos valores van juntos a propósito. El blanco (98.0%) queda por encima
+       del fondo (94.9%), que es lo que hace que un botón o una tarjeta se lea como
+       superficie sobre la página y no como un hueco. Si se cambia uno hay que
+       revisar el otro.
+
+       El blanco es neutro y no cálido porque sobre un fondo gris cualquier matiz
+       amarillo se delata; y el gris lleva dos puntos menos de azul que de rojo y
+       verde, lo justo para no pelearse con el beige #efe8dc ni con el olivo.
+
+       Los tokens se redefinen aquí porque rsvp-widget.css vuelve a declarar el
+       suyo después del template, así que hay que ganarle por orden. */
+    :root {
+      --blanco-roto: #FBFBFA;
+      --_primitives---colors--white: var(--blanco-roto);
+      --color-scheme-1--foreground: var(--blanco-roto);
+      --color-scheme-1--background: #F7F7F5;
+    }
+
+    /* recomendaciones.css escribe el blanco a pelo en vez de usar el token. Sin
+       estas reglas convivirían dos blancos distintos dentro de la misma tarjeta:
+       el botón (que sí usa el token) y el título, que no. */
+    .recm__nav {
+      background: var(--blanco-roto);
+    }
+
+    .recm__nav:hover {
+      color: var(--blanco-roto);
+    }
+
+    .recm__overlay-title,
+    .recm__overlay-tag,
+    .recm__overlay-desc strong,
+    .recm__overlay-desc .hospedaje__promo,
+    .recm__overlay-desc a {
+      color: var(--blanco-roto);
+    }
+
+    /* Estos dos van con alfa sobre la foto; se recomponen con el nuevo blanco para
+       que no queden fríos junto al título. */
+    .recm__overlay-location {
+      color: rgba(251, 251, 250, .9);
+    }
+
+    .recm__overlay-address {
+      color: rgba(251, 251, 250, .85);
+    }
+
+    /* El template también escribe #fff a pelo en unos cuantos sitios. De todos ellos
+       estos tres son los que existen en esta página; el resto son clases del tema
+       que no se usan. La tarjeta de la cita del footer era la más evidente: al lado
+       del marco de la foto, ya en blanco roto, el blanco puro cantaba. */
+    .footer_image-text,
+    .logo-wrapper {
+      background-color: var(--blanco-roto);
+    }
+
+    .time-container {
+      border-color: var(--blanco-roto);
+    }
+
     /* Animations */
     .word-animation {
       display: inline-block;
@@ -298,31 +466,6 @@
       display: inline-block;
       transition: all 0.27s ease-in-out;
       transition-delay: calc(0.06s + var(--char-index) * 0.04s);
-    }
-
-    /* Fix para línea en iOS slider */
-    .splide,
-    .splide *,
-    .splide *::before,
-    .splide *::after {
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-      -webkit-user-select: none !important;
-      user-select: none !important;
-      outline: none !important;
-      border: none !important;
-    }
-
-    .splide__slide img {
-      pointer-events: none !important;
-      -webkit-user-drag: none !important;
-      -webkit-touch-callout: none !important;
-    }
-
-    /* Remover específicamente la línea de arrastre */
-    .splide__track::after,
-    .splide__list::after {
-      content: none !important;
-      display: none !important;
     }
 
     /* Si es un borde de las imágenes */
@@ -395,7 +538,7 @@
 }
 #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:checked) {
     background: var(--_primitives---colors--brown, #8b7355);
-    color: white;
+    color: var(--blanco-roto);
 }
 
     /* Dress code: ilustración al centro con Caballeros / Damas a los lados.
@@ -516,29 +659,58 @@
     }
 
     /* Hospedaje: el overlay original de recomendaciones.css tapaba demasiado la foto
-       (0.88 abajo). Se aligera manteniendo suficiente densidad bajo el texto para que
-       el blanco siga legible sobre cualquier imagen. */
+       (0.88 abajo). Se queda en un punto intermedio: bastante densidad bajo el texto
+       para que el blanco se lea sobre cualquier imagen, sin llegar a ocultar la foto. */
     .recm__image-wrapper--overlay .recm__overlay {
       background: linear-gradient(to top,
-          rgba(0, 0, 0, .68) 0%,
-          rgba(0, 0, 0, .34) 38%,
-          rgba(0, 0, 0, .08) 70%,
+          rgba(0, 0, 0, .78) 0%,
+          rgba(0, 0, 0, .46) 38%,
+          rgba(0, 0, 0, .16) 70%,
           transparent 100%);
     }
 
     @media (hover: hover) and (pointer: fine) {
       .recm__image-wrapper--overlay:hover .recm__overlay {
         background: linear-gradient(to top,
-            rgba(0, 0, 0, .58) 0%,
-            rgba(0, 0, 0, .26) 38%,
-            rgba(0, 0, 0, .04) 70%,
+            rgba(0, 0, 0, .68) 0%,
+            rgba(0, 0, 0, .38) 38%,
+            rgba(0, 0, 0, .12) 70%,
             transparent 100%);
+      }
+    }
+
+    /* Tarjetas de hospedaje cuadradas en todos los anchos: el overlay solo lleva
+       título, ubicación y botón, así que el alto extra del retrato quedaba vacío.
+       Va fuera de cualquier media query y con #hospedaje delante a propósito. En
+       recomendaciones.css el 3/4 de la sección de overlay está escrito después de
+       los 1/1 de tablet, así que ganaba por orden y entre 768 y 991px las tarjetas
+       se quedaban en 3:4; con especificidad de ID este valor gana en todo el rango. */
+    #hospedaje .recm__image-wrapper--overlay {
+      aspect-ratio: 1 / 1;
+    }
+
+    @media (min-width: 992px) {
+      /* Aquí solo hay dos tarjetas, así que el ancho de 320px del sistema recm
+         (pensado para filas de tres o más) las dejaba pequeñas y muy juntas en
+         mitad de la sección. Se sube el ancho y el hueco entre ellas. El cambio
+         va sobre --recm-card-w, no sobre el flex-basis a pelo, porque de esa
+         variable cuelga la altura a la que se centran las flechas del slider. */
+      #hospedaje.recm.section {
+        --recm-card-w: 380px;
+      }
+
+      #hospedaje .recm__item {
+        flex: 0 0 var(--recm-card-w);
+      }
+
+      #hospedaje .recm__scroller {
+        gap: 56px;
       }
     }
 
     /* Beige del brief (blanco > verde y beige) como superficie secundaria, no como
        color de texto. Va en los dos bloques que eran blanco puro y se fundían con
-       el fondo #fcfcfa. Regla dirigida: no se toca --colors--white, que además
+       el fondo de la página. Regla dirigida: no se toca --colors--white, que además
        pinta el texto sobre el footer verde. */
     .itinerario__image-wrapper,
     .asistencia-form {
@@ -550,20 +722,113 @@
       text-transform: none;
     }
 
-    /* Hospedaje: recomendaciones.css fija 3 columnas de 320px. Como aquí solo hay
-       2 opciones, la tercera queda vacía y descentra las tarjetas. Con grid-auto-flow
-       se crean tantas columnas como tarjetas haya y quedan centradas. */
-    @media (min-width: 992px) {
-      #hospedaje .hospedaje__cards {
-        grid-auto-flow: column;
-        grid-auto-columns: minmax(0, 320px);
-        grid-template-columns: none;
-      }
+    /* Save the Date: con el encuadre centrado por defecto, la fecha bordada en el
+       cuello de la camisa caía justo detrás del título. Anclando la imagen abajo
+       sube lo suficiente para que se lea por encima. El min-height es el mismo
+       arreglo de parallax que ya llevan .image-3 y .form-img: sin él, al desplazarse
+       la imagen deja una franja descubierta en el borde inferior. */
+    .fecha .image-7 {
+      min-height: 115%;
+      object-position: 50% 100%;
+    }
+
+    /* La versión móvil ya encuadra bien la fecha, así que solo necesita el mismo
+       arreglo de parallax; su encuadre no se toca. */
+    .fecha .image-7-copy {
+      min-height: 115%;
+    }
+
+    /* Velo oscuro sobre la foto: el título y la cuenta atrás son blancos y la
+       camisa también, así que sin él apenas se leen. Va en ::after del contenedor
+       para quedar sobre la imagen pero por debajo del texto (que es z-index 2). */
+    .fecha .background-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.38);
+      pointer-events: none;
     }
 
     /* Sugerencia de regalo: el botón "Ver mesa" separado del texto de su tarjeta */
     #regalo .sugerencia-card .button {
       margin-top: 20px;
+    }
+
+    /* El logo de Sin Envolturas es apaisado (232x34), no un ícono cuadrado. Se le
+       reserva la misma caja que al ícono de la tarjeta vecina (51px de alto + 24px
+       de margen) para que ambos textos arranquen a la misma altura, y object-fit
+       conserva su proporción dentro de esa caja. */
+    #regalo .logo-sin-envolturas {
+      width: 240px;
+      height: 51px;
+      object-fit: contain;
+      margin-bottom: 24px;
+    }
+
+    /* ===== Botones: respuesta al pulsar y foco visible =====
+       El template solo les da hover, que en móvil no existe: al tocar "Reservar" o
+       "Ver mesa" no pasaba nada hasta que cargaba la pestaña nueva. Un scale corto
+       al pulsar confirma el toque. De paso se acorta la transición: los .4s de
+       `all` del template hacen que el color tarde en responder al hover.
+       El selector repite .button.is-secondary porque el template fija ahí su propia
+       transición con esa misma especificidad; sin repetirlo no se sustituiría.
+       .recm__nav queda fuera a propósito: ya trae su :active y usa transform para
+       centrarse, así que un scale suelto le quitaría el translateY. */
+    .button,
+    .button.is-secondary,
+    .loader-button,
+    #music-play {
+      transition:
+        color 200ms ease,
+        background-color 200ms ease,
+        border-color 200ms ease,
+        transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .button:active,
+    .loader-button:active,
+    #music-play:active {
+      transform: scale(0.97);
+    }
+
+    /* El reset de Webflow deja los botones sin indicador de foco. :focus-visible solo
+       lo pinta en navegación por teclado, no al hacer clic. */
+    .button:focus-visible,
+    .loader-button:focus-visible,
+    #music-play:focus-visible {
+      outline: 2px solid var(--color-scheme-1--border);
+      outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .button:active,
+      .loader-button:active,
+      #music-play:active {
+        transform: none;
+      }
+    }
+
+    /* "Reservar" va sobre la foto del hotel: en Las Palomas (fachada de noche) el
+       botón transparente con borde blanco se lee, pero en Gamma (cielo y alberca)
+       se perdía. Un fondo oscuro translúcido lo despega de cualquier imagen sin
+       taparla. Hace falta repetir las cinco clases porque el fondo transparente del
+       template está en .button.is-secondary.is-alternate. */
+    .recm__overlay .button.is-secondary.is-small.is-alternate.hospedaje__buton {
+      background-color: rgba(0, 0, 0, .3);
+      -webkit-backdrop-filter: blur(2px);
+      backdrop-filter: blur(2px);
+    }
+
+    /* Y por eso mismo hay que repetirlas también en el hover: si no, la regla de
+       arriba (más específica) ganaría también al pasar el ratón y el botón nunca
+       se rellenaría de blanco. */
+    @media (hover: hover) and (pointer: fine) {
+      .recm__overlay .button.is-secondary.is-small.is-alternate.hospedaje__buton:hover {
+        background-color: var(--_primitives---colors--white);
+        color: var(--color-scheme-1--text);
+      }
     }
 
     /* Hero: el monograma es cuadrado (470x470). El template fijaba .image a 330x200
@@ -578,6 +843,28 @@
       object-fit: contain;
       margin-left: auto;
       margin-right: auto;
+    }
+
+    /* El monograma del hero es blanco y la sección lo alinea abajo (justify-content:
+       flex-end), justo donde la foto trae los tonos más claros. Este degradado le da
+       suelo: pesa en el borde inferior y se apaga antes de la mitad, así que no toca
+       la parte alta de la imagen. z-index 1 lo deja sobre la foto (.div-block, sin
+       z-index) y bajo el monograma (.hero__image-wrapper, z-index 2). */
+    .section-hero.section::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      /* Medido sobre el hero real (737px de alto): el monograma ocupa del 13% al 40%
+         contando desde abajo, y las caras empiezan al 55%. El degradado se concentra
+         en esa franja baja y llega a transparente en el 52%, antes de las caras, así
+         que la mitad superior de la foto queda intacta. */
+      background: linear-gradient(to top,
+          rgba(0, 0, 0, .72) 0%,
+          rgba(0, 0, 0, .52) 15%,
+          rgba(0, 0, 0, .26) 32%,
+          transparent 52%);
     }
 
     @media (max-width: 767px) {
@@ -654,10 +941,17 @@
 
       #itinerario.itinerario.section {
         padding-top: 80px;
+        padding-bottom: 0;
       }
 
       .itinerario__titulo {
         margin-bottom: 50px;
+      }
+
+      /* Los 75px que separan un evento del siguiente sobran en el último: se
+         sumaban a los 80px del dress code y dejaban un hueco de 155px. */
+      #itinerario .itinetario__text-wrapper:last-child {
+        margin-bottom: 0;
       }
 
       .dess-code.section {
@@ -670,9 +964,11 @@
         padding-bottom: 80px;
       }
 
+      /* El widget de RSVP cierra con ~73px propios por debajo del último campo;
+         si la sección añadiera sus 80px, el hueco hasta "regalo" sería el doble. */
       .asistencia.section {
         padding-top: 80px;
-        padding-bottom: 80px;
+        padding-bottom: 0;
       }
 
       /* El footer aporta sus propios 80px ya sobre el verde. Si "regalo" también
@@ -685,6 +981,128 @@
       .footer {
         padding-top: 80px;
       }
+    }
+
+    /* ===== Ajuste fino de espaciados en móvil =====
+       Va en 767px y no en el bloque de 991px de arriba porque el template mete aquí
+       sus propios valores de móvil (título de asistencia a 50px, tarjetas de regalo
+       a 24px de padding...), y son esos los que se están corrigiendo. En tablet se
+       conserva el ritmo anterior. */
+    @media (max-width: 767px) {
+      .itinerario__titulo {
+        margin-bottom: 30px;
+      }
+
+      /* El título y el formulario se acercan: el hueco lo pone ahora el margin-top
+         del formulario, no la suma de los dos. */
+      .asistencia__title {
+        margin-bottom: 0;
+      }
+
+      .asistencia-form {
+        margin-top: 30px;
+      }
+
+      #regalo.sugerencia.section {
+        padding-top: 80px;
+        padding-bottom: 80px;
+      }
+
+      /* Las tarjetas ya no aportan aire propio; la separación entre ambas la da
+         entera el row-gap del contenedor, que en móvil apila en columna. */
+      #regalo .sugerencia-card {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      #regalo .sugerencia-container {
+        grid-row-gap: 30px;
+        row-gap: 30px;
+      }
+
+      #regalo .logo-sin-envolturas {
+        margin-bottom: 10px;
+      }
+
+      /* Títulos de las tarjetas de hospedaje: 30px era mucho para el ancho de móvil
+         y "Gamma Monterrey Rincón de Santiago" se comía tres líneas del overlay.
+         El interlineado baja en la misma proporción (34/30). */
+      #hospedaje .recm__overlay-title {
+        font-size: 24px;
+        line-height: 27px;
+      }
+    }
+
+    /* ===== Hero a pantalla completa =====
+       100svh en vez de 100vh: en móvil, 100vh mide el viewport con las barras del
+       navegador ocultas, así que el hero quedaba más alto que lo visible y el
+       monograma se salía por abajo. svh mide el viewport con las barras a la
+       vista, de modo que el hero siempre cabe entero; el 100vh anterior queda de
+       reserva para navegadores sin svh. Las tres reglas de tamaño anulan a la vez
+       el min-height:100vh de tablet y el height:640px fijo de móvil del template.
+       El padding-top de 644px del template era del diseño anterior y en pantallas
+       bajas empujaba el monograma fuera; con flex-end no hace falta. */
+    .section-hero.section {
+      height: 100vh;
+      height: 100svh;
+      min-height: 0;
+      max-height: none;
+      padding-top: 0;
+    }
+
+    /* La foto de móvil es de cuerpo entero con los pies en el borde inferior y
+       solo cielo y montaña arriba: anclada abajo, cuando el recorte vertical
+       aparece (pantallas cortas, tablet vertical) se come el cielo y nunca los
+       pies. El template la anclaba arriba (50% 0%) y cortaba los zapatos. */
+    .hero-bg-mobile {
+      object-position: 50% 100%;
+    }
+
+    /* ===== Itinerario: encuadre de la foto =====
+       La foto entra completa en su marco con object-fit y el encuadre se ancla
+       cerca del borde superior (las caras están arriba en ambas versiones): lo
+       que el marco no alcanza a mostrar se recorta por abajo (vestido), no por
+       arriba (la cara de él). Sustituye al truco anterior de sobredimensionar la
+       imagen (123% / min-height 120%) y dejar que el parallax la moviera, que era
+       lo que cortaba la cabeza del novio. */
+    .div-block-13 picture {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .image-3 {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: cover;
+      object-position: 50% 12%;
+    }
+
+    /* ===== Galería: pista de composición =====
+       Las columnas se desplazan en cada fotograma mientras la sección está a la
+       vista; con will-change el navegador las promociona a su propia capa y el
+       movimiento no repinta las fotos. */
+    .gallery-column {
+      will-change: transform;
+    }
+
+    /* ===== Animaciones uniformes =====
+       Todas las entradas de sección usan el mismo reveal-up de recomendaciones.css
+       (640ms, mismo easing). Estas clases añaden el escalonado para los bloques
+       que entran juntos (título → subtítulo → contenido). */
+    .reveal-delay-1 {
+      transition-delay: 120ms;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 240ms;
+    }
+
+    /* El justify-content que las tarjetas de regalo llevaban en el style inline
+       (junto al estado inicial de la interacción de Webflow que se retiró). */
+    .sugerencia-card {
+      justify-content: flex-start;
     }
 
   </style>
@@ -722,19 +1140,21 @@
   </div>
   <!-- Loader Section -->
   <section id="section-loader" style="opacity: 1" class="section-loader weddeb-loader--overlay">
-    <div>
-      <img data-loader-logo loading="lazy" src="images/monograma-j-n-verde.png" alt="Juan y Nancy"
-        class="logo-loader" />
+    <div class="loader__intro">
+      <!-- eager y prioridad alta: es lo primero y lo único que se ve al abrir. En lazy
+           el navegador lo dejaba para el final y el loader aparecía sin monograma. -->
+      <img data-loader-logo loading="eager" fetchpriority="high" src="images/monograma-j-n-verde.png"
+        alt="Juan y Nancy" class="logo-loader" />
+      <span class="loader__rule" aria-hidden="true"></span>
+      <p class="loader__fecha">10 de Octubre 2026</p>
     </div>
     <a href="#" id="play-button" class="loader-button">Ver invitación</a>
   </section>
 
   <div class="page-wrapper">
     <section class="section-hero section">
-      <div class="div-block"><img src="images/hero-banner.jpg" loading="eager" width="Auto" alt="" class="hero-bg"><img
-          src="images/hero-banner-mobile.jpg" loading="lazy" sizes="(max-width: 1124px) 100vw, 1124px"
-          srcset="images/hero-banner-mobile-p-500.jpg 500w, images/hero-banner-mobile-p-800.jpg 800w, images/hero-banner-mobile-p-1080.jpg 1080w, images/hero-banner-mobile.jpg 1124w"
-          alt="" class="hero-bg-mobile"></div>
+      <div class="div-block"><img src="images/hero-desktop-nyj.jpg" loading="eager" width="Auto" alt="" class="hero-bg"><img
+          src="images/hero-mobile-nyj.jpg" loading="lazy" alt="" class="hero-bg-mobile"></div>
       <div class="hero__image-wrapper"><img src="images/monograma-j-n-blanco.png" loading="lazy" alt="Juan y Nancy"
           class="logo-hero-sm"><img src="images/monograma-j-n-blanco.png" loading="lazy" alt="Juan y Nancy"
           class="image"></div>
@@ -742,134 +1162,90 @@
     <section class="nos-casamos section">
       <div class="w-layout-blockcontainer container w-container">
         <div class="nos-casamos__text-wrapper">
-          <h2 class="subtite">Un amor tan grande merece celebración</h2>
+          <h2 class="subtite reveal-up">Un amor tan grande merece celebración</h2>
           <h1 data-splitting="" data-scroll="out" class="nos-casamos__heading word-animation text-fading">Juan <em
               class="curved-text">y </em>Nancy</h1>
-          <p class="nos-casamos__text">Con la guía de Dios y el profundo amor que nos une:</p>
-          <p class="nos-casamos__text _2">Tenemos el honor de invitarlos a celebrar nuestra unión,
+          <p class="nos-casamos__text reveal-up">Con la guía de Dios y el profundo amor que nos une:</p>
+          <p class="nos-casamos__text _2 reveal-up reveal-delay-1">Tenemos el honor de invitarlos a celebrar nuestra unión,
             que se llevará a cabo el día</p>
-          <div class="nos-casamos__fecha desktop">
+          <div class="nos-casamos__fecha desktop reveal-up reveal-delay-2">
             <div class="nos-casamos__fecha-text">10</div>
             <div class="nos-casamos__fecha-text bordered">Octubre</div>
             <div class="nos-casamos__fecha-text">2026</div>
           </div>
-          <div class="nos-casamos__fecha mobile">
+          <div class="nos-casamos__fecha mobile reveal-up reveal-delay-2">
             <div class="nos-casamos__fecha-text mobile">10 de octubre 2026</div>
           </div>
         </div>
       </div>
     </section>
     <section class="section-gallery">
-      <div data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aa5"
-        class="w-layout-blockcontainer container-slider desktop w-container">
+      <!-- Sin data-w-id: el desplazamiento de las columnas ya no lo lleva la
+           interacción de Webflow sino el módulo de galería de site-scripts.js,
+           que replica el mismo recorrido con un movimiento más fluido. -->
+      <div class="w-layout-blockcontainer container-slider desktop w-container">
         <div class="gallery-images desktop">
           <div class="gallery-column top-bottom">
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aa9"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-1.jpg" loading="lazy"
-                srcset="images/slider-img-1-p-500.jpg 500w, images/slider-img-1.jpg 784w" class="gallery-image padding">
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aa9" alt=""
+                src="images/slider-desktop-1-nyj.jpg" loading="lazy" class="gallery-image padding">
             </div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aab"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-2.jpg" loading="lazy"
-                srcset="images/slider-img-2-p-500.jpg 500w, images/slider-img-2.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aad"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-3.jpg" loading="lazy"
-                srcset="images/slider-img-3-p-500.jpg 500w, images/slider-img-3.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aaf"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-4.jpg" loading="lazy"
-                srcset="images/slider-img-4-p-500.jpg 500w, images/slider-img-4.jpg 784w" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aab" alt=""
+                src="images/slider-desktop-2-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aad" alt=""
+                src="images/slider-desktop-3-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aaf" alt=""
+                src="images/slider-desktop-4-nyj.jpg" loading="lazy" class="gallery-image"></div>
           </div>
           <div class="gallery-column botom-top">
-            <div class="gallery__mage-container"><img
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px"
-                srcset="images/slider-img-5-p-500.jpg 500w, images/slider-img-5.jpg 784w" alt=""
-                src="images/slider-img-5.jpg" loading="lazy" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ab4"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-6.jpg" loading="lazy"
-                srcset="images/slider-img-6-p-500.jpg 500w, images/slider-img-6.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ab6"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-7.jpg" loading="lazy"
-                srcset="images/slider-img-7-p-500.jpg 500w, images/slider-img-7.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ab8"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-8.jpg" loading="lazy"
-                srcset="images/slider-img-8-p-500.jpg 500w, images/slider-img-8.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aba"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-5.jpg" loading="lazy"
-                srcset="images/slider-img-5-p-500.jpg 500w, images/slider-img-5.jpg 784w" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img alt=""
+                src="images/slider-desktop-5-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ab4" alt=""
+                src="images/slider-desktop-6-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ab6" alt=""
+                src="images/slider-desktop-7-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ab8" alt=""
+                src="images/slider-desktop-8-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <!-- Esta columna tiene 5 huecos y el rango 5-8 son 4 fotos: se repite la
+                 primera del rango, igual que hacía la plantilla. -->
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aba" alt=""
+                src="images/slider-desktop-5-nyj.jpg" loading="lazy" class="gallery-image"></div>
           </div>
           <div class="gallery-column top-bottom">
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212abd"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-9.jpg" loading="lazy"
-                srcset="images/slider-img-9-p-500.jpg 500w, images/slider-img-9.jpg 784w" class="gallery-image padding">
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212abd" alt=""
+                src="images/slider-desktop-9-nyj.jpg" loading="lazy" class="gallery-image padding">
             </div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212abf"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-10.jpg" loading="lazy"
-                srcset="images/slider-img-10-p-500.jpg 500w, images/slider-img-10.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac1"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-11.jpg" loading="lazy"
-                srcset="images/slider-img-11-p-500.jpg 500w, images/slider-img-11.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac3"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-12.jpg" loading="lazy"
-                srcset="images/slider-img-12-p-500.jpg 500w, images/slider-img-12.jpg 784w" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212abf" alt=""
+                src="images/slider-desktop-10-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac1" alt=""
+                src="images/slider-desktop-11-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac3" alt=""
+                src="images/slider-desktop-12-nyj.jpg" loading="lazy" class="gallery-image"></div>
           </div>
         </div>
         <div class="gallery-images mobile">
           <div class="gallery-column top-bottom">
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac7"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-1.jpg" loading="lazy"
-                srcset="images/slider-img-1-p-500.jpg 500w, images/slider-img-1.jpg 784w" class="gallery-image padding">
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac7" alt=""
+                src="images/slider-mobile-1-nyj.jpg" loading="lazy" class="gallery-image padding">
             </div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac9"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-2.jpg" loading="lazy"
-                srcset="images/slider-img-2-p-500.jpg 500w, images/slider-img-2.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acb"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-3.jpg" loading="lazy"
-                srcset="images/slider-img-3-p-500.jpg 500w, images/slider-img-3.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acd"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-4.jpg" loading="lazy"
-                srcset="images/slider-img-4-p-500.jpg 500w, images/slider-img-4.jpg 784w" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac9" alt=""
+                src="images/slider-mobile-2-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acb" alt=""
+                src="images/slider-mobile-3-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acd" alt=""
+                src="images/slider-mobile-4-nyj.jpg" loading="lazy" class="gallery-image"></div>
           </div>
           <div class="gallery-column botom-top">
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad0"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-9.jpg" loading="lazy"
-                srcset="images/slider-img-9-p-500.jpg 500w, images/slider-img-9.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad2"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-10.jpg" loading="lazy"
-                srcset="images/slider-img-10-p-500.jpg 500w, images/slider-img-10.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad4"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-11.jpg" loading="lazy"
-                srcset="images/slider-img-11-p-500.jpg 500w, images/slider-img-11.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad6"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-12.jpg" loading="lazy"
-                srcset="images/slider-img-12-p-500.jpg 500w, images/slider-img-12.jpg 784w" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad8"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-5.jpg" loading="lazy"
-                srcset="images/slider-img-5-p-500.jpg 500w, images/slider-img-5.jpg 784w" class="gallery-image padding">
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad0" alt=""
+                src="images/slider-mobile-5-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad2" alt=""
+                src="images/slider-mobile-6-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad4" alt=""
+                src="images/slider-mobile-7-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad6" alt=""
+                src="images/slider-mobile-8-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad8" alt=""
+                src="images/slider-mobile-9-nyj.jpg" loading="lazy" class="gallery-image padding">
             </div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ada"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 727.984375px, 784px" alt=""
-                src="images/slider-img-6.jpg" loading="lazy"
-                srcset="images/slider-img-6-p-500.jpg 500w, images/slider-img-6.jpg 784w" class="gallery-image"></div>
           </div>
         </div>
       </div>
@@ -877,20 +1253,27 @@
       <div class="logo-wrapper landscape"></div>
     </section>
     <section id="itinerario" class="itinerario section">
-      <h2 class="itinerario__titulo"><em class="italic-text">Itinerario</em></h2>
+      <h2 class="itinerario__titulo reveal-up"><em class="italic-text">Itinerario</em></h2>
       <div class="itinerario__wrapper">
         <div class="itinerario__image-wrapper">
-          <div class="div-block-13"><img src="images/itinerario-image.jpg" loading="lazy"
-              data-w-id="f7c9e086-af03-0d26-f3cf-c1c8ba9ea949" sizes="(max-width: 1000px) 100vw, 1000px" alt=""
-              srcset="images/itinerario-image-p-500.jpg 500w, images/itinerario-image-p-800.jpg 800w, images/itinerario-image.jpg 1000w"
-              class="image-3"></div>
+          <!-- El <picture> cambia solo el archivo que se descarga; el <img> sigue siendo
+               uno solo y conserva sus clases. Sin data-w-id: el parallax de Webflow
+               empujaba el encuadre hacia abajo y cortaba la cara de él; ahora el
+               encuadre lo fija object-position en CSS, anclado arriba. -->
+          <div class="div-block-13">
+            <picture>
+              <source media="(max-width: 767px)" srcset="images/itinerario-mobile-nyj.jpg">
+              <img src="images/itinerario-desktop-nyj.jpg" loading="lazy" alt="" class="image-3">
+            </picture>
+          </div>
           <div data-splitting="" data-scroll="out"
             class="stylized-text word-animation text-fading text itinetario one-time">Join us for...</div>
         </div>
-        <div data-w-id="39b6e666-2fa3-b944-ffbb-a9f417500037" class="itinetario__text-wrapper">
-          <div
-            style="opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-            class="itinerario__text first">
+        <!-- La entrada de las tarjetas pasa de la interacción de Webflow al sistema
+             reveal-up (recomendaciones.css + observer de site-scripts.js), el mismo
+             que usan el resto de secciones, para que todas entren igual. -->
+        <div class="itinetario__text-wrapper">
+          <div class="itinerario__text first reveal-up">
             <div class="itinerario__icon-wrapper"><img src="images/rings-icon.svg" loading="lazy" alt=""
                 class="icon-boda">
               <p class="itinerario__subheading">7:00 pm</p>
@@ -907,9 +1290,7 @@
                 target="_blank" class="button is-secondary boda w-button">Ver mapa</a>
             </div>
           </div>
-          <div
-            style="opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-            class="itinerario__text last">
+          <div class="itinerario__text last reveal-up">
             <div class="itinerario__icon-wrapper"><img src="images/reception-icon.svg" loading="lazy" alt=""
                 class="icon-boda">
               <p class="itinerario__subheading">8:00 pm</p>
@@ -930,9 +1311,9 @@
       </div>
     </section>
     <div id="dress-code" class="w-layout-blockcontainer dess-code section w-container">
-      <h2 class="hospedaje__heading">Dress <em class="italic-text">Code</em></h2>
-      <p class="paragraph-8">Black Tie · Etiqueta</p>
-      <div class="dress-code__grid">
+      <h2 class="hospedaje__heading reveal-up">Dress <em class="italic-text">Code</em></h2>
+      <p class="paragraph-8 reveal-up reveal-delay-1">Black Tie · Etiqueta</p>
+      <div class="dress-code__grid reveal-up reveal-delay-2">
         <div class="dress-code__col">
           <h3 class="dress-code__col-title"><em class="italic-text">Caballeros</em></h3>
           <div class="dress-code__items">
@@ -962,58 +1343,71 @@
     </div>
     <section id="hospedaje" class="recm recm--hospedaje section">
       <div class="recm__header">
-        <h2 class="recm__heading">Sugerencia <em class="italic-text">de Hospedaje</em></h2>
+        <h2 class="recm__heading reveal-up">Sugerencia <em class="italic-text">de Hospedaje</em></h2>
       </div>
       <!-- TODO: los links de Maps son búsquedas genéricas; sustituir por el pin exacto. -->
-      <div class="hospedaje__cards">
-        <div class="hospedaje__card reveal-up">
-          <div class="recm__image-wrapper recm__image-wrapper--overlay">
-            <img src="images/las-palomas-santiago.webp" loading="lazy" alt="Las Palomas de Santiago"
-              class="recm__image">
-            <div class="recm__overlay">
-              <h3 class="recm__overlay-title">Las Palomas de Santiago</h3>
-              <a href="https://www.google.com/maps/search/?api=1&amp;query=Las+Palomas+de+Santiago+Santiago+Nuevo+Le%C3%B3n"
-                target="_blank" rel="noopener" class="recm__overlay-location"><svg viewBox="0 0 24 24" fill="none"
-                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"></path>
-                  <circle cx="12" cy="9" r="2.5"></circle>
-                </svg><span>Santiago, N.L.</span></a>
-              <a href="https://www.laspalomasdesantiago.com/" target="_blank" rel="noopener"
-                class="button is-secondary is-small is-alternate hospedaje__buton w-button">Reservar</a>
+      <div class="recm__scroller-wrap">
+        <button type="button" class="recm__nav recm__nav--prev" aria-label="Anterior" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button type="button" class="recm__nav recm__nav--next" aria-label="Siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+        <div class="recm__scroller">
+          <article class="recm__item">
+            <div class="recm__image-wrapper recm__image-wrapper--overlay">
+              <img src="images/las-palomas-santiago.webp" loading="lazy" alt="Las Palomas de Santiago"
+                class="recm__image">
+              <div class="recm__overlay">
+                <h3 class="recm__overlay-title">Las Palomas de Santiago</h3>
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=Las+Palomas+de+Santiago+Santiago+Nuevo+Le%C3%B3n"
+                  target="_blank" rel="noopener" class="recm__overlay-location"><svg viewBox="0 0 24 24" fill="none"
+                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"></path>
+                    <circle cx="12" cy="9" r="2.5"></circle>
+                  </svg><span>Santiago, N.L.</span></a>
+                <a href="https://www.laspalomasdesantiago.com/" target="_blank" rel="noopener"
+                  class="button is-secondary is-small is-alternate hospedaje__buton w-button">Reservar</a>
+              </div>
             </div>
-          </div>
+          </article>
+          <article class="recm__item">
+            <div class="recm__image-wrapper recm__image-wrapper--overlay">
+              <img src="images/gamma-rincon-santiago.jpg" loading="lazy" alt="Gamma Monterrey Rincón de Santiago"
+                class="recm__image">
+              <div class="recm__overlay">
+                <h3 class="recm__overlay-title">Gamma Monterrey Rincón de Santiago</h3>
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=Gamma+Monterrey+Rinc%C3%B3n+de+Santiago"
+                  target="_blank" rel="noopener" class="recm__overlay-location"><svg viewBox="0 0 24 24" fill="none"
+                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"></path>
+                    <circle cx="12" cy="9" r="2.5"></circle>
+                  </svg><span>Santiago, N.L.</span></a>
+                <a href="https://www.fiestamericanatravelty.com/gamma-hoteles/hoteles/gamma-monterrey-rincon-de-santiago"
+                  target="_blank" rel="noopener"
+                  class="button is-secondary is-small is-alternate hospedaje__buton w-button">Reservar</a>
+              </div>
+            </div>
+          </article>
         </div>
-        <div class="hospedaje__card reveal-up">
-          <div class="recm__image-wrapper recm__image-wrapper--overlay">
-            <img src="images/gamma-rincon-santiago.jpg" loading="lazy" alt="Gamma Monterrey Rincón de Santiago"
-              class="recm__image">
-            <div class="recm__overlay">
-              <h3 class="recm__overlay-title">Gamma Monterrey Rincón de Santiago</h3>
-              <a href="https://www.google.com/maps/search/?api=1&amp;query=Gamma+Monterrey+Rinc%C3%B3n+de+Santiago"
-                target="_blank" rel="noopener" class="recm__overlay-location"><svg viewBox="0 0 24 24" fill="none"
-                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"></path>
-                  <circle cx="12" cy="9" r="2.5"></circle>
-                </svg><span>Santiago, N.L.</span></a>
-              <a href="https://www.fiestamericanatravelty.com/gamma-hoteles/hoteles/gamma-monterrey-rincon-de-santiago"
-                target="_blank" rel="noopener"
-                class="button is-secondary is-small is-alternate hospedaje__buton w-button">Reservar</a>
-            </div>
-          </div>
+        <div class="recm__progress">
+          <div class="recm__progress-bar"></div>
         </div>
       </div>
     </section>
     <section class="fecha section">
-      <div class="background-image"><img src="images/save-date-desktop.jpg" loading="lazy"
-          data-w-id="8f9860fb-0535-2ff2-ee87-84484ccd40b9" sizes="(max-width: 1920px) 100vw, 1920px" alt=""
-          srcset="images/save-date-desktop-p-500.jpg 500w, images/save-date-desktop-p-800.jpg 800w, images/save-date-desktop-p-1080.jpg 1080w, images/save-date-desktop-p-1600.jpg 1600w, images/save-date-desktop.jpg 1920w"
-          class="image-7"><img src="images/save-date-mobile.jpg" loading="lazy"
-          data-w-id="583dbc86-7271-a31a-fede-db984fe844b7" sizes="(max-width: 1125px) 100vw, 1125px" alt=""
-          srcset="images/save-date-mobile-p-500.jpg 500w, images/save-date-mobile-p-800.jpg 800w, images/save-date-mobile-p-1080.jpg 1080w, images/save-date-mobile.jpg 1125w"
-          class="image-7-copy"></div>
+      <div class="background-image"><img src="images/save-date-desktop-nyj.jpg" loading="lazy"
+          data-w-id="8f9860fb-0535-2ff2-ee87-84484ccd40b9" alt="" class="image-7"><img src="images/save-date-mobile-nyj.jpg" loading="lazy"
+          data-w-id="583dbc86-7271-a31a-fede-db984fe844b7" alt="" class="image-7-copy"></div>
       <div id="fecha" class="fecha_container">
-        <h2 class="fecha__heading">Save<em class="italic-text"> the Date</em></h2>
-        <div class="fecha__time">
+        <h2 class="fecha__heading reveal-up">Save<em class="italic-text"> the Date</em></h2>
+        <div class="fecha__time reveal-up reveal-delay-1">
           <div id="js-clock" class="js-clock text-color-white">
             <div class="box timer-box first">
               <div class="w-layout-blockcontainer time-container w-container">
@@ -1044,14 +1438,17 @@
       </div>
     </section>
     <section id="asistencia" class="asistencia section">
-      <h2 class="asistencia__title">Confirma <em class="italic-text">tu Asistencia</em></h2>
-      <p class="asistencia__paragraph mayus"> - Solo adultos - </p>
-      <div data-w-id="a42e46fb-ba18-6ce0-7fdb-1faae947b153" style="opacity:0" class="asistencia-form">
+      <h2 class="asistencia__title reveal-up">Confirma <em class="italic-text">tu Asistencia</em></h2>
+      <p class="asistencia__paragraph mayus reveal-up reveal-delay-1"> - Solo adultos - </p>
+      <div class="asistencia-form reveal-up reveal-delay-1">
         <div class="asistencia__container">
-          <div class="form-img-container"><img src="images/rsvp-image.jpg" loading="lazy"
-              data-w-id="d141b00a-b9ab-bc81-c67e-60cb82b64fd8" sizes="(max-width: 1112px) 100vw, 1112px" alt=""
-              srcset="images/rsvp-image-p-500.jpg 500w, images/rsvp-image-p-800.jpg 800w, images/rsvp-image-p-1080.jpg 1080w, images/rsvp-image.jpg 1112w"
-              class="form-img"></div>
+          <div class="form-img-container">
+            <picture>
+              <source media="(max-width: 767px)" srcset="images/form-mobile-nyj.jpg">
+              <img src="images/form-desktop-nyj.jpg" loading="lazy"
+                data-w-id="d141b00a-b9ab-bc81-c67e-60cb82b64fd8" alt="" class="form-img">
+            </picture>
+          </div>
         </div>
         <div class="asistencia__container form">
           <h3 class="asistencia_form_title">RSVP</h3>
@@ -1063,22 +1460,20 @@
         </div>
       </div>
     </section>
-    <section id="regalo" data-w-id="f5846816-e4de-9aec-10e3-a06a9fdc0076" class="sugerencia section">
-      <h2 class="sugerencia-title">Sugerencia <em class="italic-text">de Regalo</em></h2>
-      <p class="asistencia__paragraph">Nuestro mejor regalo es su presencia y buenos deseos.<br>En caso de que deseen
+    <section id="regalo" class="sugerencia section">
+      <h2 class="sugerencia-title reveal-up">Sugerencia <em class="italic-text">de Regalo</em></h2>
+      <p class="asistencia__paragraph reveal-up reveal-delay-1">Nuestro mejor regalo es su presencia y buenos deseos.<br>En caso de que deseen
         hacernos un obsequio, dejamos las siguientes opciones</p>
       <div class="sugerencia-container">
-        <div
-          style="justify-content:flex-start;opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-          class="sugerencia-card _3"><img src="images/email-icon.svg" loading="lazy" alt=""
+        <!-- Las tarjetas entran con reveal-up en lugar de la interacción de Webflow;
+             el justify-content que iba en el style inline pasó al CSS. -->
+        <div class="sugerencia-card _3 reveal-up"><img src="images/email-icon.svg" loading="lazy" alt=""
             style="width: 84px; height: 51px; margin-bottom: 24px;" class="sugerencia-logo _3">
-          <p class="sugerencia-card-text">Efectivo en sobre el día del evento</p>
+          <p class="sugerencia-card-text">Efectivo en sobre<br> el día del evento</p>
         </div>
-        <div
-          style="justify-content:flex-start;opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-          class="sugerencia-card _2"><img src="images/gift-icon.svg" loading="lazy" alt=""
-            style="width: 84px; height: 51px; margin-bottom: 24px;" class="sugerencia-logo _3">
-          <p class="sugerencia-card-text">Mesa de regalos Sin Envolturas</p>
+        <div class="sugerencia-card _2 reveal-up"><img src="images/sin-envolturas-logo.svg" loading="lazy" alt="Sin Envolturas"
+            class="sugerencia-logo _3 logo-sin-envolturas">
+          <p class="sugerencia-card-text">Mesa de regalos</p>
           <a href="https://sinenvolturas.com/nancyvillarrealjuanguerrero" target="_blank"
             class="button is-secondary form__button w-button">Ver mesa</a>
         </div>
@@ -1087,17 +1482,17 @@
   </div>
   <section class="footer">
     <div class="w-layout-blockcontainer container-4 w-container"><img src="images/monograma-j-n-blanco.png" loading="lazy" alt="Juan y Nancy"
-        class="footer__logo">
-      <p class="footer_paragraph">Nos encantará atesorar cada instante de esta celebración.<br>Si así lo desean, pueden
+        class="footer__logo reveal-up">
+      <p class="footer_paragraph reveal-up reveal-delay-1">Nos encantará atesorar cada instante de esta celebración.<br>Si así lo desean, pueden
         compartir sus fotografías utilizando nuestro hashtag.</p>
-      <p class="footer_hash heading-3">#juanynancy</p>
+      <p class="footer_hash heading-3 reveal-up reveal-delay-2">#juanynancy</p>
       <div>
         <div class="div-block-7">
-          <div class="footer_image-wrapper"><img src="images/footer-image.jpg" loading="lazy" width="777" alt=""
-              class="footer_image-card"><img src="images/footer-image-mobile.jpg" loading="lazy" width="777" alt=""
+          <div class="footer_image-wrapper"><img src="images/footer-desktop-nyj.jpg" loading="lazy" width="777" alt=""
+              class="footer_image-card"><img src="images/footer-mobile-nyj.jpg" loading="lazy" width="777" alt=""
               class="footer_image-card mobile"></div>
           <div class="footer__text-wrapper">
-            <div data-w-id="66ec46d1-6f37-0d0f-e576-d8808ac6bada" style="opacity:0" class="footer_image-text"><img
+            <div class="footer_image-text reveal-up"><img
                 src="images/footer-paragraph.svg" loading="lazy" alt=""></div>
           </div>
         </div>
