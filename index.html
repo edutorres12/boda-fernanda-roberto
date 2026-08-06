@@ -98,13 +98,11 @@
       -o-font-smoothing: antialiased;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- GSAP y Splide se cargaban pero ninguna página los inicializa; fuera de la
+       cola de descarga la página arranca y desplaza más fluida. Splitting y
+       ScrollOut sí se usan (animaciones de texto por letra). -->
   <script src="https://unpkg.com/splitting/dist/splitting.js"></script>
   <script src="https://unpkg.com/scroll-out/dist/scroll-out.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
-  <script
-    src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
   <!-- Loader Styles -->
   <style>
     /* Loader overlay controls */
@@ -328,8 +326,9 @@
       display: none;
     }
 
-    /* Fix parallax gap en imágenes con parallax */
-    .image-3,
+    /* Fix parallax gap en imágenes con parallax. Solo el formulario: la imagen
+       del itinerario (.image-3) ya no lleva parallax y se encuadra con
+       object-position, así que el sobredimensionado le cortaba la cara. */
     .form-img {
       min-height: 115% !important;
     }
@@ -348,12 +347,10 @@
         display: block;
       }
 
-      /* Ajuste de imagen itinerario en mobile - mostrar más de la cara */
+      /* Marco más alto para la imagen del itinerario en mobile; el encuadre de la
+         cara lo resuelve ahora el object-position de .image-3 (bloque de abajo). */
       .div-block-13 {
         aspect-ratio: 3 / 3.8 !important;
-      }
-      .image-3 {
-        min-height: 120% !important;
       }
     }
   </style>
@@ -469,31 +466,6 @@
       display: inline-block;
       transition: all 0.27s ease-in-out;
       transition-delay: calc(0.06s + var(--char-index) * 0.04s);
-    }
-
-    /* Fix para línea en iOS slider */
-    .splide,
-    .splide *,
-    .splide *::before,
-    .splide *::after {
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-      -webkit-user-select: none !important;
-      user-select: none !important;
-      outline: none !important;
-      border: none !important;
-    }
-
-    .splide__slide img {
-      pointer-events: none !important;
-      -webkit-user-drag: none !important;
-      -webkit-touch-callout: none !important;
-    }
-
-    /* Remover específicamente la línea de arrastre */
-    .splide__track::after,
-    .splide__list::after {
-      content: none !important;
-      display: none !important;
     }
 
     /* Si es un borde de las imágenes */
@@ -1061,6 +1033,78 @@
       }
     }
 
+    /* ===== Hero a pantalla completa =====
+       100svh en vez de 100vh: en móvil, 100vh mide el viewport con las barras del
+       navegador ocultas, así que el hero quedaba más alto que lo visible y el
+       monograma se salía por abajo. svh mide el viewport con las barras a la
+       vista, de modo que el hero siempre cabe entero; el 100vh anterior queda de
+       reserva para navegadores sin svh. Las tres reglas de tamaño anulan a la vez
+       el min-height:100vh de tablet y el height:640px fijo de móvil del template.
+       El padding-top de 644px del template era del diseño anterior y en pantallas
+       bajas empujaba el monograma fuera; con flex-end no hace falta. */
+    .section-hero.section {
+      height: 100vh;
+      height: 100svh;
+      min-height: 0;
+      max-height: none;
+      padding-top: 0;
+    }
+
+    /* La foto de móvil es de cuerpo entero con los pies en el borde inferior y
+       solo cielo y montaña arriba: anclada abajo, cuando el recorte vertical
+       aparece (pantallas cortas, tablet vertical) se come el cielo y nunca los
+       pies. El template la anclaba arriba (50% 0%) y cortaba los zapatos. */
+    .hero-bg-mobile {
+      object-position: 50% 100%;
+    }
+
+    /* ===== Itinerario: encuadre de la foto =====
+       La foto entra completa en su marco con object-fit y el encuadre se ancla
+       cerca del borde superior (las caras están arriba en ambas versiones): lo
+       que el marco no alcanza a mostrar se recorta por abajo (vestido), no por
+       arriba (la cara de él). Sustituye al truco anterior de sobredimensionar la
+       imagen (123% / min-height 120%) y dejar que el parallax la moviera, que era
+       lo que cortaba la cabeza del novio. */
+    .div-block-13 picture {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .image-3 {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: cover;
+      object-position: 50% 12%;
+    }
+
+    /* ===== Galería: pista de composición =====
+       Las columnas se desplazan en cada fotograma mientras la sección está a la
+       vista; con will-change el navegador las promociona a su propia capa y el
+       movimiento no repinta las fotos. */
+    .gallery-column {
+      will-change: transform;
+    }
+
+    /* ===== Animaciones uniformes =====
+       Todas las entradas de sección usan el mismo reveal-up de recomendaciones.css
+       (640ms, mismo easing). Estas clases añaden el escalonado para los bloques
+       que entran juntos (título → subtítulo → contenido). */
+    .reveal-delay-1 {
+      transition-delay: 120ms;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 240ms;
+    }
+
+    /* El justify-content que las tarjetas de regalo llevaban en el style inline
+       (junto al estado inicial de la interacción de Webflow que se retiró). */
+    .sugerencia-card {
+      justify-content: flex-start;
+    }
+
   </style>
 </head>
 
@@ -1118,26 +1162,28 @@
     <section class="nos-casamos section">
       <div class="w-layout-blockcontainer container w-container">
         <div class="nos-casamos__text-wrapper">
-          <h2 class="subtite">Un amor tan grande merece celebración</h2>
+          <h2 class="subtite reveal-up">Un amor tan grande merece celebración</h2>
           <h1 data-splitting="" data-scroll="out" class="nos-casamos__heading word-animation text-fading">Juan <em
               class="curved-text">y </em>Nancy</h1>
-          <p class="nos-casamos__text">Con la guía de Dios y el profundo amor que nos une:</p>
-          <p class="nos-casamos__text _2">Tenemos el honor de invitarlos a celebrar nuestra unión,
+          <p class="nos-casamos__text reveal-up">Con la guía de Dios y el profundo amor que nos une:</p>
+          <p class="nos-casamos__text _2 reveal-up reveal-delay-1">Tenemos el honor de invitarlos a celebrar nuestra unión,
             que se llevará a cabo el día</p>
-          <div class="nos-casamos__fecha desktop">
+          <div class="nos-casamos__fecha desktop reveal-up reveal-delay-2">
             <div class="nos-casamos__fecha-text">10</div>
             <div class="nos-casamos__fecha-text bordered">Octubre</div>
             <div class="nos-casamos__fecha-text">2026</div>
           </div>
-          <div class="nos-casamos__fecha mobile">
+          <div class="nos-casamos__fecha mobile reveal-up reveal-delay-2">
             <div class="nos-casamos__fecha-text mobile">10 de octubre 2026</div>
           </div>
         </div>
       </div>
     </section>
     <section class="section-gallery">
-      <div data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aa5"
-        class="w-layout-blockcontainer container-slider desktop w-container">
+      <!-- Sin data-w-id: el desplazamiento de las columnas ya no lo lleva la
+           interacción de Webflow sino el módulo de galería de site-scripts.js,
+           que replica el mismo recorrido con un movimiento más fluido. -->
+      <div class="w-layout-blockcontainer container-slider desktop w-container">
         <div class="gallery-images desktop">
           <div class="gallery-column top-bottom">
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aa9" alt=""
@@ -1207,25 +1253,27 @@
       <div class="logo-wrapper landscape"></div>
     </section>
     <section id="itinerario" class="itinerario section">
-      <h2 class="itinerario__titulo"><em class="italic-text">Itinerario</em></h2>
+      <h2 class="itinerario__titulo reveal-up"><em class="italic-text">Itinerario</em></h2>
       <div class="itinerario__wrapper">
         <div class="itinerario__image-wrapper">
           <!-- El <picture> cambia solo el archivo que se descarga; el <img> sigue siendo
-               uno solo, así conserva su data-w-id (el parallax de Webflow) y sus clases. -->
+               uno solo y conserva sus clases. Sin data-w-id: el parallax de Webflow
+               empujaba el encuadre hacia abajo y cortaba la cara de él; ahora el
+               encuadre lo fija object-position en CSS, anclado arriba. -->
           <div class="div-block-13">
             <picture>
               <source media="(max-width: 767px)" srcset="images/itinerario-mobile-nyj.jpg">
-              <img src="images/itinerario-desktop-nyj.jpg" loading="lazy"
-                data-w-id="f7c9e086-af03-0d26-f3cf-c1c8ba9ea949" alt="" class="image-3">
+              <img src="images/itinerario-desktop-nyj.jpg" loading="lazy" alt="" class="image-3">
             </picture>
           </div>
           <div data-splitting="" data-scroll="out"
             class="stylized-text word-animation text-fading text itinetario one-time">Join us for...</div>
         </div>
-        <div data-w-id="39b6e666-2fa3-b944-ffbb-a9f417500037" class="itinetario__text-wrapper">
-          <div
-            style="opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-            class="itinerario__text first">
+        <!-- La entrada de las tarjetas pasa de la interacción de Webflow al sistema
+             reveal-up (recomendaciones.css + observer de site-scripts.js), el mismo
+             que usan el resto de secciones, para que todas entren igual. -->
+        <div class="itinetario__text-wrapper">
+          <div class="itinerario__text first reveal-up">
             <div class="itinerario__icon-wrapper"><img src="images/rings-icon.svg" loading="lazy" alt=""
                 class="icon-boda">
               <p class="itinerario__subheading">7:00 pm</p>
@@ -1242,9 +1290,7 @@
                 target="_blank" class="button is-secondary boda w-button">Ver mapa</a>
             </div>
           </div>
-          <div
-            style="opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-            class="itinerario__text last">
+          <div class="itinerario__text last reveal-up">
             <div class="itinerario__icon-wrapper"><img src="images/reception-icon.svg" loading="lazy" alt=""
                 class="icon-boda">
               <p class="itinerario__subheading">8:00 pm</p>
@@ -1265,9 +1311,9 @@
       </div>
     </section>
     <div id="dress-code" class="w-layout-blockcontainer dess-code section w-container">
-      <h2 class="hospedaje__heading">Dress <em class="italic-text">Code</em></h2>
-      <p class="paragraph-8">Black Tie · Etiqueta</p>
-      <div class="dress-code__grid">
+      <h2 class="hospedaje__heading reveal-up">Dress <em class="italic-text">Code</em></h2>
+      <p class="paragraph-8 reveal-up reveal-delay-1">Black Tie · Etiqueta</p>
+      <div class="dress-code__grid reveal-up reveal-delay-2">
         <div class="dress-code__col">
           <h3 class="dress-code__col-title"><em class="italic-text">Caballeros</em></h3>
           <div class="dress-code__items">
@@ -1297,7 +1343,7 @@
     </div>
     <section id="hospedaje" class="recm recm--hospedaje section">
       <div class="recm__header">
-        <h2 class="recm__heading">Sugerencia <em class="italic-text">de Hospedaje</em></h2>
+        <h2 class="recm__heading reveal-up">Sugerencia <em class="italic-text">de Hospedaje</em></h2>
       </div>
       <!-- TODO: los links de Maps son búsquedas genéricas; sustituir por el pin exacto. -->
       <div class="recm__scroller-wrap">
@@ -1360,8 +1406,8 @@
           data-w-id="8f9860fb-0535-2ff2-ee87-84484ccd40b9" alt="" class="image-7"><img src="images/save-date-mobile-nyj.jpg" loading="lazy"
           data-w-id="583dbc86-7271-a31a-fede-db984fe844b7" alt="" class="image-7-copy"></div>
       <div id="fecha" class="fecha_container">
-        <h2 class="fecha__heading">Save<em class="italic-text"> the Date</em></h2>
-        <div class="fecha__time">
+        <h2 class="fecha__heading reveal-up">Save<em class="italic-text"> the Date</em></h2>
+        <div class="fecha__time reveal-up reveal-delay-1">
           <div id="js-clock" class="js-clock text-color-white">
             <div class="box timer-box first">
               <div class="w-layout-blockcontainer time-container w-container">
@@ -1392,9 +1438,9 @@
       </div>
     </section>
     <section id="asistencia" class="asistencia section">
-      <h2 class="asistencia__title">Confirma <em class="italic-text">tu Asistencia</em></h2>
-      <p class="asistencia__paragraph mayus"> - Solo adultos - </p>
-      <div data-w-id="a42e46fb-ba18-6ce0-7fdb-1faae947b153" style="opacity:0" class="asistencia-form">
+      <h2 class="asistencia__title reveal-up">Confirma <em class="italic-text">tu Asistencia</em></h2>
+      <p class="asistencia__paragraph mayus reveal-up reveal-delay-1"> - Solo adultos - </p>
+      <div class="asistencia-form reveal-up reveal-delay-1">
         <div class="asistencia__container">
           <div class="form-img-container">
             <picture>
@@ -1414,20 +1460,18 @@
         </div>
       </div>
     </section>
-    <section id="regalo" data-w-id="f5846816-e4de-9aec-10e3-a06a9fdc0076" class="sugerencia section">
-      <h2 class="sugerencia-title">Sugerencia <em class="italic-text">de Regalo</em></h2>
-      <p class="asistencia__paragraph">Nuestro mejor regalo es su presencia y buenos deseos.<br>En caso de que deseen
+    <section id="regalo" class="sugerencia section">
+      <h2 class="sugerencia-title reveal-up">Sugerencia <em class="italic-text">de Regalo</em></h2>
+      <p class="asistencia__paragraph reveal-up reveal-delay-1">Nuestro mejor regalo es su presencia y buenos deseos.<br>En caso de que deseen
         hacernos un obsequio, dejamos las siguientes opciones</p>
       <div class="sugerencia-container">
-        <div
-          style="justify-content:flex-start;opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-          class="sugerencia-card _3"><img src="images/email-icon.svg" loading="lazy" alt=""
+        <!-- Las tarjetas entran con reveal-up en lugar de la interacción de Webflow;
+             el justify-content que iba en el style inline pasó al CSS. -->
+        <div class="sugerencia-card _3 reveal-up"><img src="images/email-icon.svg" loading="lazy" alt=""
             style="width: 84px; height: 51px; margin-bottom: 24px;" class="sugerencia-logo _3">
           <p class="sugerencia-card-text">Efectivo en sobre<br> el día del evento</p>
         </div>
-        <div
-          style="justify-content:flex-start;opacity:0;-webkit-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 50px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
-          class="sugerencia-card _2"><img src="images/sin-envolturas-logo.svg" loading="lazy" alt="Sin Envolturas"
+        <div class="sugerencia-card _2 reveal-up"><img src="images/sin-envolturas-logo.svg" loading="lazy" alt="Sin Envolturas"
             class="sugerencia-logo _3 logo-sin-envolturas">
           <p class="sugerencia-card-text">Mesa de regalos</p>
           <a href="https://sinenvolturas.com/nancyvillarrealjuanguerrero" target="_blank"
@@ -1438,17 +1482,17 @@
   </div>
   <section class="footer">
     <div class="w-layout-blockcontainer container-4 w-container"><img src="images/monograma-j-n-blanco.png" loading="lazy" alt="Juan y Nancy"
-        class="footer__logo">
-      <p class="footer_paragraph">Nos encantará atesorar cada instante de esta celebración.<br>Si así lo desean, pueden
+        class="footer__logo reveal-up">
+      <p class="footer_paragraph reveal-up reveal-delay-1">Nos encantará atesorar cada instante de esta celebración.<br>Si así lo desean, pueden
         compartir sus fotografías utilizando nuestro hashtag.</p>
-      <p class="footer_hash heading-3">#juanynancy</p>
+      <p class="footer_hash heading-3 reveal-up reveal-delay-2">#juanynancy</p>
       <div>
         <div class="div-block-7">
           <div class="footer_image-wrapper"><img src="images/footer-desktop-nyj.jpg" loading="lazy" width="777" alt=""
               class="footer_image-card"><img src="images/footer-mobile-nyj.jpg" loading="lazy" width="777" alt=""
               class="footer_image-card mobile"></div>
           <div class="footer__text-wrapper">
-            <div data-w-id="66ec46d1-6f37-0d0f-e576-d8808ac6bada" style="opacity:0" class="footer_image-text"><img
+            <div class="footer_image-text reveal-up"><img
                 src="images/footer-paragraph.svg" loading="lazy" alt=""></div>
           </div>
         </div>
