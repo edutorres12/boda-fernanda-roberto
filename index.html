@@ -865,6 +865,12 @@
         transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
     }
 
+    /* 1.5px se redondea a 1 píxel físico en pantallas al 125% y el borde queda en
+       un pelo; con 2px salen los 2 píxeles que el diseño pedía. */
+    .button {
+      border-width: 2px;
+    }
+
     .button:active,
     .loader-button:active,
     #music-play:active {
@@ -1062,6 +1068,36 @@
       }
     }
 
+    /* En tablet hay sitio para el ritmo de escritorio; los 80px de arriba se
+       quedan solo para el móvil. */
+    @media (min-width: 768px) and (max-width: 991px) {
+      .nos-casamos.section {
+        padding-bottom: 120px;
+      }
+
+      .dess-code.section {
+        padding-top: 120px;
+        padding-bottom: 120px;
+      }
+
+      #hospedaje.recm.section {
+        padding-bottom: 120px;
+      }
+
+      .asistencia.section {
+        padding-top: 120px;
+        padding-bottom: 120px;
+      }
+
+      #regalo.sugerencia.section {
+        padding-bottom: 120px;
+      }
+
+      .footer {
+        padding-top: 120px;
+      }
+    }
+
     /* ===== Ajuste fino de espaciados en móvil =====
        Va en 767px y no en el bloque de 991px de arriba porque el template mete aquí
        sus propios valores de móvil (título de asistencia a 50px, tarjetas de regalo
@@ -1141,6 +1177,38 @@
       object-position: 58% 100%;
     }
 
+    /* La foto de móvil (750x1280, anclada abajo) pierde las caras en cuanto la
+       ventana deja de ser alta: al 0.87 de proporción empiezan a cortarse. Por eso
+       el interruptor es la proporción y no el ancho. */
+    @media (min-width: 768px) and (min-aspect-ratio: 4/5) {
+      .hero-bg {
+        display: block;
+      }
+
+      .hero-bg-mobile {
+        display: none;
+      }
+    }
+
+    /* El bloque de tablet de recomendaciones.css alinea el carrusel a la izquierda
+       para el peek de la siguiente tarjeta, pero aquí solo hay dos y no desbordan:
+       quedaban con 32px a la izquierda y hasta 168px a la derecha. `safe` evita que
+       la primera quede inalcanzable si algún día se añade una tercera. */
+    @media (min-width: 768px) and (max-width: 991px) {
+      #hospedaje .recm__scroller {
+        justify-content: center;
+        justify-content: safe center;
+      }
+    }
+
+    /* Recuadro decorativo vacío: por debajo de 768px el template lo pasa a static
+       y mete 480px de hueco antes de "Itinerario". */
+    @media (max-width: 767px) {
+      .logo-wrapper.desktop {
+        display: none;
+      }
+    }
+
     /* ===== Encuadre de la pareja en la foto de escritorio =====
        En la foto la pareja está a la derecha (su centro cae sobre el 57% del
        ancho) y a la izquierda queda un tercio de montaña vacía. Con object-fit
@@ -1192,6 +1260,14 @@
        sin ir a remolque, que era la sensación de "trabado". */
     .gallery-column {
       will-change: transform;
+    }
+
+    /* Reserva el ancho de dos ceros para que la caja no cambie de tamaño con cada
+       cifra. Libre Caslon Display no tiene cifras tabulares, así que
+       font-variant-numeric no sirve aquí. */
+    .clock-number {
+      min-width: 2ch;
+      text-align: center;
     }
 
     /* ===== Animaciones uniformes =====
@@ -1389,7 +1465,7 @@
                 src="images/slider-desktop-1-nyj.jpg" loading="lazy" class="gallery-image padding">
             </div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aab" alt=""
-                src="images/slider-desktop-2-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-desktop-5-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aad" alt=""
                 src="images/slider-desktop-3-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aaf" alt=""
@@ -1397,28 +1473,26 @@
           </div>
           <div class="gallery-column botom-top">
             <div class="gallery__mage-container"><img alt=""
-                src="images/slider-desktop-5-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-desktop-11-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ab4" alt=""
-                src="images/slider-desktop-6-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-desktop-9-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ab6" alt=""
-                src="images/slider-desktop-7-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-desktop-6-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ab8" alt=""
-                src="images/slider-desktop-8-nyj.jpg" loading="lazy" class="gallery-image"></div>
-            <!-- Esta columna tiene 5 huecos y el rango 5-8 son 4 fotos: se repite la
-                 primera del rango, igual que hacía la plantilla. -->
+                src="images/slider-desktop-11-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aba" alt=""
-                src="images/slider-desktop-5-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-desktop-10-nyj.jpg" loading="lazy" class="gallery-image"></div>
           </div>
           <div class="gallery-column top-bottom">
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212abd" alt=""
-                src="images/slider-desktop-9-nyj.jpg" loading="lazy" class="gallery-image padding">
+                src="images/slider-desktop-8-nyj.jpg" loading="lazy" class="gallery-image padding">
             </div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212abf" alt=""
-                src="images/slider-desktop-10-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-desktop-7-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac1" alt=""
-                src="images/slider-desktop-11-nyj.jpg" loading="lazy" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac3" alt=""
                 src="images/slider-desktop-12-nyj.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac3" alt=""
+                src="images/slider-desktop-2-nyj.jpg" loading="lazy" class="gallery-image"></div>
           </div>
         </div>
         <div class="gallery-images mobile">
@@ -1429,21 +1503,21 @@
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac9" alt=""
                 src="images/slider-mobile-2-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acb" alt=""
-                src="images/slider-mobile-3-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-mobile-7-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acd" alt=""
-                src="images/slider-mobile-4-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-mobile-6-nyj.jpg" loading="lazy" class="gallery-image"></div>
           </div>
           <div class="gallery-column botom-top">
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad0" alt=""
-                src="images/slider-mobile-5-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-mobile-9-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad2" alt=""
-                src="images/slider-mobile-6-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-mobile-4-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad4" alt=""
-                src="images/slider-mobile-7-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-mobile-5-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad6" alt=""
                 src="images/slider-mobile-8-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad8" alt=""
-                src="images/slider-mobile-9-nyj.jpg" loading="lazy" class="gallery-image padding">
+                src="images/slider-mobile-3-nyj.jpg" loading="lazy" class="gallery-image padding">
             </div>
           </div>
         </div>
@@ -1684,7 +1758,7 @@
         class="footer__logo reveal-up">
       <p class="footer_paragraph reveal-up reveal-delay-1">Nos encantará atesorar cada instante de esta celebración.<br>Si así lo desean, pueden
         compartir sus fotografías utilizando nuestro hashtag.</p>
-      <p class="footer_hash heading-3 reveal-up reveal-delay-2">#juanynancy</p>
+      <p class="footer_hash heading-3 reveal-up reveal-delay-2">#JuanyNancy</p>
       <div>
         <div class="div-block-7">
           <div class="footer_image-wrapper"><img src="images/footer-desktop-nyj.jpg" loading="lazy" width="777" alt=""
@@ -1711,7 +1785,7 @@
 
   <!-- Audio Element -->
   <audio id="my-audio" preload="none" loop>
-    <source src="audio/A-Thousand-Years.mp3" type="audio/mpeg">
+    <source src="audio/a-thousand-years-instrumental.mp3" type="audio/mpeg">
     Tu navegador no soporta audio HTML5.
   </audio>
 
