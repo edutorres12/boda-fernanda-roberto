@@ -187,11 +187,19 @@
        vez de aparecer el bloque entero de golpe. Son keyframes y no transiciones a
        propósito: esto corre mientras la página todavía está cargando, y una animación
        CSS no depende del hilo principal como sí lo haría un requestAnimationFrame. */
+    /* El desenfoque se resuelve a mitad de la animación, no al final: es lo que hace
+       que el texto se lea como que "enfoca" y no como que está mal renderizado. El
+       fundido y el desplazamiento siguen hasta el final, así que la entrada conserva
+       su calma sin dejar las letras borrosas medio segundo de más. */
     @keyframes loader-entra {
       from {
         opacity: 0;
         transform: translateY(6px);
-        filter: blur(4px);
+        filter: blur(3px);
+      }
+
+      50% {
+        filter: blur(0);
       }
 
       to {
@@ -206,26 +214,26 @@
     .loader__fecha,
     .loader-button {
       opacity: 0;
-      animation: loader-entra 1500ms var(--ease-boda, cubic-bezier(0.33, 0.7, 0.4, 1)) forwards;
+      animation: loader-entra 800ms var(--ease-boda, cubic-bezier(0.33, 0.7, 0.4, 1)) forwards;
     }
 
-    /* El escalonado se abre respecto al original (60/200/260/380): con la entrada
-       más larga, los cuatro elementos se solapan y se leen como una secuencia
-       continua en lugar de cuatro apariciones seguidas. */
+    /* El escalonado se cierra con la duración: los cuatro elementos siguen solapando
+       y leyéndose como una secuencia continua, pero el botón queda disponible a los
+       ~1.2s en vez de a los ~2.4s. El loader es una puerta, no una escena. */
     .logo-loader {
-      animation-delay: 120ms;
+      animation-delay: 80ms;
     }
 
     .loader__rule {
-      animation-delay: 420ms;
+      animation-delay: 220ms;
     }
 
     .loader__fecha {
-      animation-delay: 580ms;
+      animation-delay: 310ms;
     }
 
     .loader-button {
-      animation-delay: 900ms;
+      animation-delay: 460ms;
     }
 
     /* Va fuera del media query a propósito. Estos elementos arrancan en opacity 0 y
@@ -658,11 +666,14 @@
       margin-bottom: 0;
     }
 
+    /* Sin opacidad: la nota va en el mismo verde pleno que el resto del texto. La
+       cursiva y el cuerpo menor ya la separan de la línea principal, y rebajarla
+       además de color la dejaba lavada sobre el beige. */
     .dress-code__note {
       font-style: italic;
       font-size: .8em;
       line-height: 1.35;
-      opacity: .7;
+      color: var(--color-scheme-1--accent, #3f4720);
       margin-top: 4px;
       display: block;
     }
@@ -845,6 +856,28 @@
       margin-bottom: 24px;
     }
 
+    /* El enlace se ajusta al logo y no al ancho de la tarjeta: si no, el área
+       clicable se comería el espacio en blanco de los lados. display: block quita
+       además el hueco de línea base que deja una imagen inline dentro del enlace,
+       que era lo que descuadraba los 24px de separación con el texto. */
+    .logo-sin-envolturas-link {
+      display: block;
+      transition: opacity 200ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .logo-sin-envolturas-link:hover {
+      opacity: .72;
+    }
+
+    .logo-sin-envolturas-link:active {
+      transform: scale(0.97);
+    }
+
+    .logo-sin-envolturas-link:focus-visible {
+      outline: 2px solid var(--color-scheme-1--border);
+      outline-offset: 6px;
+    }
+
     /* ===== Botones: respuesta al pulsar y foco visible =====
        El template solo les da hover, que en móvil no existe: al tocar "Reservar" o
        "Ver mesa" no pasaba nada hasta que cargaba la pestaña nueva. Un scale corto
@@ -890,6 +923,7 @@
 
       .button:active,
       .loader-button:active,
+      .logo-sin-envolturas-link:active,
       #music-play:active {
         transform: none;
       }
@@ -1445,13 +1479,10 @@
           <p class="nos-casamos__text reveal-up">Con la guía de Dios y el profundo amor que nos une:</p>
           <p class="nos-casamos__text _2 reveal-up reveal-delay-1">Tenemos el honor de invitarlos a celebrar nuestra unión,
             que se llevará a cabo el día</p>
-          <div class="nos-casamos__fecha desktop reveal-up reveal-delay-2">
+          <div class="nos-casamos__fecha reveal-up reveal-delay-2">
             <div class="nos-casamos__fecha-text">10</div>
             <div class="nos-casamos__fecha-text bordered">Octubre</div>
             <div class="nos-casamos__fecha-text">2026</div>
-          </div>
-          <div class="nos-casamos__fecha mobile reveal-up reveal-delay-2">
-            <div class="nos-casamos__fecha-text mobile">10 de octubre 2026</div>
           </div>
         </div>
       </div>
@@ -1505,7 +1536,7 @@
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acb" alt=""
                 src="images/slider-mobile-7-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acd" alt=""
-                src="images/slider-mobile-6-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-mobile-6-nyj.webp" loading="lazy" class="gallery-image"></div>
           </div>
           <div class="gallery-column botom-top">
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad0" alt=""
@@ -1515,7 +1546,7 @@
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad4" alt=""
                 src="images/slider-mobile-5-nyj.jpg" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad6" alt=""
-                src="images/slider-mobile-8-nyj.jpg" loading="lazy" class="gallery-image"></div>
+                src="images/slider-mobile-8-nyj.webp" loading="lazy" class="gallery-image"></div>
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad8" alt=""
                 src="images/slider-mobile-3-nyj.jpg" loading="lazy" class="gallery-image padding">
             </div>
@@ -1717,7 +1748,7 @@
         <div class="asistencia__container">
           <div class="form-img-container">
             <picture>
-              <source media="(max-width: 767px)" srcset="images/form-mobile-nyj.jpg">
+              <source media="(max-width: 767px)" type="image/webp" srcset="images/form-mobile-nyj.webp">
               <img src="images/form-desktop-nyj.jpg" loading="lazy"
                 data-w-id="d141b00a-b9ab-bc81-c67e-60cb82b64fd8" alt="" class="form-img">
             </picture>
@@ -1744,10 +1775,15 @@
             style="width: 84px; height: 51px; margin-bottom: 24px;" class="sugerencia-logo _3">
           <p class="sugerencia-card-text">Efectivo en sobre<br> el día del evento</p>
         </div>
-        <div class="sugerencia-card _2 reveal-up"><img src="images/sin-envolturas-logo.svg" loading="lazy" alt="Sin Envolturas"
-            class="sugerencia-logo _3 logo-sin-envolturas">
+        <div class="sugerencia-card _2 reveal-up">
+          <!-- El logo lleva al mismo sitio que el botón: es lo primero que se toca cuando
+               alguien reconoce la marca, y quedarse sin respuesta se lee como un fallo. -->
+          <a href="https://sinenvolturas.com/nancyvillarrealjuanguerrero/regalos" target="_blank" rel="noopener"
+            aria-label="Ver nuestra mesa de regalos en Sin Envolturas" class="logo-sin-envolturas-link"><img
+              src="images/sin-envolturas-logo.svg" loading="lazy" alt="Sin Envolturas"
+              class="sugerencia-logo _3 logo-sin-envolturas"></a>
           <p class="sugerencia-card-text">Mesa de regalos</p>
-          <a href="https://sinenvolturas.com/nancyvillarrealjuanguerrero" target="_blank"
+          <a href="https://sinenvolturas.com/nancyvillarrealjuanguerrero/regalos" target="_blank" rel="noopener"
             class="button is-secondary form__button w-button">Ver mesa</a>
         </div>
       </div>
