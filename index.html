@@ -249,14 +249,11 @@
       }
     }
 
-    /* Botón relleno en el verde de la marca: es lo único accionable de la pantalla y
-       en contorno sobre el beige pesaba lo mismo que el filete decorativo. El hover
-       invierte a fondo claro, que era el estado anterior. */
     .loader-button {
-      color: var(--color-scheme-1--foreground);
+      color: var(--color-scheme-1--accent);
       text-align: center;
-      background-color: var(--color-scheme-1--accent);
-      border: 1.5px solid var(--color-scheme-1--accent);
+      background-color: var(--color-scheme-1--foreground);
+      border: 1.5px solid var(--color-scheme-1--border);
       padding: 12px 35px;
       font-family: Satoshi, Arial, sans-serif;
       font-size: 18px;
@@ -271,8 +268,8 @@
     }
 
     .loader-button:hover {
-      color: var(--color-scheme-1--accent);
-      background-color: var(--color-scheme-1--foreground);
+      color: var(--color-scheme-1--foreground);
+      background-color: var(--color-scheme-1--accent);
     }
 
     .btn-link {
@@ -287,7 +284,7 @@
       bottom: 10px;
       right: 10px;
       z-index: 100;
-      background-color: var(--blanco-roto);
+      background-color: white;
       width: fit-content;
       padding: 3px 20px;
       border: none;
@@ -355,71 +352,6 @@
     }
   </style>
   <style>
-    /* ===== Fondo y blanco de la paleta =====
-       El blanco puro del template resultaba frío, pero la dirección no es cálida
-       sino gris: el fondo baja de #fcfcfa a un gris claro y el blanco se queda
-       neutro, no crudo.
-
-       Los dos valores van juntos a propósito. El blanco (98.0%) queda por encima
-       del fondo (94.9%), que es lo que hace que un botón o una tarjeta se lea como
-       superficie sobre la página y no como un hueco. Si se cambia uno hay que
-       revisar el otro.
-
-       El blanco es neutro y no cálido porque sobre un fondo gris cualquier matiz
-       amarillo se delata; y el gris lleva dos puntos menos de azul que de rojo y
-       verde, lo justo para no pelearse con el beige #efe8dc ni con el olivo.
-
-       Los tokens se redefinen aquí porque rsvp-widget.css vuelve a declarar el
-       suyo después del template, así que hay que ganarle por orden. */
-    :root {
-      --blanco-roto: #FBFBFA;
-      --_primitives---colors--white: var(--blanco-roto);
-      --color-scheme-1--foreground: var(--blanco-roto);
-      --color-scheme-1--background: #F7F7F5;
-    }
-
-    /* recomendaciones.css escribe el blanco a pelo en vez de usar el token. Sin
-       estas reglas convivirían dos blancos distintos dentro de la misma tarjeta:
-       el botón (que sí usa el token) y el título, que no. */
-    .recm__nav {
-      background: var(--blanco-roto);
-    }
-
-    .recm__nav:hover {
-      color: var(--blanco-roto);
-    }
-
-    .recm__overlay-title,
-    .recm__overlay-tag,
-    .recm__overlay-desc strong,
-    .recm__overlay-desc .hospedaje__promo,
-    .recm__overlay-desc a {
-      color: var(--blanco-roto);
-    }
-
-    /* Estos dos van con alfa sobre la foto; se recomponen con el nuevo blanco para
-       que no queden fríos junto al título. */
-    .recm__overlay-location {
-      color: rgba(251, 251, 250, .9);
-    }
-
-    .recm__overlay-address {
-      color: rgba(251, 251, 250, .85);
-    }
-
-    /* El template también escribe #fff a pelo en unos cuantos sitios. De todos ellos
-       estos tres son los que existen en esta página; el resto son clases del tema
-       que no se usan. La tarjeta de la cita del footer era la más evidente: al lado
-       del marco de la foto, ya en blanco roto, el blanco puro cantaba. */
-    .footer_image-text,
-    .logo-wrapper {
-      background-color: var(--blanco-roto);
-    }
-
-    .time-container {
-      border-color: var(--blanco-roto);
-    }
-
     /* Animations */
     .word-animation {
       display: inline-block;
@@ -538,7 +470,7 @@
 }
 #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:checked) {
     background: var(--_primitives---colors--brown, #8b7355);
-    color: var(--blanco-roto);
+    color: white;
 }
 
     /* Dress code: ilustración al centro con Caballeros / Damas a los lados.
@@ -1079,10 +1011,13 @@
       object-position: 50% 12%;
     }
 
-    /* ===== Galería: pista de composición =====
-       Las columnas se desplazan en cada fotograma mientras la sección está a la
-       vista; con will-change el navegador las promociona a su propia capa y el
-       movimiento no repinta las fotos. */
+    /* ===== Galería: fluidez =====
+       La interacción de Webflow mueve las columnas en cada fotograma mientras la
+       sección está a la vista; con will-change el navegador las compone en su
+       propia capa y el desplazamiento no repinta las fotos. El otro ajuste de
+       fluidez va en js/webflow.js: el suavizado del scroll de la galería baja de
+       90→60 (desktop) y 50→30 (móvil) para que las columnas respondan al scroll
+       sin ir a remolque, que era la sensación de "trabado". */
     .gallery-column {
       will-change: transform;
     }
@@ -1180,10 +1115,8 @@
       </div>
     </section>
     <section class="section-gallery">
-      <!-- Sin data-w-id: el desplazamiento de las columnas ya no lo lleva la
-           interacción de Webflow sino el módulo de galería de site-scripts.js,
-           que replica el mismo recorrido con un movimiento más fluido. -->
-      <div class="w-layout-blockcontainer container-slider desktop w-container">
+      <div data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aa5"
+        class="w-layout-blockcontainer container-slider desktop w-container">
         <div class="gallery-images desktop">
           <div class="gallery-column top-bottom">
             <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212aa9" alt=""
