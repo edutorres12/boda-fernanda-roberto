@@ -739,8 +739,18 @@
       }
 
       .dress-code__item {
-        font-size: 12px;
-        line-height: 17px;
+        max-width: 100px;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      /* En móvil la nota va al mismo cuerpo que la línea principal: a .8em quedaba
+         demasiado chica para leerse en las columnas angostas. La cursiva la sigue
+         separando. */
+      .dress-code__note {
+        font-size: 1em;
+        line-height: inherit;
+        margin-top: 2px;
       }
 
       .dress-code__illustration img {
