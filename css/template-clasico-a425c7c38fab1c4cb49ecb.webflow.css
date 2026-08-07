@@ -2164,10 +2164,6 @@ figcaption {
   display: flex;
 }
 
-.nos-casamos__fecha.mobile {
-  display: none;
-}
-
 .nos-casamos__fecha-text {
   text-transform: uppercase;
   padding-left: 60px;
@@ -4799,17 +4795,13 @@ figcaption {
     margin-bottom: 70px;
   }
 
-  .nos-casamos__fecha.desktop {
-    display: none;
-  }
-
-  .nos-casamos__fecha.mobile {
-    display: flex;
-  }
-
-  .nos-casamos__fecha-text.mobile {
-    padding-left: 0;
-    padding-right: 0;
+  /* La fecha mantiene las tres columnas (10 | Octubre | 2026) también en móvil;
+     se achica el tipo y el padding para que quepa hasta en pantallas de 320px. */
+  .nos-casamos__fecha-text {
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 22px;
+    line-height: 34px;
   }
 
   .itinerario__image-wrapper {
