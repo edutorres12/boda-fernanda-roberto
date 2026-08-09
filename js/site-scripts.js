@@ -205,10 +205,18 @@ document.addEventListener("DOMContentLoaded", function () {
       // saltando a estas posiciones y no con un desplazamiento relativo: como el
       // track tiene scroll-snap, un scrollBy que caiga entre dos anclajes puede
       // rebotar a la tarjeta anterior.
+      // La referencia es scroll-padding-left, no el offsetLeft de la primera
+      // tarjeta: el navegador ancla el snap al scroll-padding y en estos
+      // scrollers no coincide con el padding normal (24px contra 20px en móvil).
+      // Con esos 4px de desfase el ancla calculada caía delante del punto donde
+      // el snap deja la tarjeta, así que la flecha volvía a apuntar a la tarjeta
+      // en la que ya estaba: avanzaba los 4px, el snap la devolvía y el carrusel
+      // se quedaba clavado sin poder llegar a la siguiente. Se lee del estilo
+      // calculado para que siga bien si cambian los valores por breakpoint.
       function anchors() {
         var items = scroller.querySelectorAll('.recm__item');
         if (!items.length) return [0];
-        var base = items[0].offsetLeft;
+        var base = parseFloat(getComputedStyle(scroller).scrollPaddingLeft) || 0;
         var max = scroller.scrollWidth - scroller.clientWidth;
         return [].map.call(items, function (el) {
           return Math.max(0, Math.min(el.offsetLeft - base, max));

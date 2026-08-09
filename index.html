@@ -14,13 +14,20 @@
   <meta content="website" property="og:type">
   <meta content="es_MX" property="og:locale">
   <meta content="Juan &amp; Nancy" property="og:site_name">
+  <meta content="https://juanynancy.com/" property="og:url">
   <meta content="Juan &amp; Nancy ♡" property="og:title">
   <meta content="Sábado 10 de octubre de 2026 · Fábrica El Porvenir, Santiago, N.L." property="og:description">
-  <!-- TODO: reemplazar por una foto de Juan y Nancy y usar la URL absoluta del dominio
-       final (ej. https://juanynancy.com/images/og-image.jpg). Las rutas relativas no
-       las resuelven de forma fiable WhatsApp ni Facebook. -->
-  <meta content="images/og-image.jpg" property="og:image">
-  <meta content="Monograma de Juan y Nancy" property="og:image:alt">
+  <!-- og:image va con URL absoluta a propósito, no con ruta relativa: WhatsApp y
+       Facebook no resuelven las relativas de forma fiable y la vista previa salía
+       sin foto. Es la única ruta del archivo que lleva dominio escrito a mano, así
+       que si el sitio se publica en otro dominio hay que cambiarla aquí.
+       nyj-og.jpg va en baseline y no en JPEG progresivo a propósito: el generador
+       de miniaturas de WhatsApp no siempre resuelve los progresivos. -->
+  <meta content="https://juanynancy.com/images/nyj-og.jpg" property="og:image">
+  <meta content="image/jpeg" property="og:image:type">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="Juan y Nancy abrazados frente a la sierra" property="og:image:alt">
   <meta content="summary_large_image" name="twitter:card">
   <meta content="Juan &amp; Nancy ♡" property="twitter:title">
   <meta content="Sábado 10 de octubre de 2026 · Fábrica El Porvenir, Santiago, N.L." property="twitter:description">
@@ -789,24 +796,14 @@
       aspect-ratio: 1 / 1;
     }
 
-    @media (min-width: 992px) {
-      /* Aquí solo hay dos tarjetas, así que el ancho de 320px del sistema recm
-         (pensado para filas de tres o más) las dejaba pequeñas y muy juntas en
-         mitad de la sección. Se sube el ancho y el hueco entre ellas. El cambio
-         va sobre --recm-card-w, no sobre el flex-basis a pelo, porque de esa
-         variable cuelga la altura a la que se centran las flechas del slider. */
-      #hospedaje.recm.section {
-        --recm-card-w: 380px;
-      }
-
-      #hospedaje .recm__item {
-        flex: 0 0 var(--recm-card-w);
-      }
-
-      #hospedaje .recm__scroller {
-        gap: 56px;
-      }
-    }
+    /* Con dos tarjetas esta sección subía --recm-card-w a 380px y el hueco a 56px,
+       porque el ancho de 320px del sistema recm (pensado para filas de tres o más)
+       las dejaba pequeñas y muy juntas en mitad de la sección. Con la tercera
+       tarjeta esos 380px ya no caben en una fila (3x380 + 2x56 + padding = 1372px)
+       y la última se iba a un segundo renglón en cualquier portátil, así que el
+       override se retiró y vuelven a mandar los 320px/32px del sistema: la fila de
+       tres entra a partir de 1144px. Por debajo de eso el flex-wrap del scroller
+       la baja a un 2+1 centrado, que es la degradación prevista por el CSS base. */
 
     /* Beige del brief (blanco > verde y beige) como superficie secundaria, no como
        color de texto. Va en los dos bloques que eran blanco puro y se fundían con
@@ -832,10 +829,13 @@
       object-position: 50% 100%;
     }
 
-    /* La versión móvil ya encuadra bien la fecha, así que solo necesita el mismo
-       arreglo de parallax; su encuadre no se toca. */
-    .fecha .image-7-copy {
-      min-height: 115%;
+    /* En móvil va la misma foto que en desktop. El template hace el swap a la
+       versión vertical por debajo de 479px (oculta .image-7 y muestra
+       .image-7-copy), así que hay que deshacer ese intercambio. */
+    @media (max-width: 479px) {
+      .fecha .image-7 {
+        display: block;
+      }
     }
 
     /* Velo oscuro sobre la foto: el título y la cuenta atrás son blancos y la
@@ -1254,24 +1254,18 @@
     }
 
     /* ===== Encuadre de la pareja en la foto de escritorio =====
-       En la foto la pareja está a la derecha (su centro cae sobre el 57% del
-       ancho) y a la izquierda queda un tercio de montaña vacía. Con object-fit
-       cover no basta con mover object-position: a los tamaños de escritorio
-       habituales la proporción de la foto y la de la pantalla casi coinciden,
-       así que no sobra ancho por donde desplazarse y el eje horizontal se queda
-       clavado. Dándole a la imagen un 12% más de ancho y tirando de ella hacia
-       la izquierda con el margen sí sobra recorrido: se recorta la montaña
-       vacía de la izquierda y la pareja queda centrada.
-       max-width:none hace falta porque el template pone max-width:100% a todas
-       las imágenes, y sin él el ancho volvería al 100%. */
+       La foto anterior tenía a la pareja descentrada a la derecha (su centro
+       caía sobre el 57% del ancho) y se corregía dando a la imagen un 12% más
+       de ancho y tirándola hacia la izquierda con un margen negativo, porque a
+       los tamaños de escritorio habituales la proporción de la foto y la de la
+       pantalla casi coinciden y object-position se quedaba sin recorrido.
+       En cover-desktop-nyj.jpg la pareja ya cae sobre el 45% del ancho, así que
+       ese desplazamiento la sacaba del centro y dejaba media montaña vacía a la
+       derecha: se retira y manda el object-fit: cover del template.
+       El overflow del contenedor se queda: la foto sigue desbordando en vertical
+       cuando la pantalla es más alta que ancha. */
     .div-block {
       overflow: hidden;
-    }
-
-    .hero-bg {
-      width: 112%;
-      max-width: none;
-      margin-left: -12%;
     }
 
     /* ===== Itinerario: encuadre de la foto =====
@@ -1474,8 +1468,8 @@
 
   <div class="page-wrapper">
     <section class="section-hero section">
-      <div class="div-block"><img src="images/hero-desktop-nyj.jpg" loading="eager" width="Auto" alt="" class="hero-bg"><img
-          src="images/hero-mobile-nyj.jpg" loading="lazy" alt="" class="hero-bg-mobile"></div>
+      <div class="div-block"><img src="images/cover-desktop-nyj.jpg" loading="eager" width="Auto" alt="" class="hero-bg"><img
+          src="images/cover-mobile-nyj.jpg" loading="lazy" alt="" class="hero-bg-mobile"></div>
       <div class="hero__image-wrapper"><img src="images/monograma-j-n-blanco.png" loading="lazy" alt="Juan y Nancy"
           class="logo-hero-sm"><img src="images/monograma-j-n-blanco.png" loading="lazy" alt="Juan y Nancy"
           class="image"></div>
@@ -1696,7 +1690,7 @@
               <img src="images/gamma-rincon-santiago.jpg" loading="lazy" alt="Gamma Monterrey Rincón de Santiago"
                 class="recm__image">
               <div class="recm__overlay">
-                <h3 class="recm__overlay-title">Gamma Monterrey Rincón de Santiago</h3>
+                <h3 class="recm__overlay-title">Gamma Monterrey<br>Rincón de Santiago</h3>
                 <a href="https://www.google.com/maps/search/?api=1&amp;query=Gamma+Monterrey+Rinc%C3%B3n+de+Santiago"
                   target="_blank" rel="noopener" class="recm__overlay-location"><svg viewBox="0 0 24 24" fill="none"
                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1704,6 +1698,24 @@
                     <circle cx="12" cy="9" r="2.5"></circle>
                   </svg><span>Santiago, N.L.</span></a>
                 <a href="https://www.fiestamericanatravelty.com/gamma-hoteles/hoteles/gamma-monterrey-rincon-de-santiago"
+                  target="_blank" rel="noopener"
+                  class="button is-secondary is-small is-alternate hospedaje__buton w-button">Reservar</a>
+              </div>
+            </div>
+          </article>
+          <article class="recm__item">
+            <div class="recm__image-wrapper recm__image-wrapper--overlay">
+              <img src="images/holiday-inn-santiago.jpg" loading="lazy"
+                alt="Holiday Inn Resort Santiago - Presa La Boca" class="recm__image">
+              <div class="recm__overlay">
+                <h3 class="recm__overlay-title">Holiday Inn Resort Santiago</h3>
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=Holiday+Inn+Resort+Santiago+Presa+La+Boca"
+                  target="_blank" rel="noopener" class="recm__overlay-location"><svg viewBox="0 0 24 24" fill="none"
+                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"></path>
+                    <circle cx="12" cy="9" r="2.5"></circle>
+                  </svg><span>Santiago, N.L.</span></a>
+                <a href="https://www.ihg.com/holidayinnresorts/hotels/us/es/santiago/mtysa/hoteldetail"
                   target="_blank" rel="noopener"
                   class="button is-secondary is-small is-alternate hospedaje__buton w-button">Reservar</a>
               </div>
@@ -1717,8 +1729,7 @@
     </section>
     <section class="fecha section">
       <div class="background-image"><img src="images/save-date-desktop-nyj.jpg" loading="lazy"
-          data-w-id="8f9860fb-0535-2ff2-ee87-84484ccd40b9" alt="" class="image-7"><img src="images/save-date-mobile-nyj.jpg" loading="lazy"
-          data-w-id="583dbc86-7271-a31a-fede-db984fe844b7" alt="" class="image-7-copy"></div>
+          data-w-id="8f9860fb-0535-2ff2-ee87-84484ccd40b9" alt="" class="image-7"></div>
       <div id="fecha" class="fecha_container">
         <h2 class="fecha__heading reveal-up">Save<em class="italic-text"> the Date</em></h2>
         <div class="fecha__time reveal-up reveal-delay-1">
