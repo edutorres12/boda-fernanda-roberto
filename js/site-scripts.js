@@ -228,27 +228,47 @@ document.addEventListener("DOMContentLoaded", function () {
       // navegador puede cancelarlo a mitad de camino.
       var raf = null;
       var fallback = null;
+      var destino = null;
       var quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      function recuperarSnap() {
+        scroller.style.scrollSnapType = '';
+      }
+
+      function terminar() {
+        if (raf) cancelAnimationFrame(raf);
+        raf = null;
+        clearTimeout(fallback);
+        fallback = null;
+        destino = null;
+        recuperarSnap();
+      }
 
       function animarHasta(target) {
         if (raf) cancelAnimationFrame(raf);
+        raf = null;
+        clearTimeout(fallback);
+        fallback = null;
+
         var desde = scroller.scrollLeft;
         var delta = target - desde;
-        if (Math.abs(delta) < 1) return;
-        if (quieto.matches) { scroller.scrollLeft = target; return; }
+        if (Math.abs(delta) < 1 || quieto.matches) {
+          scroller.scrollLeft = target;
+          terminar();
+          sync();
+          return;
+        }
 
         var inicio = null;
+        destino = target;
         // El snap pelearía contra cada fotograma; se restaura al terminar.
         scroller.style.scrollSnapType = 'none';
         // Red de seguridad: si los fotogramas no llegan (pestaña en segundo
         // plano), se cierra el salto igual y no se queda el snap desactivado.
-        clearTimeout(fallback);
         fallback = setTimeout(function () {
           if (!raf) return;
-          cancelAnimationFrame(raf);
-          raf = null;
           scroller.scrollLeft = target;
-          scroller.style.scrollSnapType = '';
+          terminar();
           sync();
         }, 1200);
         raf = requestAnimationFrame(function paso(ts) {
@@ -259,28 +279,39 @@ document.addEventListener("DOMContentLoaded", function () {
           if (p < 1) {
             raf = requestAnimationFrame(paso);
           } else {
-            raf = null;
-            clearTimeout(fallback);
-            scroller.style.scrollSnapType = '';
+            scroller.scrollLeft = target;
+            terminar();
             sync();
           }
         });
       }
 
+      // Corta el salto pero deja el snap fuera hasta que el dedo se levanta:
+      // devolverlo con el gesto en curso hace que el navegador tire del carrusel
+      // al anclaje más cercano, que suele ser la tarjeta de la que venía.
       function cortarAnimacion() {
         if (!raf) return;
         cancelAnimationFrame(raf);
         raf = null;
         clearTimeout(fallback);
-        scroller.style.scrollSnapType = '';
+        fallback = null;
+        destino = null;
       }
 
-      scroller.addEventListener('wheel', cortarAnimacion, { passive: true });
+      scroller.addEventListener('wheel', function () {
+        cortarAnimacion();
+        recuperarSnap();
+      }, { passive: true });
       scroller.addEventListener('touchstart', cortarAnimacion, { passive: true });
+      scroller.addEventListener('touchend', recuperarSnap, { passive: true });
+      scroller.addEventListener('touchcancel', recuperarSnap, { passive: true });
 
+      // El punto de partida es el destino pendiente, no el scroll de este
+      // instante: si no, un segundo toque durante los 420ms de la animación
+      // vuelve a apuntar a la tarjeta hacia la que ya se iba y parece ignorado.
       function go(dir) {
         var pts = anchors();
-        var at = scroller.scrollLeft;
+        var at = destino !== null ? destino : scroller.scrollLeft;
         var target = dir > 0
           ? pts.filter(function (p) { return p > at + 1; })[0]
           : pts.filter(function (p) { return p < at - 1; }).pop();
@@ -297,8 +328,8 @@ document.addEventListener("DOMContentLoaded", function () {
         wrap.classList.toggle('has-overflow', overflows);
         if (progress) progress.classList.toggle('has-overflow', overflows);
 
-        if (prev) prev.disabled = !overflows || at <= 1;
-        if (next) next.disabled = !overflows || at >= max - 1;
+        if (prev) prev.disabled = !overflows || at <= 2;
+        if (next) next.disabled = !overflows || at >= max - 2;
 
         if (bar && overflows) {
           bar.style.width = (scroller.clientWidth / scroller.scrollWidth * 100) + '%';
