@@ -30,16 +30,25 @@
   font-display: swap;
 }
 
+/* ============================================================
+   Paleta Fernanda & Roberto
+   EARTH  #95714f · MOSS  #8c916c · SAND #c7af94
+   ALMOND #eaded0 · SAGE  #acb087
+   El texto y el acento son un moss oscurecido (#4c5040): ninguno de los
+   cinco tonos de la paleta llega al contraste mínimo para texto corrido
+   sobre el fondo almond (moss da 2.9:1, earth 3.9:1). #4c5040 da 7.8:1 y
+   se mantiene dentro de la familia.
+   ============================================================ */
 :root {
-  --color-scheme-1--background: #fcfcfa;
+  --color-scheme-1--background: #faf6f0;
   --_typography---font-styles--body: "Libre Caslon Display", sans-serif;
-  --color-scheme-1--text: #3f4720;
+  --color-scheme-1--text: #4c5040;
   --_typography---font-styles--heading: "Libre Caslon Display", sans-serif;
   --_primitives---colors--white: #fff;
   --_primitives---colors--neutral-darkest: black;
   --text-color--text-alternate\<deleted\|relume-variable-text-color-3\>: var(--base-color-neutral--white\<deleted\|relume-variable-color-neutral-2\>);
-  --color-scheme-1--border: #939168;
-  --color-scheme-1--accent: #3f4720;
+  --color-scheme-1--border: #acb087;
+  --color-scheme-1--accent: #4c5040;
   --_typography---font-styles--buttons: Satoshi, Arial, sans-serif;
   --_primitives---opacity--transparent: transparent;
   --_primitives---opacity--neutral-darkest-60\<deleted\|relume-variable-neutral-shade-7-60\>: #0009;
@@ -53,18 +62,18 @@
   --_primitives---colors--neutral-lightest\<deleted\|relume-variable-neutral-shade-1\>: #eee;
   --_ui-styles---radius--large: 0px;
   --_typography---font-styles--subtitle: Clashdisplay, Arial, sans-serif;
-  --_primitives---colors--light-brown: #c1aa9a;
+  --_primitives---colors--light-brown: #c7af94;
   --_typography---font-styles--stylized-text: "Mea Culpa", sans-serif;
   --_typography---font-styles--stylized-heading: "Pinyon Script", sans-serif;
   --_typography---font-styles--hashtag: Baskervville, sans-serif;
   --_typography---font-styles--cursive-text: "Great Vibes", cursive;
-  --color-scheme-1--border-light: #f5eee6;
+  --color-scheme-1--border-light: #eaded0;
   --_typography---font-styles--form: Inter, sans-serif;
   --color-scheme-1--text-dark: #52525b;
   --color-scheme-1--border-dark: #e4e4e7;
   --_typography---font-styles--stilyzed: Bellarina, "Times New Roman", sans-serif;
   --color-scheme-1--color: white;
-  --color-scheme-1--baground-dark: #726457;
+  --color-scheme-1--baground-dark: #95714f;
   --_ui-styles---stroke--divider-width: 1px;
   --base-color-neutral--white\<deleted\|relume-variable-color-neutral-2\>: white;
   --base-color-neutral--neutral-lightest\<deleted\|relume-variable-color-neutral-3\>: #eee;
@@ -2412,7 +2421,7 @@ figcaption {
 }
 
 .footer {
-  background-color: #3f4720;
+  background-color: var(--color-scheme-1--accent);
   padding-top: 60px;
   padding-bottom: 60px;
 }

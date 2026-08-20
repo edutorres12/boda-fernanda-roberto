@@ -29,7 +29,7 @@
 }
 
 .recm__heading {
-  color: var(--color-scheme-1--accent, #3f4720);
+  color: var(--color-scheme-1--accent, #4c5040);
   margin: 0 0 18px;
 }
 
@@ -92,7 +92,8 @@
 .sugerencia-card.reveal-up:nth-child(2) {
   transition-delay: 120ms;
 }
-.itinerario__text.reveal-up:nth-child(3) {
+.itinerario__text.reveal-up:nth-child(3),
+.sugerencia-card.reveal-up:nth-child(3) {
   transition-delay: 240ms;
 }
 
@@ -107,7 +108,7 @@
   border-radius: 50%;
   background: #ffffff;
   border: 1px solid #c3cdd9;
-  color: var(--color-scheme-1--accent, #3f4720);
+  color: var(--color-scheme-1--accent, #4c5040);
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -120,7 +121,7 @@
 
 @media (hover: hover) {
   .recm__nav:hover {
-    background: var(--color-scheme-1--accent, #3f4720);
+    background: var(--color-scheme-1--accent, #4c5040);
     color: #ffffff;
   }
 }
@@ -192,7 +193,7 @@
   position: relative;
   height: 2px;
   background: rgba(63, 71, 32, .3);
-  background: color-mix(in srgb, var(--color-scheme-1--accent, #3f4720) 30%, transparent);
+  background: color-mix(in srgb, var(--color-scheme-1--accent, #4c5040) 30%, transparent);
   margin: 12px 60px 0;
   display: none;
 }
@@ -206,7 +207,7 @@
   top: -1px;
   left: 0;
   height: 4px;
-  background: var(--color-scheme-1--accent, #3f4720);
+  background: var(--color-scheme-1--accent, #4c5040);
   width: 20%;
   transition: width 200ms ease;
 }
@@ -248,7 +249,7 @@
   font-family: 'Libre Caslon Display', serif;
   font-size: 30px;
   line-height: 34px;
-  color: var(--color-scheme-1--accent, #3f4720);
+  color: var(--color-scheme-1--accent, #4c5040);
   margin: 0 0 10px;
   font-weight: 400;
 }
@@ -444,7 +445,7 @@
 }
 
 .hospedaje__text a {
-  color: var(--color-scheme-1--accent, #3f4720);
+  color: var(--color-scheme-1--accent, #4c5040);
   text-decoration: underline;
 }
 
@@ -488,7 +489,7 @@
 }
 
 .hospedaje__title {
-  color: var(--color-scheme-1--accent, #3f4720);
+  color: var(--color-scheme-1--accent, #4c5040);
   font-family: 'Libre Caslon Display', serif;
   font-size: 38px;
   line-height: 44px;
@@ -512,7 +513,7 @@
 }
 
 .hospedaje__text strong {
-  color: var(--color-scheme-1--accent, #3f4720);
+  color: var(--color-scheme-1--accent, #4c5040);
 }
 
 .hospedaje__promo {
@@ -520,7 +521,7 @@
 }
 
 .hospedaje__note {
-  color: var(--color-scheme-1--accent, #3f4720);
+  color: var(--color-scheme-1--accent, #4c5040);
   font-family: 'Baskervville', serif;
   font-size: 16px;
   line-height: 22px;

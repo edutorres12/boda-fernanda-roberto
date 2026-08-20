@@ -107,7 +107,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ===== COUNTDOWN TIMER FUNCTIONALITY =====
   (function () {
-    var deadline = '2026/10/10 19:00';
+    // Arranque de la ceremonia religiosa, que es el primer evento del dia.
+    var deadline = '2026/10/18 17:00';
 
     function pad(num, size) {
       var s = "0" + num;
@@ -411,6 +412,74 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       sync();
+    });
+  })();
+
+  // ===== COPIAR NUMEROS (tarjeta de transferencia y evento de la mesa) =====
+  (function () {
+    var botones = document.querySelectorAll('[data-copiar]');
+    if (!botones.length) return;
+
+    var estado = document.getElementById('copiar-estado');
+    var DURACION_AVISO = 1800;
+
+    // execCommand es el plan B para contextos donde la Clipboard API no existe
+    // (http plano, WebViews viejas de apps de mensajeria). Es justo por donde
+    // llegan muchos invitados, asi que conviene no dejarlos sin copiar.
+    function copiarTexto(texto) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(texto);
+      }
+
+      return new Promise(function (resolve, reject) {
+        var campo = document.createElement('textarea');
+        campo.value = texto;
+        campo.setAttribute('readonly', '');
+        campo.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+        document.body.appendChild(campo);
+        campo.select();
+
+        var copiado = false;
+        try {
+          copiado = document.execCommand('copy');
+        } catch (e) {
+          copiado = false;
+        }
+
+        document.body.removeChild(campo);
+        if (copiado) resolve(); else reject();
+      });
+    }
+
+    // Si no se pudo copiar, al menos dejamos el numero seleccionado para que el
+    // invitado solo tenga que hacer "copiar" desde el menu del navegador.
+    function seleccionar(boton) {
+      var valor = boton.querySelector('.copiar__valor');
+      if (!valor || !window.getSelection || !document.createRange) return;
+      var rango = document.createRange();
+      rango.selectNodeContents(valor);
+      var seleccion = window.getSelection();
+      seleccion.removeAllRanges();
+      seleccion.addRange(rango);
+    }
+
+    Array.prototype.forEach.call(botones, function (boton) {
+      var temporizador = null;
+
+      boton.addEventListener('click', function () {
+        copiarTexto(boton.getAttribute('data-copiar')).then(function () {
+          boton.classList.add('is-copiado');
+          if (estado) estado.textContent = 'Copiado: ' + boton.getAttribute('data-copiar');
+
+          clearTimeout(temporizador);
+          temporizador = setTimeout(function () {
+            boton.classList.remove('is-copiado');
+            if (estado) estado.textContent = '';
+          }, DURACION_AVISO);
+        }).catch(function () {
+          seleccionar(boton);
+        });
+      });
     });
   })();
 });

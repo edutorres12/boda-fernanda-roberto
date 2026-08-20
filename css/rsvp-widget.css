@@ -5,10 +5,10 @@
 
 /* ===== CSS Variables (with fallbacks) ===== */
 :root {
-    --color-scheme-1--text: #3f4720;
-    --color-scheme-1--accent: #3f4720;
-    --_primitives---colors--light: #f5f7fa;
-    --_primitives---colors--brown: #836b52;
+    --color-scheme-1--text: #4c5040;
+    --color-scheme-1--accent: #4c5040;
+    --_primitives---colors--light: #eaded0;
+    --_primitives---colors--brown: #95714f;
     --_primitives---colors--white: #ffffff;
 }
 
@@ -225,7 +225,7 @@
 }
 
 #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]:focus-visible) {
-    outline: 2px solid #9aa9c0;
+    outline: 2px solid #4c5040;
     outline-offset: 2px;
 }
 
@@ -331,7 +331,7 @@
 }
 
 #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:focus-visible) {
-    outline: 2px solid #9aa9c0;
+    outline: 2px solid #4c5040;
     outline-offset: 2px;
 }
 
