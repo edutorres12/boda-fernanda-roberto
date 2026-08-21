@@ -38,17 +38,70 @@
    cinco tonos de la paleta llega al contraste mínimo para texto corrido
    sobre el fondo almond (moss da 2.9:1, earth 3.9:1). #4c5040 da 7.8:1 y
    se mantiene dentro de la familia.
+
+   Los seis --fyr-* de abajo son el único sitio donde vive el color: los
+   tokens del template y los pocos hexes sueltos de index.html se leen de
+   ahí. Cambiar esos seis cambia la página entera, que es lo que hacen las
+   variantes de css/paletas.css.
    ============================================================ */
 :root {
-  --color-scheme-1--background: #faf6f0;
+  --fyr-fondo: #faf6f0;
+  --fyr-tinta: #4c5040;
+  /* Los titulares pueden llevar su propio color. Por defecto es el mismo de la
+     tinta, asi que no cambia nada; solo la paleta celeste lo separa, porque un
+     azul claro que sirve a 50px no sirve a 16px. */
+  --fyr-titulo: var(--fyr-tinta);
+  /* El acento es lo que se pinta como FONDO: el pie de pagina y los botones,
+     que llevan texto blanco encima. Por defecto vale lo mismo que la tinta,
+     que en paletas de texto oscuro es correcto. Se separa cuando el texto es
+     claro: ahi la tinta no puede hacer de fondo o el blanco no se leeria. */
+  --fyr-acento: var(--fyr-tinta);
+  --fyr-superficie: #eaded0;
+  --fyr-borde: #acb087;
+  --fyr-filete: #c7af94;
+  --fyr-apoyo: #8c916c;
+
+  /* Los iconos de mascara (.icono-tinta) leen de aqui y no de la tinta, para que una
+     paleta pueda darles el color de acento sin arrastrar con ellos el texto corrido.
+     Por defecto valen lo mismo, asi que esto no cambia nada. */
+  --fyr-icono: var(--fyr-tinta);
+  /* El monograma es un PNG negro con canal alfa que se pinta como mascara, igual que
+     los iconos; este token es su color. En negro reproduce el archivo tal cual. */
+  --fyr-logo: #000;
+  /* La frase manuscrita del pie va sobre la tarjeta blanca y es texto, no un icono:
+     por eso tiene token propio y no sigue a --fyr-icono. Por defecto = tinta.
+     Ojo con lo que se elija: el PNG tope a alfa 140/255, asi que el color nunca se
+     ve pleno sino al 55%, y sale bastante mas claro de lo que se declara aqui. */
+  --fyr-quote: var(--fyr-tinta);
+  /* El archivo de la frase, tambien en token: los dos PNG de partida topan su alfa
+     en 140/255, asi que el color nunca sale pleno. Existe una version *-solido con
+     el alfa reescalado a 255 para las paletas que quieran la frase al 100%. */
+  --fyr-quote-img: url(images/quote-desktop-alfa.png);
+  --fyr-quote-img-movil: url(images/quote-mobile-alfa.png);
+  /* El pie de pagina, en tres piezas: su fondo, el color del texto que va encima y el
+     color de su monograma. Por defecto es el acento con texto blanco, que es como
+     estaba. Una paleta de pie CLARO cambia los tres y ademas necesita oscurecer los
+     logos de weddeb e Instagram, que son SVG casi blancos y desaparecerian: para eso
+     esta --fyr-footer-logos-filtro (brightness(0) los pasa a negro conservando la
+     forma, y la opacidad los suaviza). */
+  --fyr-footer-fondo: var(--fyr-acento);
+  --fyr-footer-tinta: #fff;
+  --fyr-footer-logo: var(--fyr-logo);
+  --fyr-footer-logos-filtro: none;
+  /* Etiqueta de los botones de contorno (Ver mapa, Ver mesa). Va aparte de la tinta
+     porque el boton es un elemento destacable y una paleta puede quererlo en su
+     color de acento sin tocar los parrafos. */
+  --fyr-boton-texto: var(--fyr-tinta);
+
+  --color-scheme-1--background: var(--fyr-fondo);
   --_typography---font-styles--body: "Libre Caslon Display", sans-serif;
-  --color-scheme-1--text: #4c5040;
+  --color-scheme-1--text: var(--fyr-tinta);
   --_typography---font-styles--heading: "Libre Caslon Display", sans-serif;
   --_primitives---colors--white: #fff;
   --_primitives---colors--neutral-darkest: black;
   --text-color--text-alternate\<deleted\|relume-variable-text-color-3\>: var(--base-color-neutral--white\<deleted\|relume-variable-color-neutral-2\>);
-  --color-scheme-1--border: #acb087;
-  --color-scheme-1--accent: #4c5040;
+  --color-scheme-1--border: var(--fyr-borde);
+  --color-scheme-1--accent: var(--fyr-acento);
   --_typography---font-styles--buttons: Satoshi, Arial, sans-serif;
   --_primitives---opacity--transparent: transparent;
   --_primitives---opacity--neutral-darkest-60\<deleted\|relume-variable-neutral-shade-7-60\>: #0009;
@@ -62,12 +115,12 @@
   --_primitives---colors--neutral-lightest\<deleted\|relume-variable-neutral-shade-1\>: #eee;
   --_ui-styles---radius--large: 0px;
   --_typography---font-styles--subtitle: Clashdisplay, Arial, sans-serif;
-  --_primitives---colors--light-brown: #c7af94;
+  --_primitives---colors--light-brown: var(--fyr-filete);
   --_typography---font-styles--stylized-text: "Mea Culpa", sans-serif;
   --_typography---font-styles--stylized-heading: "Pinyon Script", sans-serif;
   --_typography---font-styles--hashtag: Baskervville, sans-serif;
   --_typography---font-styles--cursive-text: "Great Vibes", cursive;
-  --color-scheme-1--border-light: #eaded0;
+  --color-scheme-1--border-light: var(--fyr-superficie);
   --_typography---font-styles--form: Inter, sans-serif;
   --color-scheme-1--text-dark: #52525b;
   --color-scheme-1--border-dark: #e4e4e7;
@@ -826,7 +879,7 @@ figcaption {
 .button.is-secondary {
   border-color: var(--color-scheme-1--border);
   background-color: var(--_primitives---colors--white);
-  color: var(--color-scheme-1--text);
+  color: var(--fyr-boton-texto);
   width: 152px;
   font-weight: 400;
   transition: all .4s;
@@ -2421,13 +2474,13 @@ figcaption {
 }
 
 .footer {
-  background-color: var(--color-scheme-1--accent);
+  background-color: var(--fyr-footer-fondo);
   padding-top: 60px;
   padding-bottom: 60px;
 }
 
 .footer.section {
-  background-color: var(--color-scheme-1--accent);
+  background-color: var(--fyr-footer-fondo);
 }
 
 .container-4 {
@@ -2438,7 +2491,7 @@ figcaption {
 }
 
 .footer_paragraph {
-  color: var(--_primitives---colors--white);
+  color: var(--fyr-footer-tinta);
   text-align: center;
   margin-bottom: 50px;
 }
@@ -2449,7 +2502,7 @@ figcaption {
 }
 
 .footer_hash {
-  color: var(--_primitives---colors--white);
+  color: var(--fyr-footer-tinta);
   text-align: center;
 }
 
@@ -2474,6 +2527,14 @@ figcaption {
   align-items: stretch;
   margin-top: 50px;
   display: flex;
+}
+
+/* Los dos logos son SVG con el relleno #FFFAF4 escrito dentro del archivo, asi que
+   sobre un pie claro desaparecen. No se pueden recolorear desde fuera al ir en <img>,
+   pero brightness(0) los pasa a negro conservando la silueta y la opacidad los deja
+   en un gris que no compite con el texto. En pie oscuro el token vale none. */
+.footer__logos img {
+  filter: var(--fyr-footer-logos-filtro);
 }
 
 .right {

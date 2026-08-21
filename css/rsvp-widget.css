@@ -3,12 +3,19 @@
  * Adapted from WordPress plugin for universal HTML embedding
  */
 
-/* ===== CSS Variables (with fallbacks) ===== */
+/* ===== CSS Variables (with fallbacks) =====
+   Estos valores estaban escritos a pelo y, como esta hoja carga DESPUES del CSS
+   del template y tiene la misma especificidad, ganaban siempre: el texto de toda
+   la pagina se quedaba en el verde de aqui pasara lo que pasara con la paleta.
+   No era un fallback, era una sobrescritura.
+   Ahora si son fallbacks: leen los tokens de la paleta y solo usan el valor
+   escrito si esos tokens no existen, que es el caso de usar este widget suelto
+   fuera del sitio, que es para lo que estaban pensados. */
 :root {
-    --color-scheme-1--text: #4c5040;
-    --color-scheme-1--accent: #4c5040;
-    --_primitives---colors--light: #eaded0;
-    --_primitives---colors--brown: #95714f;
+    --color-scheme-1--text: var(--fyr-tinta, #4c5040);
+    --color-scheme-1--accent: var(--fyr-acento, var(--fyr-tinta, #4c5040));
+    --_primitives---colors--light: var(--fyr-superficie, #eaded0);
+    --_primitives---colors--brown: var(--fyr-filete, #95714f);
     --_primitives---colors--white: #ffffff;
 }
 
