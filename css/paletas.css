@@ -4,14 +4,14 @@
    La VERSIÓN 1 no está aquí: vive en el :root de
    template-clasico-….webflow.css, que es lo que hace que sea la que ve
    cualquiera que abra index.html. Esta hoja sólo la enlaza
-   version-2.html, que además lleva data-paleta="version-2" en su <html>;
+   v2.html, que además lleva data-paleta="v2" en su <html>;
    los valores de abajo pisan a los del template porque un selector con
    atributo gana a un :root a secas.
 
      Versión 1  index.html · terracota. La paleta que mandaron ellos,
                 entera: crema y terracota todo el recorrido, y el pie en
                 MOSS. Sus valores y su razonamiento, en el template.
-     Versión 2  version-2.html · celeste. Dos azules repartidos: el claro
+     Versión 2  v2.html · celeste. Dos azules repartidos: el claro
                 sólo en lo grande, el hondo en todo lo que hay que leer.
                 Fondo blanco.
 
@@ -134,7 +134,7 @@
    1.66:1 y desapareceria, siendo un serif de trazo fino), y los logos de weddeb e
    Instagram —SVG casi blancos— se oscurecen con un filtro.
    ------------------------------------------------------------ */
-:root[data-paleta="version-2"] {
+:root[data-paleta="v2"] {
   --fyr-fondo: #ffffff;
   --fyr-tinta: #1f252e;
   --fyr-titulo: #8ba7c9;
