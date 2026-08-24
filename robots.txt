@@ -1,0 +1,16 @@
+# Invitacion de boda de Fernanda y Roberto.
+#
+# El sitio NO debe salir en buscadores, pero eso NO se decide en este archivo:
+# se decide con <meta name="robots" content="noindex, nofollow"> en el HTML.
+#
+# Aqui se PERMITE el paso a proposito. Puede parecer al reves, pero un
+# "Disallow: /" seria contraproducente: impediria que Google entrase, y si no
+# entra no puede leer el noindex. Con que alguien comparta la URL en un foro o
+# un grupo publico, Google podria listarla igual —sin contenido, pero listada—
+# y ya no habria forma de pedirle que la quite. Dejandole entrar, lee el
+# noindex, la descarta, y no vuelve.
+#
+# No hay sitemap, tambien a proposito: un sitemap es una invitacion a indexar.
+
+User-agent: *
+Allow: /
