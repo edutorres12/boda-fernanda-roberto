@@ -34,64 +34,108 @@
    Paleta Fernanda & Roberto
    EARTH  #95714f · MOSS  #8c916c · SAND #c7af94
    ALMOND #eaded0 · SAGE  #acb087
-   El texto y el acento son un moss oscurecido (#4c5040): ninguno de los
-   cinco tonos de la paleta llega al contraste mínimo para texto corrido
-   sobre el fondo almond (moss da 2.9:1, earth 3.9:1). #4c5040 da 7.8:1 y
-   se mantiene dentro de la familia.
+   Los --fyr-* de abajo son el único sitio donde vive el color: los tokens
+   del template y los pocos hexes sueltos de index.html se leen de ahí.
+   Cambiar uno cambia la página entera, que es lo que hace version-2.html
+   con css/paletas.css.
 
-   Los seis --fyr-* de abajo son el único sitio donde vive el color: los
-   tokens del template y los pocos hexes sueltos de index.html se leen de
-   ahí. Cambiar esos seis cambia la página entera, que es lo que hacen las
-   variantes de css/paletas.css.
+   Los valores de aquí son la VERSIÓN 1: los cinco colores de la pareja,
+   cada uno con un oficio.
+     EARTH  #95714f  titulares, iconos, monograma del loader, botones
+     SAND   #c7af94  bordes de botón y filetes del formulario
+     ALMOND #eaded0  tinte del Sí/No del RSVP
+     SAGE   #acb087  la línea que parte 18 | OCTUBRE | 2026
+     MOSS   #8c916c  tono medio del RSVP
+   Y tres derivados, que no son colores nuevos sino los suyos movidos sólo
+   de luz. Ninguno de los cinco llega al mínimo de contraste para texto
+   corrido (moss da 2.9:1, earth 3.9:1), así que hacía falta uno oscuro:
+     #4a423a  texto corrido, y los dos datos (hora y fecha del loader)
+     #6e533a  EARTH a luz 33%. No pinta texto sino FONDOS con blanco
+              encima, y el monograma del pie
+     #60634b  MOSS a luz 34%, el fondo del pie. MOSS a su luz real (50%)
+              cae justo en la mitad de la escala, donde el techo de
+              contraste es el blanco puro con 3.3:1: ningún color claro
+              podía leerse encima
+   El fondo #fff9f5 y las tarjetas en blanco fueron decisión del encargo.
+   El reparto: EARTH lo que se MIRA, y la tinta lo que es DATO.
+
+   El razonamiento completo, con todos los contrastes medidos, está en la
+   cabecera de css/paletas.css.
    ============================================================ */
 :root {
-  --fyr-fondo: #faf6f0;
-  --fyr-tinta: #4c5040;
+  --fyr-fondo: #fff9f5;
+  --fyr-tinta: #4a423a;
   /* Los titulares pueden llevar su propio color. Por defecto es el mismo de la
      tinta, asi que no cambia nada; solo la paleta celeste lo separa, porque un
      azul claro que sirve a 50px no sirve a 16px. */
-  --fyr-titulo: var(--fyr-tinta);
+  --fyr-titulo: #95714f;
+  /* Los titulares no son todos iguales. Estan los de seccion, que van de 50 a 80px
+     y son practicamente ornamento, y los de bloque —el nombre de cada evento, su
+     hora, el RSVP— que van de 20 a 30px y hay que LEERLOS. Un color claro puede
+     sostener los primeros y no los segundos, asi que se separan. Por defecto valen
+     lo mismo, o sea que esto no cambia nada por si solo. */
+  --fyr-titulo-bloque: var(--fyr-titulo);
+  /* La hora de cada evento va aparte del titular de su bloque. Es el unico dato
+     puro del itinerario —el resto son rotulos— y hay paletas que prefieren verla
+     en la tinta del cuerpo, como el resto de la informacion, en vez de en el color
+     de los titulares. Por defecto sigue al titular de bloque. */
+  --fyr-hora: #4a423a;
+  /* La fecha del loader es el otro dato de la invitacion, y va aparte porque su
+     valor de origen no es el de los titulares sino el acento. Mismo criterio que
+     la hora: hay paletas que la prefieren en la tinta del cuerpo. */
+  --fyr-loader-fecha: #4a423a;
   /* El acento es lo que se pinta como FONDO: el pie de pagina y los botones,
      que llevan texto blanco encima. Por defecto vale lo mismo que la tinta,
      que en paletas de texto oscuro es correcto. Se separa cuando el texto es
      claro: ahi la tinta no puede hacer de fondo o el blanco no se leeria. */
-  --fyr-acento: var(--fyr-tinta);
+  --fyr-acento: #6e533a;
   --fyr-superficie: #eaded0;
-  --fyr-borde: #acb087;
-  --fyr-filete: #c7af94;
+  /* Las dos tarjetas grandes —el bloque del itinerario y el del RSVP— tienen token
+     propio y no leen de --fyr-superficie directamente. Se separaron porque
+     superficie hace ademas de tinte fino en sitios donde el blanco no sirve: el
+     borde de los botones Si/No del RSVP y, sobre todo, el fondo del que queda
+     MARCADO. En blanco, la opcion elegida seria blanca sobre blanco. */
+  --fyr-tarjeta: #ffffff;
+  --fyr-borde: #c7af94;
+  --fyr-filete: #acb087;
   --fyr-apoyo: #8c916c;
 
   /* Los iconos de mascara (.icono-tinta) leen de aqui y no de la tinta, para que una
      paleta pueda darles el color de acento sin arrastrar con ellos el texto corrido.
      Por defecto valen lo mismo, asi que esto no cambia nada. */
-  --fyr-icono: var(--fyr-tinta);
+  --fyr-icono: #95714f;
   /* El monograma es un PNG negro con canal alfa que se pinta como mascara, igual que
      los iconos; este token es su color. En negro reproduce el archivo tal cual. */
-  --fyr-logo: #000;
+  --fyr-logo: #fff9f5;
+  /* El monograma del loader va aparte del resto. El del hero cae sobre una foto y
+     el del pie sobre el verde, asi que ahi cabe cualquier color; el del loader cae
+     sobre --fyr-fondo, y si se le da un tono claro desaparece del todo. Y es la
+     primera pantalla: si falla, la invitacion abre en blanco. */
+  --fyr-logo-loader: #95714f;
   /* La frase manuscrita del pie va sobre la tarjeta blanca y es texto, no un icono:
      por eso tiene token propio y no sigue a --fyr-icono. Por defecto = tinta.
      Ojo con lo que se elija: el PNG tope a alfa 140/255, asi que el color nunca se
      ve pleno sino al 55%, y sale bastante mas claro de lo que se declara aqui. */
-  --fyr-quote: var(--fyr-tinta);
+  --fyr-quote: #6e533a;
   /* El archivo de la frase, tambien en token: los dos PNG de partida topan su alfa
      en 140/255, asi que el color nunca sale pleno. Existe una version *-solido con
      el alfa reescalado a 255 para las paletas que quieran la frase al 100%. */
-  --fyr-quote-img: url(images/quote-desktop-alfa.png);
-  --fyr-quote-img-movil: url(images/quote-mobile-alfa.png);
+  --fyr-quote-img: url(images/quote-desktop-solido.png);
+  --fyr-quote-img-movil: url(images/quote-mobile-solido.png);
   /* El pie de pagina, en tres piezas: su fondo, el color del texto que va encima y el
      color de su monograma. Por defecto es el acento con texto blanco, que es como
      estaba. Una paleta de pie CLARO cambia los tres y ademas necesita oscurecer los
      logos de weddeb e Instagram, que son SVG casi blancos y desaparecerian: para eso
      esta --fyr-footer-logos-filtro (brightness(0) los pasa a negro conservando la
      forma, y la opacidad los suaviza). */
-  --fyr-footer-fondo: var(--fyr-acento);
-  --fyr-footer-tinta: #fff;
-  --fyr-footer-logo: var(--fyr-logo);
+  --fyr-footer-fondo: #60634b;
+  --fyr-footer-tinta: #ecded1;
+  --fyr-footer-logo: #ecded1;
   --fyr-footer-logos-filtro: none;
   /* Etiqueta de los botones de contorno (Ver mapa, Ver mesa). Va aparte de la tinta
      porque el boton es un elemento destacable y una paleta puede quererlo en su
      color de acento sin tocar los parrafos. */
-  --fyr-boton-texto: var(--fyr-tinta);
+  --fyr-boton-texto: #95714f;
 
   --color-scheme-1--background: var(--fyr-fondo);
   --_typography---font-styles--body: "Libre Caslon Display", sans-serif;

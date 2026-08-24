@@ -1,219 +1,155 @@
 /* ============================================================
-   Cinco direcciones de paleta — para comparar antes de decidir
+   Versión 2 — la alternativa celeste
    ============================================================
-   La paleta vive en los --fyr-* del :root de
-   template-clasico-….webflow.css; todo lo demás (tokens del template y
-   los hexes sueltos de index.html) se lee de ahí. Cambiando esos
-   cambia la página entera: fondo, texto, footer, tarjetas, filetes,
-   botones, monograma, iconos y el formulario de RSVP.
+   La VERSIÓN 1 no está aquí: vive en el :root de
+   template-clasico-….webflow.css, que es lo que hace que sea la que ve
+   cualquiera que abra index.html. Esta hoja sólo la enlaza
+   version-2.html, que además lleva data-paleta="version-2" en su <html>;
+   los valores de abajo pisan a los del template porque un selector con
+   atributo gana a un :root a secas.
 
-   OJO: index.html NO enlaza este archivo, así que sigue con su paleta
-   propia (fondo #faf6f0, tinta #4c5040). Para ver una dirección hay que
-   abrir su paleta-*.html.
+     Versión 1  index.html · terracota. La paleta que mandaron ellos,
+                entera: crema y terracota todo el recorrido, y el pie en
+                MOSS. Sus valores y su razonamiento, en el template.
+     Versión 2  version-2.html · celeste. Dos azules repartidos: el claro
+                sólo en lo grande, el hondo en todo lo que hay que leer.
+                Fondo blanco.
 
-   Las cinco son de fondo claro. No se distinguen por el tono sino por
-   DÓNDE VIVE EL COLOR, que es lo que las hace leer distinto de lejos y
-   no sólo puestas una al lado de otra:
-     Fundidora  el color está en el acento; fondo y tinta son neutros
-     Celeste    el texto es celeste sobre casi blanco; el de su camisa
-     Celadón    el color está en el fondo, verde agua de la paleta que mandaron
-     Oxblood    el color está en la tinta; el fondo es neutro cálido
-     Porcelana  la celeste repartida: celeste lo destacable, tinta casi
-                negra el texto, y el pie deja de ser oscuro
+   Las dos comparten el mismo criterio de reparto, cada una con sus
+   colores: un tono para lo que se MIRA, otro para lo que se LEE o se
+   TOCA, y la tinta del cuerpo para lo que es DATO (la hora de cada
+   evento y la fecha del loader).
 
-   Todas salen del encargo real: recepción en Espacio Fundidora —la
-   antigua fundidora: ladrillo, hierro, cantera— a las 7 de la noche,
-   etiqueta formal, y una sesión de fotos hecha en columnatas de
-   ladrillo, hierro forjado y madera oscura.
+   Hubo cinco direcciones más —fundidora, celeste, celadón, oxblood y una
+   primera versión de ésta— que se descartaron. Están en el historial de
+   git, con sus valores y su razonamiento completos.
+
+   OJO al añadir tokens: la versión 2 tiene que declarar TODO lo que la 1
+   defina y ella quiera distinto. Lo que no declare, lo hereda del
+   template, o sea de la versión 1.
 
    Qué es cada token:
      fondo         fondo de página y del loader
      tinta         texto corrido
-     titulo        titulares de sección y de bloque; por defecto = tinta
-     icono         los iconos de máscara; por defecto = tinta
-     logo          el monograma (loader y hero); por defecto negro
-     acento        lo que se pinta como FONDO con texto blanco encima:
-                   el botón del loader, el hover de los botones, el RSVP
+     titulo        titulares de sección (50-80px)
+     titulo-bloque titulares de bloque (20-30px); por defecto = titulo
+     hora          la hora de cada evento; por defecto = titulo-bloque
+     loader-fecha  la fecha del loader; por defecto = acento
+     icono         los iconos de máscara
+     logo          el monograma del hero
+     logo-loader   el del loader, que cae sobre el fondo de página y por
+                   eso no puede llevar un tono claro; por defecto = logo
+     acento        lo que se pinta como FONDO con texto blanco encima: el
+                   botón del loader, el hover de los botones, y el Sí/No
+                   marcado del RSVP
      boton-texto   la etiqueta de los botones de contorno
-     superficie    tarjetas (itinerario, RSVP, campos del formulario)
+     superficie    tinte fino: borde de los botones Sí/No del RSVP
+     tarjeta       las dos tarjetas grandes (itinerario y RSVP); por
+                   defecto = superficie
      borde         filetes de los bloques y del formulario
      filete        línea que parte 18 | OCTUBRE | 2026, y el año
-     apoyo         tono medio del RSVP (el de apoyo sale de este mezclado)
-     footer-fondo  fondo del pie; por defecto = acento
-     footer-tinta  texto y hashtag del pie; por defecto blanco
-     footer-logo   monograma del pie; por defecto = logo
+     apoyo         tono medio del RSVP
+     quote         color de la frase manuscrita del pie
+     quote-img / quote-img-movil  qué archivo se usa para esa frase. Los
+                   *-alfa topan su alfa en 140/255 y pintan siempre al
+                   55%; los *-solido son los mismos con el alfa a 255
+     footer-fondo  fondo del pie
+     footer-tinta  texto y hashtag del pie
+     footer-logo   monograma del pie
      footer-logos-filtro  filtro para los SVG de weddeb e Instagram, que
                    traen su color dentro del archivo y sobre un pie claro
                    desaparecerían
-     quote         color de la frase manuscrita del pie; por defecto = tinta
-     quote-img / quote-img-movil  qué archivo se usa para esa frase. Los dos
-                   PNG de partida (*-alfa) topan su alfa en 140/255, así que
-                   pintan siempre al 55% y el color nunca se ve pleno; los
-                   *-solido son los mismos con el alfa reescalado a 255
-
-   Sólo hace falta declarar los que se salen de su valor por defecto.
-
-   Para dejar una fija: copiar sus valores al :root del template y
-   borrar este archivo junto con las páginas de prueba.
    ============================================================ */
 
 /* ------------------------------------------------------------
-   A · FUNDIDORA — el color vive en el acento
-   Hacer la invitación con los materiales del sitio donde va a pasar.
-   Cantera al fondo: gris cálido, no crema, porque es piedra y no papel
-   reciclado. Hierro casi negro para el texto y el pie. Y un solo color
-   de verdad, el óxido del ladrillo, que no se reparte por la página
-   sino que se guarda para lo fino: la línea que parte la fecha, el año.
-   Es la que mejor se lleva con las fotos, porque está sacada de los
-   mismos muros donde se retrataron.
-     texto/fondo 13.0:1 · texto/tarjeta 11.4:1 · blanco/pie 16.2:1
+   VERSION 2 · CELESTE — los dos azules repartiendo el trabajo
+   La primera version de la celeste tenia un problema que solo se ve en la auditoria: #8ba7c9
+   estaba haciendo SEIS trabajos —titulares de seccion, titulares de bloque, la
+   hora de cada evento, la etiqueta de los botones, los iconos y el monograma del
+   loader— y daba 2.48:1 en los seis. El mismo numero seis veces. No es que la
+   paleta fuera floja: es que ese celeste es demasiado claro para todo lo que se
+   le pedia, y con el fondo ya en blanco puro no quedaba contraste que sacar de
+   la superficie. La unica palanca era el celeste mismo.
+
+   Esta no añade ningun color. Usa los dos azules que ya estaban, con una regla:
+     #8ba7c9  celeste, para lo que se MIRA
+              titulares de seccion (50-80px), donde es la identidad de la
+              invitacion y el 2.5:1 es la concesion asumida a sabiendas
+     #4a6f9c  azul hondo, para lo que se LEE o se TOCA
+              nombre y hora de cada evento, rotulo del RSVP, etiqueta de los
+              botones, iconos y monograma del loader. Los cinco pasan de 2.48 a
+              5.19:1
+
+   De paso resuelve algo que no era de contraste sino de forma: porcelana era
+   plana, un solo azul repartido por igual. Con dos niveles la pagina gana
+   jerarquia —se distingue de un vistazo lo que es rotulo de lo que es dato— y
+   el celeste, al usarse menos, pesa mas donde se usa.
+
+   Los numeros completos:
+     texto #1f252e sobre fondo            15.4:1  ✓ AAA
+     texto sobre tarjeta #d5e2f0          11.7:1  ✓ AAA
+     texto sobre pie #c5d5e8              10.3:1  ✓ AAA
+     azul hondo sobre fondo                5.2:1  ✓ AA
+     blanco sobre azul hondo               5.2:1  ✓ AA
+     titulares de seccion #8ba7c9          2.5:1  ✗ unico que no pasa, y a
+                                                   proposito: es el color de la
+                                                   invitacion y a 50-80px se lee
+   El monograma del hero va en blanco: cae sobre la foto, que lleva un degradado
+   oscuro en la parte baja. El del loader NO puede ir en blanco —su fondo es el
+   blanco de la pagina— y por eso tiene token propio.
+
+   HEREDADO DE LA PRIMERA CELESTE, que fue de donde salio esta. Se deja escrito aqui porque
+   esos valores siguen vivos y su porque no se adivina mirando el hex:
+
+   EL FONDO es blanco puro. Se probo a templarlo, primero subiendo el tinte
+   (#f4f7fa) y luego bajando la luz (#f9fafc), y las dos se descartaron: cualquier
+   tinte por pequeño que sea hace que el fondo compita con los titulares, que son
+   de ese mismo azul. Queda dicho de todas formas, porque es de lo que se olvida:
+   la tipografia del sitio es una display serif, con remates finisimos, y sobre
+   blanco a pleno los trazos delgados pierden. Si en el movil de alguien los
+   parrafos largos cuestan, el sitio donde mirar es la tipografia del texto
+   corrido, no el color: a 15.4:1 no queda contraste que ganar.
+
+   LA TINTA #1f252e sustituyo a un gris neutro (#39383b, matiz 260°, saturacion
+   3%) que no participaba de la paleta y leia como algo ajeno y apagado. Esta es
+   mas oscura y lleva el azul de la familia (216°): lee nitida y pertenece.
+
+   LA TARJETA #d5e2f0 bajo un paso cuando se toco el fondo, para conservar su
+   separacion; con el fondo mas claro, #dde8f4 se quedaba en 1.15 y apenas se
+   distinguia como bloque.
+
+   --fyr-acento no pinta texto sino FONDOS que llevan blanco encima: el boton del
+   loader, el relleno del hover de los botones, los acentos del RSVP. Con #8ba7c9
+   debajo, ese blanco daria 2.4:1; #4a6f9c lo deja en 5.2:1. Que sea el mismo
+   color que ahora hace el trabajo de lectura no es casualidad: es el unico azul
+   de la familia que aguanta las dos cosas.
+
+   LA FRASE del pie va en ese mismo #4a6f9c y con el archivo *-solido, no con el
+   *-alfa: al 55% de opacidad el azul aterrizaba en un #9bb0c9 y la frase leia mas
+   clara que el monograma que tiene justo encima, cuando deberian pesar igual.
+
+   EL PIE es el mas claro de los azules en vez del unico bloque oscuro. Eso
+   arrastra tres cosas que no podrian ir en blanco encima: el texto y el hashtag
+   van en la tinta, el monograma en el azul hondo (#8ba7c9 sobre #c5d5e8 daria
+   1.66:1 y desapareceria, siendo un serif de trazo fino), y los logos de weddeb e
+   Instagram —SVG casi blancos— se oscurecen con un filtro.
    ------------------------------------------------------------ */
-:root[data-paleta="fundidora"] {
-  --fyr-fondo: #eae6dd;
-  --fyr-tinta: #23201c;
-  --fyr-superficie: #dfd8cb;
-  --fyr-borde: #bfb4a2;
-  --fyr-filete: #9c4a31;
-  --fyr-apoyo: #7a4634;
-}
-
-/* ------------------------------------------------------------
-   B · CELESTE — fondo #fdfdff y textos #809fc2, los dos pedidos
-   Van tal cual, sin retocar, en el fondo y en todo el texto: titulares,
-   nombres, la fecha y los párrafos.
-
-   El dato para tenerlo a la vista: #809fc2 sobre #fdfdff da 2.7:1. El
-   mínimo es 4.5:1 para texto corrido y 3:1 para texto grande, así que
-   queda por debajo de los dos. A 50px se ve bien; en un párrafo de 16px
-   y en un móvil a plena luz cuesta. Es una decisión tomada a sabiendas,
-   no un descuido.
-   Si en algún momento se quiere subir sin cambiar el color, basta bajar
-   la luz dejando el tono (212°) y la saturación (35%) intactos:
-     #6e92b9  luz 58%  3.2:1  cumple para titulares
-     #4f78a5  luz 48%  4.5:1  cumple para texto corrido
-   Sería cambiar sólo --fyr-tinta.
-
-   --fyr-acento va aparte y sí es oscuro, y no es un capricho: ese token
-   no pinta texto sino FONDOS —el pie de página y los botones—, que
-   llevan blanco encima. Con #809fc2 de fondo, ese blanco daría 2.7:1 y
-   el pie entero sería ilegible. #35597f mantiene el mismo tono 212° y
-   deja el blanco en 6.9:1.
-
-   #b3cae5 se queda en los bordes, donde su claridad no estorba.
-   El filete cálido de cantera es lo que impide que el conjunto lea como
-   invitación de bautizo: no es adorno.
-   ------------------------------------------------------------ */
-:root[data-paleta="celeste"] {
-  --fyr-fondo: #fdfdff;
-  --fyr-tinta: #809fc2;
-  --fyr-titulo: #809fc2;
-  --fyr-acento: #35597f;
-  --fyr-superficie: #f2f6fb;
-  --fyr-borde: #b3cae5;
-  --fyr-filete: #a3714a;
-  --fyr-apoyo: #4980c1;
-}
-
-/* ------------------------------------------------------------
-   C · CELADÓN — el mismo recurso, en verde
-   El papel no es blanco. Casi toda invitación se apoya en un blanco
-   roto; esta se apoya en un verde agua de verdad, y las tarjetas
-   flotan por encima en un blanco casi puro. Esa inversión —tarjeta más
-   clara que la página, no más oscura— es lo que la separa de las otras
-   demás, y es un recurso de papelería fina, no de plantilla.
-   El verde sale de la familia que ellos mandaron (moss y sage), pero
-   subido de luz y bajado de saturación hasta donde sí funciona como
-   superficie grande. La tinta es un verde petróleo casi negro, y hay
-   un único filete cálido de latón: esa tensión frío/cálido es lo que
-   la sostiene.
-     texto/fondo 11.4:1 · texto/tarjeta 13.4:1 · blanco/pie 13.8:1
-   ------------------------------------------------------------ */
-:root[data-paleta="celadon"] {
-  --fyr-fondo: #e4ebe8;
-  --fyr-tinta: #20302f;
-  --fyr-superficie: #fbfcfb;
-  --fyr-borde: #c0cfca;
-  --fyr-filete: #8f6e3b;
-  --fyr-apoyo: #4a6560;
-}
-
-/* ------------------------------------------------------------
-   D · OXBLOOD — el color vive en la tinta
-   Octubre, y el rojo oscuro que ya sale en sus fotos. Marfil al fondo
-   y una tinta de vino tan cerrada que de lejos lee negra y de cerca no.
-   El rojo no está inventado: son los marcos de puerta rojos del
-   pasillo, la escalera de madera y el ladrillo, que aparecen en media
-   sesión.
-   Es la más cálida y la más clásica de las cuatro, y por eso la que más
-   fácil se parece a otras bodas de otoño si no se lleva con mano
-   firme: el vino sólo en tinta y filetes, nunca en superficies.
-     texto/fondo 12.9:1 · texto/tarjeta 11.4:1 · blanco/pie 14.4:1
-   ------------------------------------------------------------ */
-:root[data-paleta="oxblood"] {
-  --fyr-fondo: #f7f2ea;
-  --fyr-tinta: #451d26;
-  --fyr-superficie: #ede3d6;
-  --fyr-borde: #c4a79b;
-  --fyr-filete: #8e4756;
-  --fyr-apoyo: #6e2e3c;
-}
-
-/* ------------------------------------------------------------
-   E · PORCELANA — celeste solo en lo destacable, tinta casi negra
-   Es la celeste de la B con el problema resuelto. Alli el #809fc2 lo pintaba
-   TODO —titulares y parrafos— y el texto corrido se quedaba en 2.7:1. Aqui el
-   celeste se reserva para lo que se mira (titulares, monograma, iconos, botones,
-   filetes) y el texto corrido pasa a #39383b, un gris casi negro que da 10.6:1
-   sobre el fondo. Es el mismo reparto de la Fundidora —color en el acento,
-   neutro en la lectura— pero con la familia azul que pidieron.
-
-   Los dos valores de encargo van tal cual:
-     #8ba7c9  titulares, monograma, iconos, borde y etiqueta de los botones
-     #39383b  parrafos y todo el texto corrido
-   Y el tercero, el fondo del pie:
-     #c5d5e8
-
-   Numeros, para tenerlos a la vista y no descubrirlos en el movil de un invitado:
-     texto #39383b sobre fondo            10.6:1  ✓ AAA
-     texto #39383b sobre tarjeta #dde8f4   9.3:1  ✓ AAA
-     texto #39383b sobre pie #c5d5e8       7.8:1  ✓ AAA
-     titular #8ba7c9 sobre fondo           2.4:1  ✗ por debajo del minimo
-   Lo ultimo es una decision tomada a sabiendas, igual que en la B: a 50-80px el
-   celeste se lee de sobra y es el color de la invitacion. Donde si se nota es en
-   los dos sitios donde ese mismo celeste cae en cuerpo pequeno: la etiqueta de
-   los botones "Ver mapa"/"Ver mesa" (16px) y la hora de cada evento. Si en algun
-   momento se quiere subir sin salirse del tono (213°) ni de la saturacion (36%),
-   basta bajar la luz:
-     #6e8fb8  luz 58%  3.3:1
-     #4a6f9c  luz 45%  5.1:1   ← es justo el que ya usa --fyr-acento
-   Seria cambiar solo --fyr-boton-texto (y, si se quiere, --fyr-titulo).
-
-   --fyr-acento va aparte y es mas oscuro por la misma razon que en la B: ese
-   token no pinta texto sino FONDOS que llevan blanco encima (el boton del loader,
-   el relleno del hover de los botones, los acentos del RSVP). Con #8ba7c9 debajo,
-   ese blanco daria 2.4:1. #4a6f9c mantiene el tono y deja el blanco en 5.1:1.
-
-   La frase manuscrita del pie va en ese mismo #4a6f9c y con el archivo *-solido, no
-   con el *-alfa de las demas: al 55% de opacidad el azul aterrizaba en un #9bb0c9 y
-   la frase leia mas clara que el monograma que tiene justo encima, cuando las dos
-   cosas deberian pesar igual. Con el alfa al 100% coinciden.
-
-   El pie se le da la vuelta: era el unico bloque oscuro de la pagina y ahora es el
-   mas claro de los azules. Eso arrastra tres cosas que antes iban en blanco sobre
-   verde y ahora no podrian: el texto y el hashtag pasan a la tinta, el monograma
-   al azul medio (#8ba7c9 sobre #c5d5e8 daria 1.66:1 y desapareceria, siendo como
-   es un serif de trazo fino), y los logos de weddeb e Instagram —SVG casi blancos
-   con el color escrito dentro del archivo— se oscurecen con un filtro.
-   ------------------------------------------------------------ */
-:root[data-paleta="porcelana"] {
-  --fyr-fondo: #fdfdff;
-  --fyr-tinta: #39383b;
+:root[data-paleta="version-2"] {
+  --fyr-fondo: #ffffff;
+  --fyr-tinta: #1f252e;
   --fyr-titulo: #8ba7c9;
-  --fyr-icono: #8ba7c9;
-  --fyr-logo: #8ba7c9;
+  --fyr-titulo-bloque: #4a6f9c;
+  --fyr-hora: #1f252e;
+  --fyr-loader-fecha: #1f252e;
+  --fyr-icono: #4a6f9c;
+  --fyr-logo: #ffffff;
+  --fyr-logo-loader: #4a6f9c;
   --fyr-acento: #4a6f9c;
-  --fyr-boton-texto: #8ba7c9;
-  --fyr-superficie: #dde8f4;
+  --fyr-boton-texto: #4a6f9c;
+  --fyr-superficie: #d5e2f0;
+  /* Hay que declararla: el :root del template es la version 1, que tiene las
+     tarjetas en blanco, y sin esto las heredaria. */
+  --fyr-tarjeta: var(--fyr-superficie);
   --fyr-borde: #8ba7c9;
   --fyr-filete: #a8bfda;
   --fyr-apoyo: #7e9cbf;
@@ -223,7 +159,7 @@
   --fyr-quote-img-movil: url(images/quote-mobile-solido.png);
 
   --fyr-footer-fondo: #c5d5e8;
-  --fyr-footer-tinta: #39383b;
+  --fyr-footer-tinta: #1f252e;
   --fyr-footer-logo: #4a6f9c;
   --fyr-footer-logos-filtro: brightness(0) opacity(.55);
 }
