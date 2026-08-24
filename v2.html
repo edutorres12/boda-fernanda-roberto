@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Tue Dec 23 2025 18:19:29 GMT+0000 (Coordinated Universal Time)  -->
-<!-- VERSION 2 — la alternativa celeste. Copia de index.html; solo cambian el
-     data-paleta del <html>, el <link> a css/paletas.css, el theme-color, el
-     favicon, el titulo y el bloque de indexacion. -->
-<html lang="es-MX" data-paleta="version-2" data-wf-page="6945d4cded5731c717596ad3" data-wf-site="6945d4cded5731c717596ad4">
+<!-- VERSION 2 — la alternativa celeste, sólo para comparar. Copia de index.html;
+     cambian el data-paleta del <html>, el <link> a css/paletas.css, el theme-color,
+     el favicon, el título, y se le quitan description, Open Graph y Twitter: no es
+     una página que deba compartirse ni encontrarse, y su vista previa mostraría la
+     invitación real. -->
+<html lang="es-MX" data-paleta="v2" data-wf-page="6945d4cded5731c717596ad3" data-wf-site="6945d4cded5731c717596ad4">
 
 <head>
   <meta charset="utf-8">
@@ -31,40 +33,29 @@
        a necesitar una version clara.
        ========================================================================== -->
   <title>Versión 2 · Fernanda &amp; Roberto</title>
-  <meta content="Nos casamos el domingo 18 de octubre de 2026 en Monterrey, N.L. Aquí encontrarás el itinerario, el código de vestimenta y la mesa de regalos." name="description">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="telephone=no, date=no, address=no, email=no" name="format-detection">
   <meta content="#4a6f9c" name="theme-color">
   <meta content="Webflow" name="generator">
 
-  <!-- Open Graph / redes sociales -->
-  <meta content="website" property="og:type">
-  <meta content="es_MX" property="og:locale">
-  <meta content="Fernanda &amp; Roberto" property="og:site_name">
-  <meta content="https://bodaferybeto.com/" property="og:url">
-  <meta content="Fernanda &amp; Roberto ♡" property="og:title">
-  <meta content="Domingo 18 de octubre de 2026 · Espacio Fundidora, Monterrey, N.L." property="og:description">
-  <!-- og:image va con URL absoluta a propósito, no con ruta relativa: WhatsApp y
-       Facebook no resuelven las relativas de forma fiable y la vista previa salía
-       sin foto. Es la única ruta del archivo que lleva dominio escrito a mano, así
-       que si el sitio se publica en otro dominio hay que cambiarla aquí.
-       fyr-og.jpg va en baseline y no en JPEG progresivo a propósito: el generador
-       de miniaturas de WhatsApp no siempre resuelve los progresivos. -->
-  <meta content="https://bodaferybeto.com/images/fyr-og.jpg" property="og:image">
-  <meta content="image/jpeg" property="og:image:type">
-  <meta content="1200" property="og:image:width">
-  <meta content="630" property="og:image:height">
-  <meta content="Fernanda y Roberto" property="og:image:alt">
-  <meta content="summary_large_image" name="twitter:card">
-  <meta content="Fernanda &amp; Roberto ♡" property="twitter:title">
-  <meta content="Domingo 18 de octubre de 2026 · Espacio Fundidora, Monterrey, N.L." property="twitter:description">
-  <!-- Twitter cae en og:image si falta, pero declararlo evita depender de ese
-       comportamiento. Mismo archivo y mismo dominio escrito a mano que og:image. -->
-  <meta content="https://bodaferybeto.com/images/fyr-og.jpg" property="twitter:image">
   <!-- Canonical: la invitacion se comparte por WhatsApp y vuelve con parametros de
        seguimiento pegados (?fbclid=, ?utm_...). Sin esto, cada variante cuenta como
        una pagina distinta. Lleva dominio escrito a mano, igual que og:url. -->
+  <!-- ===== Fuera de los buscadores, a peticion de los novios =====
+       La invitacion publica los nombres de ellos y de sus padres, la fecha, las
+       direcciones de la parroquia y del salon, y un formulario de asistencia. No
+       debe encontrarse por Google: llega quien recibe el enlace.
+
+       Se hace AQUI y no en robots.txt, y la diferencia importa. Un "Disallow: /"
+       impide que Google ENTRE, y si no entra no puede leer este noindex; con que
+       alguien enlace la URL desde fuera, Google puede acabar listandola igualmente,
+       sin contenido pero listada. Dejandole entrar, lee el noindex y la descarta.
+
+       Esto NO afecta a la vista previa de WhatsApp: su rastreador, igual que el de
+       Facebook, no obedece a noindex y sigue leyendo las etiquetas og:. La
+       invitacion se comparte igual de bien. -->
   <meta content="noindex, nofollow" name="robots">
+
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
   <link href="css/webflow.css" rel="stylesheet" type="text/css">
   <link href="css/template-clasico-a425c7c38fab1c4cb49ecb.webflow.css" rel="stylesheet" type="text/css">
@@ -341,9 +332,15 @@
       margin: 0 auto;
     }
 
+    /* Se hunde, no se vacia. Estaba invirtiendo a blanco, y un boton relleno que se
+       vacia al pasar por encima parece que se desactiva justo cuando lo vas a
+       pulsar. Este ademas es la puerta de entrada: lo primero y unico que se ve al
+       abrir. Mismo criterio que el boton de confirmar del RSVP, y el blanco de la
+       etiqueta gana contraste en vez de perderlo. */
     .loader-button:hover {
-      color: var(--color-scheme-1--accent);
-      background-color: var(--color-scheme-1--foreground);
+      color: var(--color-scheme-1--foreground);
+      background-color: color-mix(in srgb, var(--color-scheme-1--accent) 85%, black);
+      border-color: color-mix(in srgb, var(--color-scheme-1--accent) 85%, black);
     }
 
     .btn-link {
@@ -587,8 +584,11 @@
     #weddeb-rsvp-form textarea {
         line-height: 20px!important;
     }
+    /* Sin fondo: es el nombre del invitado, un dato, no un campo que se rellene.
+       Con fondo propio parecia rellenable y ademas salia como una barra de color
+       sobre la tarjeta, que en movil cruza de lado a lado. */
     #weddeb-rsvp-form #rows-wrap input[type="text"][readonly] {
-      background-color: var(--fyr-superficie, #eaded0);
+      background-color: transparent;
       border: none;
       min-width: 0;
     }
@@ -598,7 +598,6 @@
     }
 
     #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]) {
-      background: var(--fyr-superficie, #eaded0);
       height: 36px;
       min-width: 108px;
       padding: 0 14px;
@@ -673,9 +672,67 @@
       color: var(--rsvp-apoyo);
     }
 
+    /* ===== Los dos filetes del RSVP, recortados =====
+       Iban de borde a borde de la columna, mientras que los campos estan metidos
+       32px: el filete sobresalia por los dos lados y se leia como si viniera de la
+       plantilla en vez de estar puesto. Se sustituye el border-top por un
+       pseudoelemento con los mismos 32px, asi que la linea acaba justo donde
+       empiezan y acaban los campos.
+       Va con left/right y no con margenes para no mover el contenido: el padding
+       superior que separa el filete de lo que tiene debajo se conserva intacto. */
+    #asistencia .div-block-8,
+    #weddeb-rsvp-form p:last-of-type {
+      position: relative;
+      border-top: 0;
+    }
+
+    #asistencia .div-block-8::before,
+    #weddeb-rsvp-form p:last-of-type::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 32px;
+      right: 32px;
+      height: 1px;
+      background: var(--color-scheme-1--border-light);
+    }
+
+    /* ===== La flecha de "Numero de invitados" =====
+       Es un <select> nativo (el widget lo crea con createElement('select')), asi que
+       la flecha la dibuja el navegador y la ancla al borde: no se mueve con
+       padding-right, por mucho que se le ponga. Hay que quitarla y poner una propia.
+       De paso deja de ser gris de sistema: se pinta como mascara —el mismo recurso
+       que los iconos del itinerario— asi que sigue a la paleta.
+       El contenedor ya es position: relative y lleva 32px de padding, que es donde
+       acaba el select; los 18px de mas son la separacion real con su borde. */
+    #weddeb-rsvp-form #guest-count select {
+      -webkit-appearance: none;
+      appearance: none;
+      padding-right: 46px;
+    }
+
+    #weddeb-rsvp-form #guest-count::after {
+      content: "";
+      position: absolute;
+      right: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 11px;
+      height: 7px;
+      background-color: var(--rsvp-verde);
+      -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 7'><path d='M1 1l4.5 4.5L10 1' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat;
+      mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 7'><path d='M1 1l4.5 4.5L10 1' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat;
+      pointer-events: none;
+    }
+
+    /* ===== Las cuatro pastillas del RSVP =====
+       Sin marcar no llevan fondo: dejan ver la tarjeta.
+       El relleno se reserva para el estado MARCADO: sin marcar no hay fondo, asi
+       que la pastilla elegida se distingue de la otra por si sola y no hace falta
+       leer el color para saber cual es. */
     #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]),
     #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]) {
-      background: var(--fyr-superficie, #eaded0);
+      background: transparent;
       border: 1.5px solid var(--rsvp-borde);
       color: var(--color-scheme-1--text, #4c5040);
     }
@@ -687,6 +744,8 @@
       color: #fff;
     }
 
+    /* "No asistire" se rellena con el tono mas apagado, para que las dos respuestas
+       no pesen igual: la que confirma manda mas. */
     #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"][value="declined"]:checked),
     #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"][value="declined"]:checked) {
       background: var(--rsvp-apoyo);
@@ -706,9 +765,11 @@
       }
     }
 
+    /* El borde acompana al relleno; con el de --rsvp-borde quedaba un contorno de
+       otro color alrededor de un boton macizo. */
     #weddeb-rsvp-form button[type="submit"],
     #weddeb-rsvp-form #rsvp-submit {
-      border: 1.5px solid var(--rsvp-borde);
+      border: 1.5px solid var(--rsvp-verde);
     }
 
     #weddeb-rsvp-form input:disabled,

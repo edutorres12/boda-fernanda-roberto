@@ -36,7 +36,7 @@
    ALMOND #eaded0 · SAGE  #acb087
    Los --fyr-* de abajo son el único sitio donde vive el color: los tokens
    del template y los pocos hexes sueltos de index.html se leen de ahí.
-   Cambiar uno cambia la página entera, que es lo que hace version-2.html
+   Cambiar uno cambia la página entera, que es lo que hace v2.html
    con css/paletas.css.
 
    Los valores de aquí son la VERSIÓN 1: los cinco colores de la pareja,
@@ -164,7 +164,17 @@
   --_typography---font-styles--stylized-heading: "Pinyon Script", sans-serif;
   --_typography---font-styles--hashtag: Baskervville, sans-serif;
   --_typography---font-styles--cursive-text: "Great Vibes", cursive;
-  --color-scheme-1--border-light: var(--fyr-superficie);
+  /* Los filetes finos: el de debajo del rotulo RSVP y el de encima del boton de
+     confirmar. Leen del token de bordes y no del de superficie —estaban en
+     superficie, y eso solo se sostiene si la tarjeta es de otro color: en la
+     version 2 la tarjeta ES la superficie, asi que el filete se pintaba del mismo
+     color que el fondo sobre el que cae, contraste 1.0, invisible por
+     construccion—, pero rebajados al 55%.
+     Ese porcentaje esta elegido, no puesto a ojo: el borde a pleno da 2.1 y 1.89
+     segun la version, que para un filete de 1px es demasiada presencia y compite
+     con los bordes de los campos. Al 55% queda en 1.47 y 1.39: se lee como
+     estructura y no como linea dibujada. */
+  --color-scheme-1--border-light: color-mix(in srgb, var(--fyr-borde) 55%, transparent);
   --_typography---font-styles--form: Inter, sans-serif;
   --color-scheme-1--text-dark: #52525b;
   --color-scheme-1--border-dark: #e4e4e7;
