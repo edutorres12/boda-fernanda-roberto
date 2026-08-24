@@ -15,7 +15,10 @@
     --color-scheme-1--text: var(--fyr-tinta, #4c5040);
     --color-scheme-1--accent: var(--fyr-acento, var(--fyr-tinta, #4c5040));
     --_primitives---colors--light: var(--fyr-superficie, #eaded0);
-    --_primitives---colors--brown: var(--fyr-filete, #95714f);
+    /* El valor de origen (#8b7355) era un marron medio, o sea un color de TEXTO.
+       Mapearlo al filete de la paleta lo convertia en un tinte clarisimo alli donde
+       se usa para escribir; va al acento, que es el que si aguanta. */
+    --_primitives---colors--brown: var(--fyr-acento, var(--fyr-tinta, #4c5040));
     --_primitives---colors--white: #ffffff;
 }
 
@@ -332,9 +335,15 @@
 }
 
 /* Checked and focus states using :has */
+/* La opcion marcada usa el mismo recurso que el control de arriba (#attend-choice):
+   relleno de acento y texto en blanco. Antes era un relleno palido con el texto en
+   el color de los filetes, y eso fallaba dos veces: la etiqueta quedaba en 1.7:1
+   sobre su propio fondo —o sea, no se leia cual habias elegido— y el relleno podia
+   coincidir con el del bloque que hay debajo y desaparecer. Un color de filete es
+   una linea de un pixel, no un color de texto. */
 #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:checked) {
-    background: var(--_primitives---colors--light, #f5f7fa);
-    color: var(--_primitives---colors--brown, #8b7355);
+    background: var(--color-scheme-1--accent);
+    color: var(--_primitives---colors--white);
 }
 
 #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:focus-visible) {
