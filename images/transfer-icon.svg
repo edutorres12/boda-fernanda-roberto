@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tarjeta bancaria, mismo lenguaje que email-icon.svg: silueta plana de un solo
+     color y ancho de trazo resuelto con fill-rule evenodd, no con stroke, para que
+     escale igual que el resto de los iconos de la sección de regalo. -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+	 width="84px" height="56px" viewBox="0 0 84 56" xml:space="preserve">
+<path style="fill:#4c5040;" fill-rule="evenodd" clip-rule="evenodd" d="M8,0h68c4.4,0,8,3.6,8,8v40c0,4.4-3.6,8-8,8H8
+	c-4.4,0-8-3.6-8-8V8C0,3.6,3.6,0,8,0z M8,3C5.2,3,3,5.2,3,8v40c0,2.8,2.2,5,5,5h68c2.8,0,5-2.2,5-5V8c0-2.8-2.2-5-5-5H8z"/>
+<rect style="fill:#4c5040;" x="0" y="13" width="84" height="9"/>
+<path style="fill:#4c5040;" d="M11,33h22c0.8,0,1.5,0.7,1.5,1.5S33.8,36,33,36H11c-0.8,0-1.5-0.7-1.5-1.5S10.2,33,11,33z"/>
+<path style="fill:#4c5040;" d="M11,41h12c0.8,0,1.5,0.7,1.5,1.5S23.8,44,23,44H11c-0.8,0-1.5-0.7-1.5-1.5S10.2,41,11,41z"/>
+<path style="fill:#4c5040;" d="M62,38.5c0-3.6,2.9-6.5,6.5-6.5s6.5,2.9,6.5,6.5S72.1,45,68.5,45S62,42.1,62,38.5z"/>
+<path style="fill:#4c5040;" d="M53,38.5c0-3.6,2.9-6.5,6.5-6.5c1.2,0,2.3,0.3,3.3,0.9c-1.7,1.4-2.8,3.4-2.8,5.6s1.1,4.2,2.8,5.6
+	c-1,0.6-2.1,0.9-3.3,0.9C55.9,45,53,42.1,53,38.5z"/>
+</svg>

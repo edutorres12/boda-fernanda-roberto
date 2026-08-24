@@ -3,12 +3,22 @@
  * Adapted from WordPress plugin for universal HTML embedding
  */
 
-/* ===== CSS Variables (with fallbacks) ===== */
+/* ===== CSS Variables (with fallbacks) =====
+   Estos valores estaban escritos a pelo y, como esta hoja carga DESPUES del CSS
+   del template y tiene la misma especificidad, ganaban siempre: el texto de toda
+   la pagina se quedaba en el verde de aqui pasara lo que pasara con la paleta.
+   No era un fallback, era una sobrescritura.
+   Ahora si son fallbacks: leen los tokens de la paleta y solo usan el valor
+   escrito si esos tokens no existen, que es el caso de usar este widget suelto
+   fuera del sitio, que es para lo que estaban pensados. */
 :root {
-    --color-scheme-1--text: #3f4720;
-    --color-scheme-1--accent: #3f4720;
-    --_primitives---colors--light: #f5f7fa;
-    --_primitives---colors--brown: #836b52;
+    --color-scheme-1--text: var(--fyr-tinta, #4c5040);
+    --color-scheme-1--accent: var(--fyr-acento, var(--fyr-tinta, #4c5040));
+    --_primitives---colors--light: var(--fyr-superficie, #eaded0);
+    /* El valor de origen (#8b7355) era un marron medio, o sea un color de TEXTO.
+       Mapearlo al filete de la paleta lo convertia en un tinte clarisimo alli donde
+       se usa para escribir; va al acento, que es el que si aguanta. */
+    --_primitives---colors--brown: var(--fyr-acento, var(--fyr-tinta, #4c5040));
     --_primitives---colors--white: #ffffff;
 }
 
@@ -225,7 +235,7 @@
 }
 
 #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]:focus-visible) {
-    outline: 2px solid #9aa9c0;
+    outline: 2px solid #4c5040;
     outline-offset: 2px;
 }
 
@@ -325,13 +335,19 @@
 }
 
 /* Checked and focus states using :has */
+/* La opcion marcada usa el mismo recurso que el control de arriba (#attend-choice):
+   relleno de acento y texto en blanco. Antes era un relleno palido con el texto en
+   el color de los filetes, y eso fallaba dos veces: la etiqueta quedaba en 1.7:1
+   sobre su propio fondo —o sea, no se leia cual habias elegido— y el relleno podia
+   coincidir con el del bloque que hay debajo y desaparecer. Un color de filete es
+   una linea de un pixel, no un color de texto. */
 #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:checked) {
-    background: var(--_primitives---colors--light, #f5f7fa);
-    color: var(--_primitives---colors--brown, #8b7355);
+    background: var(--color-scheme-1--accent);
+    color: var(--_primitives---colors--white);
 }
 
 #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:focus-visible) {
-    outline: 2px solid #9aa9c0;
+    outline: 2px solid #4c5040;
     outline-offset: 2px;
 }
 
