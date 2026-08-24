@@ -102,8 +102,20 @@
     box-sizing: border-box;
     width: 100%;
     border-radius: 12px;
-    background: transparent;
-    border: 2px solid #e4e4e7;
+    /* Blanco y no transparente: el bloque del formulario puede tener color, y un
+       campo transparente encima de el no se distingue de la tarjeta. El borde no
+       basta para salvarlo —va en #e4e4e7 y sobre un bloque tintado se separa 1.04,
+       o sea nada—, asi que el campo se quedaba sin fondo Y sin borde: nada indicaba
+       que ahi se escribe. Sobre un bloque blanco esto no cambia nada.
+       Ojo: el nombre del invitado NO entra aqui. Es readonly, y mas abajo se le
+       devuelve el fondo transparente a proposito, para que no parezca rellenable. */
+    background: var(--_primitives---colors--white);
+    /* El borde es lo unico que dibuja el campo cuando el bloque tambien es blanco,
+       y en #e4e4e7 se separaba 1.27 del blanco: casi nada, y ademas era un gris
+       que no pertenecia a la paleta. Sale del token de bordes, el mismo que ya usan
+       los botones "Ver mapa" de toda la invitacion: SAND en la version 1 (2.1) y
+       celeste en la 2 (2.48). */
+    border: 2px solid var(--color-scheme-1--border, #e4e4e7);
     color: var(--color-scheme-1--text, #2c3e50);
     font-family: Inter, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     font-size: 16px;
@@ -230,12 +242,20 @@
 }
 
 #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]:checked) {
+    /* Marcado sin relleno: el estado se senala con el borde en acento, doblado con
+       una sombra interior —doblar el border-width moveria la maquetacion, porque
+       las dos pastillas comparten costura— y con el peso de la letra, que da una
+       segunda senal que no depende del color.
+       La etiqueta NO pasa al acento y se queda en la tinta a proposito: sobre el
+       bloque de la version 2 el acento da 3.95:1, por debajo del minimo para este
+       cuerpo, mientras que la tinta da 11.7:1. El color lo pone el borde, que al
+       ser una linea y no texto no tiene que cumplir ese minimo. */
     background: var(--color-scheme-1--accent);
     color: var(--_primitives---colors--white);
 }
 
 #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]:focus-visible) {
-    outline: 2px solid #4c5040;
+    outline: 2px solid var(--color-scheme-1--accent, #4c5040);
     outline-offset: 2px;
 }
 
@@ -315,7 +335,10 @@
     font-size: 15px;
     line-height: 1.2;
     color: var(--color-scheme-1--text, #2c3e50);
-    background: #fff;
+    /* Transparente, como las pastillas de #attend-choice. Iba en #fff fijo, asi que
+       las dos parejas del formulario no coincidian: sobre un bloque de color, estas
+       salian blancas y las de arriba dejaban ver la tarjeta. */
+    background: transparent;
     border: 1.5px solid var(--_primitives---colors--light, #f5f7fa);
     cursor: pointer;
     user-select: none;
@@ -334,20 +357,26 @@
     border-bottom-right-radius: 999px;
 }
 
-/* Checked and focus states using :has */
-/* La opcion marcada usa el mismo recurso que el control de arriba (#attend-choice):
-   relleno de acento y texto en blanco. Antes era un relleno palido con el texto en
-   el color de los filetes, y eso fallaba dos veces: la etiqueta quedaba en 1.7:1
-   sobre su propio fondo —o sea, no se leia cual habias elegido— y el relleno podia
-   coincidir con el del bloque que hay debajo y desaparecer. Un color de filete es
-   una linea de un pixel, no un color de texto. */
+/* Mismo recurso que el control de arriba (#attend-choice), para que las dos
+   parejas de pastillas del formulario se comporten igual.
+   Lo que habia antes fallaba dos veces: la etiqueta iba en el color de los filetes
+   sobre un relleno palido —1.7:1, o sea que no se leia cual habias elegido— y ese
+   relleno podia coincidir con el del bloque de debajo y desaparecer del todo. */
 #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:checked) {
+    /* Marcado sin relleno: el estado se senala con el borde en acento, doblado con
+       una sombra interior —doblar el border-width moveria la maquetacion, porque
+       las dos pastillas comparten costura— y con el peso de la letra, que da una
+       segunda senal que no depende del color.
+       La etiqueta NO pasa al acento y se queda en la tinta a proposito: sobre el
+       bloque de la version 2 el acento da 3.95:1, por debajo del minimo para este
+       cuerpo, mientras que la tinta da 11.7:1. El color lo pone el borde, que al
+       ser una linea y no texto no tiene que cumplir ese minimo. */
     background: var(--color-scheme-1--accent);
     color: var(--_primitives---colors--white);
 }
 
 #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:focus-visible) {
-    outline: 2px solid #4c5040;
+    outline: 2px solid var(--color-scheme-1--accent, #4c5040);
     outline-offset: 2px;
 }
 
@@ -370,11 +399,16 @@
 }
 
 /* ===== Submit button ===== */
+/* Relleno de acento desde el principio: es la accion principal del formulario y la
+   unica de toda la invitacion que envia algo. Con el resto de piezas en contorno
+   —campos, pastillas sin marcar— es lo unico macizo de la seccion, que es
+   exactamente lo que se quiere de un boton de enviar.
+   Blanco sobre acento da 7.1:1 en la version 1 y 5.2:1 en la 2. */
 #weddeb-rsvp-form button[type="submit"],
 #weddeb-rsvp-form #rsvp-submit {
-    background-color: var(--_primitives---colors--white);
-    color: var(--color-scheme-1--text);
-    border: 1.5px solid var(--color-scheme-1--border);
+    background-color: var(--color-scheme-1--accent);
+    color: var(--_primitives---colors--white);
+    border: 1.5px solid var(--color-scheme-1--accent);
     padding: 12px 45px;
     font-family: var(--_typography---font-styles--buttons);
     font-size: 18px;
@@ -386,9 +420,15 @@
     transition: all .4s;
 }
 
+/* El hover NO invierte: oscurece. Un boton principal que se vacia al pasar por
+   encima parece que se desactiva, y este es lo unico de la invitacion que envia
+   algo. Se hunde un 15%, que es lo que se espera de un boton macizo, y de paso el
+   blanco de la etiqueta gana contraste en vez de perderlo: 7.1 -> 8.7 en la
+   version 1 y 5.2 -> 6.7 en la 2. */
 #weddeb-rsvp-form button[type="submit"]:hover,
 #weddeb-rsvp-form #rsvp-submit:hover {
-    background: var(--color-scheme-1--accent);
+    background: color-mix(in srgb, var(--color-scheme-1--accent) 85%, black);
+    border-color: color-mix(in srgb, var(--color-scheme-1--accent) 85%, black);
     color: var(--_primitives---colors--white);
 }
 
@@ -421,7 +461,13 @@
     box-shadow: none;
     cursor: default;
     caret-color: transparent;
-    background-color: #fff;
+    /* Transparente, como el resto de campos del formulario. Estaba en #fff fijo, y
+       eso solo pasa desapercibido si el bloque del RSVP tambien es blanco: sobre un
+       bloque de color sale como una barra blanca, y en movil hay una regla que
+       ademas lo lleva al ancho completo, asi que cruzaba la tarjeta de lado a lado.
+       Sigue siendo un valor explicito, que es lo que hacia falta contra el gris que
+       iOS pinta por su cuenta en los campos de solo lectura. */
+    background-color: transparent;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -431,7 +477,7 @@
     #weddeb-rsvp-form #rows-wrap input[type="text"][readonly]:focus,
     #weddeb-rsvp-form #rows-wrap input[type="text"][readonly]:active,
     #weddeb-rsvp-form #rows-wrap input[type="text"][readonly]:hover {
-        background-color: #fff;
+        background-color: transparent;
         -webkit-tap-highlight-color: transparent;
     }
 
@@ -440,18 +486,23 @@
     #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]) {
         -webkit-tap-highlight-color: transparent;
         -webkit-touch-callout: none;
-        background-color: #fff;
+        /* Transparente, igual que fuera de este bloque. Iba en #fff fijo y eso
+           hacia que iOS pintara la pastilla de blanco mientras el resto de
+           navegadores la dejaba ver el fondo de la tarjeta. */
+        background-color: transparent;
     }
 
+    /* Mismo marcado sin relleno que fuera de este bloque. Estaba duplicado con
+       relleno de acento, asi que en Safari de iOS el cambio no se veia. */
     #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:checked),
     #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]:checked) {
-        background-color: var(--color-scheme-1--accent, #8b7355);
+        background-color: var(--color-scheme-1--accent);
         color: #fff;
     }
 
     #weddeb-rsvp-form #rows-wrap .rsvp-row label:has(> input[type="radio"]:not(:checked)):active,
     #weddeb-rsvp-form #attend-choice label:has(> input[type="radio"]:not(:checked)):active {
-        background-color: #fff;
+        background-color: transparent;
         color: var(--color-scheme-1--text, #2c3e50);
     }
 
@@ -612,12 +663,14 @@
     border-left: 1.5px solid #dc2626 !important;
 }
 
-/* Checked + error: keep accent background but red border */
+/* Marcado + error: se queda el borde rojo y se va el relleno, como el resto del
+   formulario. El texto vuelve a la tinta: iba en blanco porque debajo habia un
+   relleno oscuro, y sin el se quedaba blanco sobre la tarjeta. */
 #weddeb-rsvp-form #attend-choice label.weddeb-error:has(> input[type="radio"]:checked),
 #weddeb-rsvp-form #rows-wrap .rsvp-row label.weddeb-error:has(> input[type="radio"]:checked) {
     border: 1.5px solid #dc2626 !important;
-    background: var(--color-scheme-1--accent, #8b7355) !important;
-    color: #fff !important;
+    background: transparent !important;
+    color: var(--color-scheme-1--text) !important;
 }
 
 /* Readonly guest name inputs normally have no border; restore one if flagged */
