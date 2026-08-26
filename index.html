@@ -799,8 +799,10 @@
       color: var(--rsvp-apoyo);
     }
 
-    /* Dress code: ilustración al centro con Caballeros / Damas a los lados.
-       Sin bordes ni mayúsculas: solo la serif del sitio y aire entre bloques. */
+    /* Dress code: en desktop/tablet la ilustración va al centro con Caballeros /
+       Damas a los lados; en móvil se apila en una sola columna (ver el media query
+       de 767px). Sin bordes ni mayúsculas: solo la serif del sitio y aire entre
+       bloques. */
     .dess-code.section {
       padding-left: 80px;
       padding-right: 80px;
@@ -887,8 +889,13 @@
       }
     }
 
-    /* En móvil se mantienen las 3 columnas (texto a los lados de la ilustración),
-       solo se reduce la escala. No se apila. */
+    /* En móvil se apila todo en una sola columna: ilustración, luego Damas y sus
+       indicaciones, y al final Caballeros. Las tres columnas de escritorio dejaban
+       los textos en dos canales de ~100px a los lados del icono, con el cuerpo
+       bajado a 14px para que cupieran; en vertical el texto vuelve a leerse a su
+       tamaño normal y la ilustración puede crecer. El orden lo fija `order` porque
+       en el HTML Caballeros va antes que la ilustración (necesario para el centrado
+       en escritorio). */
     @media (max-width: 767px) {
       .dess-code.section {
         padding-left: 20px;
@@ -896,12 +903,31 @@
       }
 
       .dress-code__grid {
-        grid-column-gap: 8px;
+        grid-column-gap: 0;
+        grid-row-gap: 30px;
+        grid-template-columns: 1fr;
+        justify-items: center;
         margin-top: 30px;
       }
 
+      .dress-code__illustration {
+        order: 1;
+      }
+
+      .dress-code__col--damas {
+        order: 2;
+      }
+
+      .dress-code__col--caballeros {
+        order: 3;
+      }
+
+      .dress-code__col {
+        width: 100%;
+      }
+
       .dress-code__col-title {
-        margin-bottom: 14px;
+        margin-bottom: 12px;
         font-size: 26px;
         line-height: 32px;
       }
@@ -911,22 +937,22 @@
       }
 
       .dress-code__item {
-        max-width: 100px;
-        font-size: 14px;
-        line-height: 16px;
+        max-width: 320px;
+        font-size: 20px;
+        line-height: 27px;
       }
 
-      /* En móvil la nota va al mismo cuerpo que la línea principal: a .8em quedaba
-         demasiado chica para leerse en las columnas angostas. La cursiva la sigue
-         separando. */
+      /* En móvil la nota va al mismo cuerpo que la línea principal: el .8em de
+         escritorio la dejaba visiblemente más chica que "Vestido largo" y las dos
+         líneas tienen el mismo peso informativo. La cursiva la sigue separando. */
       .dress-code__note {
         font-size: 1em;
         line-height: inherit;
-        margin-top: 2px;
+        margin-top: 3px;
       }
 
       .dress-code__illustration img {
-        width: 104px;
+        width: 190px;
       }
     }
 
@@ -2077,12 +2103,12 @@
             <div class="div-block-6">
               <div data-scroll="out" data-splitting="" class="word-animation text-opacity">
                 <h3 class="itinerario__heading">Ceremonia religiosa</h3>
-                <p class="itinerario_paragraph-address">Parroquia del Sagrado Corazón de Jesús</p>
-                <p class="itinerario-paragraph-adress">Calle 5 de Mayo Oriente 545, Centro, <br
+                <p class="itinerario_paragraph-address">Parroquia Sagrado Corazón de Jesús</p>
+                <p class="itinerario-paragraph-adress">Calle 5 de Mayo Oriente 545, Col. Centro, <br
                     class="mobile-only">64000 Monterrey, N.L.</p>
               </div>
               <!-- TODO: reemplazar por el link corto de Google Maps con el pin exacto del lugar -->
-              <a href="https://www.google.com/maps/search/?api=1&amp;query=Parroquia+del+Sagrado+Coraz%C3%B3n+de+Jes%C3%BAs+5+de+Mayo+Oriente+545+Centro+Monterrey"
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=Parroquia+Sagrado+Coraz%C3%B3n+de+Jes%C3%BAs+5+de+Mayo+Oriente+545+Col.+Centro+Monterrey"
                 target="_blank" class="button is-secondary boda w-button">Ver mapa</a>
             </div>
           </div>
@@ -2113,7 +2139,7 @@
            formulario ("Hombres: traje negro / Mujeres: vestido largo, evitar colores
            claros") y no conviene inventarles reglas que no dieron. -->
       <div class="dress-code__grid reveal-up reveal-delay-2">
-        <div class="dress-code__col">
+        <div class="dress-code__col dress-code__col--caballeros">
           <h3 class="dress-code__col-title"><em class="italic-text">Caballeros</em></h3>
           <div class="dress-code__items">
             <p class="dress-code__item">Traje negro</p>
@@ -2121,7 +2147,7 @@
         </div>
         <div class="dress-code__illustration"><img src="images/dress-code-icon.svg" loading="lazy"
             alt="Ilustración de traje y vestido de noche largo"></div>
-        <div class="dress-code__col">
+        <div class="dress-code__col dress-code__col--damas">
           <h3 class="dress-code__col-title"><em class="italic-text">Damas</em></h3>
           <div class="dress-code__items">
             <p class="dress-code__item">Vestido largo <span class="dress-code__note">evitar colores claros</span></p>
