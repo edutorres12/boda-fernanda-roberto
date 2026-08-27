@@ -26,10 +26,20 @@
        negro, pero eso da igual: se pinta de mascara y el color sale de la paleta
        (--fyr-logo en el hero, --fyr-logo-loader en el loader y el 404, y
        --fyr-footer-logo en el pie), asi que no hace falta una version clara para
-       el pie ni para la foto. Del PNG solo se usa el canal alfa. Viene recortado
-       al arte (801x926); el aire alrededor lo pone el CSS, no el archivo, asi que
-       si algun dia lo sustituyen conviene entregarlo igual de ajustado o corregir
-       los aspect-ratio de mas abajo.
+       el pie ni para la foto. Del PNG solo se usa el canal alfa.
+
+       El lienzo (938x952) NO es el recorte del dibujo: lleva 137px de relleno a
+       la izquierda y 26px abajo, puestos a proposito. La cola de la R estira la
+       caja hacia la derecha sin apenas tinta, asi que centrando la caja el
+       monograma se ve corrido a la izquierda; el relleno mueve el centro del
+       lienzo al centro optico y entonces `mask: center` acierta en los cuatro
+       sitios sin reglas por sitio. El centro optico se tomo al 75% del camino
+       entre el centro de la caja y el centroide del alfa (el centroide puro se
+       pasaba de largo).
+
+       Si algun dia lo sustituyen, ese relleno hay que rehacerlo para el dibujo
+       nuevo y actualizar los aspect-ratio de mas abajo, que valen las medidas
+       del lienzo.
        ========================================================================== -->
   <title>Fernanda &amp; Roberto ♡ | 18 de Octubre 2026</title>
   <meta content="Nos casamos el domingo 18 de octubre de 2026 en Monterrey, N.L. Aquí encontrarás el itinerario, el código de vestimenta y la mesa de regalos." name="description">
@@ -1328,6 +1338,17 @@
       }
     }
 
+    /* La direccion de cada evento se corta a 400px. Sin tope ocupa todo el ancho
+       de su columna y la calle, la colonia y el codigo postal se estiran en un
+       renglon largo que se lee peor que partido en dos. Solo desktop: el ancho de
+       tablet y movil lo maneja el <br class="mobile-only"> que ya trae el marcado.
+       Afecta a los dos eventos, que es lo que los mantiene simetricos. */
+    @media (min-width: 992px) {
+      .itinerario-paragraph-adress {
+        max-width: 400px;
+      }
+    }
+
     /* ===== Unificación de espaciados verticales en desktop =====
        Ritmo base de 120px entre secciones. Las secciones que abren con título
        (hospedaje y regalo) llevan padding-top 0 porque la anterior ya aporta
@@ -1502,18 +1523,18 @@
       mask: url(images/f-r-monograma.png) center / contain no-repeat;
     }
 
-    /* Un <span> vacio no hereda la proporcion del archivo (801x926): hay que
+    /* Un <span> vacio no hereda la proporcion del archivo (938x952): hay que
        declararla, y dar una medida fija en el eje que la manda. En el hero ya se la
        dan las reglas de .hero__image-wrapper de mas arriba. */
     .logo-loader.logo-tinta {
       width: auto;
       height: 140px;
-      aspect-ratio: 801 / 926;
+      aspect-ratio: 938 / 952;
       background-color: var(--fyr-logo-loader);
     }
 
     .footer__logo.logo-tinta {
-      aspect-ratio: 801 / 926;
+      aspect-ratio: 938 / 952;
       background-color: var(--fyr-footer-logo);
     }
 
@@ -2282,8 +2303,9 @@
   <section class="footer">
     <div class="w-layout-blockcontainer container-4 w-container"><span role="img" aria-label="Fernanda y Roberto"
         class="footer__logo logo-tinta reveal-up"></span>
-      <p class="footer_paragraph reveal-up reveal-delay-1">Nos encantará atesorar cada instante de esta celebración.<br>Si así lo desean, pueden
-        compartir sus fotografías utilizando nuestro hashtag.</p>
+      <p class="footer_paragraph reveal-up reveal-delay-1">Este día estará lleno de momentos que deseamos conservar
+        para siempre.<br>Si así lo desean, compartan sus fotografías con nosotros
+        utilizando nuestro hashtag.</p>
       <p class="footer_hash heading-3 reveal-up reveal-delay-2">#FeryBeto</p>
       <div>
         <div class="div-block-7">
