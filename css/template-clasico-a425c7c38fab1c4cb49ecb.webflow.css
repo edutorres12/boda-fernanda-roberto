@@ -36,11 +36,9 @@
    ALMOND #eaded0 · SAGE  #acb087
    Los --fyr-* de abajo son el único sitio donde vive el color: los tokens
    del template y los pocos hexes sueltos de index.html se leen de ahí.
-   Cambiar uno cambia la página entera, que es lo que hace v2.html
-   con css/paletas.css.
+   Cambiar uno cambia la página entera.
 
-   Los valores de aquí son la VERSIÓN 1: los cinco colores de la pareja,
-   cada uno con un oficio.
+   Los cinco colores de la pareja, cada uno con un oficio.
      EARTH  #95714f  titulares, iconos, monograma del loader, botones
      SAND   #c7af94  bordes de botón y filetes del formulario
      ALMOND #eaded0  tinte del Sí/No del RSVP
@@ -59,8 +57,42 @@
    El fondo #fff9f5 y las tarjetas en blanco fueron decisión del encargo.
    El reparto: EARTH lo que se MIRA, y la tinta lo que es DATO.
 
-   El razonamiento completo, con todos los contrastes medidos, está en la
-   cabecera de css/paletas.css.
+   Qué es cada token:
+     fondo         fondo de página y del loader
+     tinta         texto corrido
+     titulo        titulares de sección (50-80px)
+     titulo-bloque titulares de bloque (20-30px); por defecto = titulo
+     hora          la hora de cada evento; por defecto = titulo-bloque
+     loader-fecha  la fecha del loader; por defecto = acento
+     icono         los iconos de máscara
+     logo          el monograma del hero
+     logo-loader   el del loader, que cae sobre el fondo de página y por
+                   eso no puede llevar un tono claro; por defecto = logo
+     acento        lo que se pinta como FONDO con texto blanco encima: el
+                   botón del loader, el hover de los botones, y el Sí/No
+                   marcado del RSVP
+     boton-texto   la etiqueta de los botones de contorno
+     superficie    tinte fino: borde de los botones Sí/No del RSVP
+     tarjeta       las dos tarjetas grandes (itinerario y RSVP); por
+                   defecto = superficie
+     borde         filetes de los bloques y del formulario
+     filete        línea que parte 18 | OCTUBRE | 2026, y el año
+     apoyo         tono medio del RSVP
+     quote         color de la frase manuscrita del pie
+     quote-img / quote-img-movil  qué archivo se usa para esa frase. Los
+                   *-alfa topan su alfa en 140/255 y pintan siempre al
+                   55%; los *-solido son los mismos con el alfa a 255
+     footer-fondo  fondo del pie
+     footer-tinta  texto y hashtag del pie
+     footer-logo   monograma del pie
+     footer-logos-filtro  filtro para los SVG de weddeb e Instagram, que
+                   traen su color dentro del archivo y sobre un pie claro
+                   desaparecerían
+
+   Hubo seis paletas alternativas —fundidora, celeste, celadón, oxblood y
+   dos celestes más— que se descartaron, y una segunda página (v2.html
+   con css/paletas.css) que las montaba. Están en el historial de git,
+   con sus valores y su razonamiento completos.
    ============================================================ */
 :root {
   --fyr-fondo: #fff9f5;
