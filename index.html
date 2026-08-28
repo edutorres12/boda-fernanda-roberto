@@ -28,14 +28,18 @@
        --fyr-footer-logo en el pie), asi que no hace falta una version clara para
        el pie ni para la foto. Del PNG solo se usa el canal alfa.
 
-       El lienzo (938x952) NO es el recorte del dibujo: lleva 137px de relleno a
-       la izquierda y 26px abajo, puestos a proposito. La cola de la R estira la
+       El lienzo (893x943) NO es el recorte del dibujo: lleva 92px de relleno a
+       la izquierda y 17px abajo, puestos a proposito. La cola de la R estira la
        caja hacia la derecha sin apenas tinta, asi que centrando la caja el
        monograma se ve corrido a la izquierda; el relleno mueve el centro del
        lienzo al centro optico y entonces `mask: center` acierta en los cuatro
-       sitios sin reglas por sitio. El centro optico se tomo al 75% del camino
-       entre el centro de la caja y el centroide del alfa (el centroide puro se
-       pasaba de largo).
+       sitios sin reglas por sitio. El centro optico se tomo a MITAD de camino
+       entre el centro de la caja y el centroide del alfa, que es donde las dos
+       referencias quedan a la misma distancia del centro: la caja del dibujo a
+       +6.8px y el volumen de tinta a -6.8px, medido sobre el render. Se probo
+       antes al 75% y se veia corrido a la derecha, porque a esa altura la caja
+       se iba 10px mientras el volumen solo volvia 3.4px; el ojo pesa el trazo
+       dibujado mas de lo que yo habia supuesto.
 
        Si algun dia lo sustituyen, ese relleno hay que rehacerlo para el dibujo
        nuevo y actualizar los aspect-ratio de mas abajo, que valen las medidas
@@ -1534,18 +1538,18 @@
       mask: url(images/f-r-monograma.png) center / contain no-repeat;
     }
 
-    /* Un <span> vacio no hereda la proporcion del archivo (938x952): hay que
+    /* Un <span> vacio no hereda la proporcion del archivo (893x943): hay que
        declararla, y dar una medida fija en el eje que la manda. En el hero ya se la
        dan las reglas de .hero__image-wrapper de mas arriba. */
     .logo-loader.logo-tinta {
       width: auto;
       height: 140px;
-      aspect-ratio: 938 / 952;
+      aspect-ratio: 893 / 943;
       background-color: var(--fyr-logo-loader);
     }
 
     .footer__logo.logo-tinta {
-      aspect-ratio: 938 / 952;
+      aspect-ratio: 893 / 943;
       background-color: var(--fyr-footer-logo);
     }
 
