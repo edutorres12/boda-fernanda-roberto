@@ -1338,6 +1338,17 @@
       }
     }
 
+    /* Las fotos de movil van en <picture> para servir WebP con el JPEG de
+       respaldo. El envoltorio no debe existir para la maquetacion: las reglas
+       del template enseñan y ocultan los <img> por su clase (.hero-bg-mobile,
+       .footer_image-card.mobile), y un <picture> con caja propia dejaria un
+       hueco en linea donde antes no habia nada. display:contents lo saca del
+       arbol de cajas y el <img> vuelve a ser hijo directo de su contenedor,
+       asi que todo el CSS existente sigue valiendo sin tocarlo. */
+    picture {
+      display: contents;
+    }
+
     /* La direccion de cada evento se corta a 400px. Sin tope ocupa todo el ancho
        de su columna y la calle, la colonia y el codigo postal se estiran en un
        renglon largo que se lee peor que partido en dos. Solo desktop: el ancho de
@@ -1994,8 +2005,8 @@
 
   <div class="page-wrapper">
     <section class="section-hero section">
-      <div class="div-block"><img src="images/hero-desktop-fr.jpg" loading="eager" width="Auto" alt="" class="hero-bg"><img
-          src="images/hero-mobile-fr.jpg" loading="lazy" alt="" class="hero-bg-mobile"></div>
+      <div class="div-block"><img src="images/hero-desktop-fr.jpg" loading="eager" width="Auto" alt="" class="hero-bg"><picture><source srcset="images/hero-mobile-fr.webp" type="image/webp"><img
+          src="images/hero-mobile-fr.jpg" loading="lazy" alt="" class="hero-bg-mobile"></picture></div>
       <div class="hero__image-wrapper"><span role="img" aria-label="Fernanda y Roberto"
           class="logo-hero-sm logo-tinta"></span><span role="img" aria-label="Fernanda y Roberto"
           class="image logo-tinta"></span></div>
@@ -2071,27 +2082,27 @@
         </div>
         <div class="gallery-images mobile">
           <div class="gallery-column top-bottom">
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac7" alt=""
-                src="images/slider-mobile-fr-1.jpg" loading="lazy" class="gallery-image padding">
+            <div class="gallery__mage-container"><picture><source srcset="images/slider-mobile-fr-1.webp" type="image/webp"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac7" alt=""
+                src="images/slider-mobile-fr-1.jpg" loading="lazy" class="gallery-image padding"></picture>
             </div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac9" alt=""
-                src="images/slider-mobile-fr-2.jpg" loading="lazy" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acb" alt=""
-                src="images/slider-mobile-fr-3.jpg" loading="lazy" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acd" alt=""
-                src="images/slider-mobile-fr-4.jpg" loading="lazy" class="gallery-image"></div>
+            <div class="gallery__mage-container"><picture><source srcset="images/slider-mobile-fr-2.webp" type="image/webp"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ac9" alt=""
+                src="images/slider-mobile-fr-2.jpg" loading="lazy" class="gallery-image"></picture></div>
+            <div class="gallery__mage-container"><picture><source srcset="images/slider-mobile-fr-3.webp" type="image/webp"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acb" alt=""
+                src="images/slider-mobile-fr-3.jpg" loading="lazy" class="gallery-image"></picture></div>
+            <div class="gallery__mage-container"><picture><source srcset="images/slider-mobile-fr-4.webp" type="image/webp"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212acd" alt=""
+                src="images/slider-mobile-fr-4.jpg" loading="lazy" class="gallery-image"></picture></div>
           </div>
           <div class="gallery-column botom-top">
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad0" alt=""
-                src="images/slider-mobile-fr-5.jpg" loading="lazy" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad2" alt=""
-                src="images/slider-mobile-fr-6.jpg" loading="lazy" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad4" alt=""
-                src="images/slider-mobile-fr-7.jpg" loading="lazy" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad6" alt=""
-                src="images/slider-mobile-fr-8.jpg" loading="lazy" class="gallery-image"></div>
-            <div class="gallery__mage-container"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad8" alt=""
-                src="images/slider-mobile-fr-9.jpg" loading="lazy" class="gallery-image padding">
+            <div class="gallery__mage-container"><picture><source srcset="images/slider-mobile-fr-5.webp" type="image/webp"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad0" alt=""
+                src="images/slider-mobile-fr-5.jpg" loading="lazy" class="gallery-image"></picture></div>
+            <div class="gallery__mage-container"><picture><source srcset="images/slider-mobile-fr-6.webp" type="image/webp"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad2" alt=""
+                src="images/slider-mobile-fr-6.jpg" loading="lazy" class="gallery-image"></picture></div>
+            <div class="gallery__mage-container"><picture><source srcset="images/slider-mobile-fr-7.webp" type="image/webp"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad4" alt=""
+                src="images/slider-mobile-fr-7.jpg" loading="lazy" class="gallery-image"></picture></div>
+            <div class="gallery__mage-container"><picture><source srcset="images/slider-mobile-fr-8.webp" type="image/webp"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad6" alt=""
+                src="images/slider-mobile-fr-8.jpg" loading="lazy" class="gallery-image"></picture></div>
+            <div class="gallery__mage-container"><picture><source srcset="images/slider-mobile-fr-9.webp" type="image/webp"><img data-w-id="3d7170dc-5339-9a1f-2682-d0673b212ad8" alt=""
+                src="images/slider-mobile-fr-9.jpg" loading="lazy" class="gallery-image padding"></picture>
             </div>
           </div>
         </div>
@@ -2109,6 +2120,7 @@
                encuadre lo fija object-position en CSS, anclado arriba. -->
           <div class="div-block-13">
             <picture>
+              <source media="(max-width: 767px)" type="image/webp" srcset="images/itinerario-mobile-fr.webp">
               <source media="(max-width: 767px)" srcset="images/itinerario-mobile-fr.jpg">
               <img src="images/itinerario-desktop-fr.jpg" loading="lazy" alt="" class="image-3">
             </picture>
@@ -2190,7 +2202,8 @@
     <section class="fecha section">
       <div class="background-image">
         <picture>
-          <source media="(max-width: 767px)" srcset="images/save-date-mobile-fr.jpg">
+          <source media="(max-width: 767px)" type="image/webp" srcset="images/save-date-mobile-fr.webp">
+              <source media="(max-width: 767px)" srcset="images/save-date-mobile-fr.jpg">
           <img src="images/save-date-desktop-fr.jpg" loading="lazy"
             data-w-id="8f9860fb-0535-2ff2-ee87-84484ccd40b9" alt="" class="image-7">
         </picture>
@@ -2234,6 +2247,7 @@
         <div class="asistencia__container">
           <div class="form-img-container">
             <picture>
+              <source media="(max-width: 767px)" type="image/webp" srcset="images/form-mobile-fr.webp">
               <source media="(max-width: 767px)" srcset="images/form-mobile-fr.jpg">
               <img src="images/form-desktop-fr.jpg" loading="lazy"
                 data-w-id="d141b00a-b9ab-bc81-c67e-60cb82b64fd8" alt="" class="form-img">
@@ -2310,8 +2324,8 @@
       <div>
         <div class="div-block-7">
           <div class="footer_image-wrapper"><img src="images/footer-desktop-fr.jpg" loading="lazy" width="777" alt=""
-              class="footer_image-card"><img src="images/footer-mobile-fr.jpg" loading="lazy" width="777" alt=""
-              class="footer_image-card mobile"></div>
+              class="footer_image-card"><picture><source srcset="images/footer-mobile-fr.webp" type="image/webp"><img src="images/footer-mobile-fr.jpg" loading="lazy" width="777" alt=""
+              class="footer_image-card mobile"></picture></div>
           <div class="footer__text-wrapper">
             <div class="footer_image-text reveal-up">
               <span class="icono-tinta" role="img"
