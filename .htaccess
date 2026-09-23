@@ -33,6 +33,14 @@ ErrorDocument 401 /401.html
     ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
 
+# El HTML siempre se revalida: es lo que trae los datos (tarjeta, CLABE, horarios)
+# y las rutas versionadas (?v=) de CSS y JS, asi que nadie se queda con una version vieja.
+<IfModule mod_headers.c>
+    <FilesMatch "\.html?$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
 # Compresión GZIP
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html text/css application/javascript
