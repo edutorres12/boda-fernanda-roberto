@@ -415,7 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   })();
 
-  // ===== COPIAR NUMEROS (tarjeta de transferencia y evento de la mesa) =====
+  // ===== COPIAR NUMEROS (tarjeta, CLABE y evento de la mesa) =====
   (function () {
     var botones = document.querySelectorAll('[data-copiar]');
     if (!botones.length) return;
